@@ -1,0 +1,19 @@
+# `make setup` installs these hooks. Uses the ruff already in requirements/dev.txt.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: python -m ruff check --fix
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format
+        entry: python -m ruff format
+        language: system
+        types: [python]
+      - id: no-data-artefacts
+        name: block data artefacts and .env
+        entry: "Do not commit .env, data/chroma, app.db, llm_cache or eval/trial outputs"
+        language: fail
+        files: '(^|/)\.env$|^data/chroma/|^data/app\.db|^data/llm_cache\.sqlite|^eval/out/|^trial/results/'

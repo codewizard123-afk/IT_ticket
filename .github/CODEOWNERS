@@ -1,0 +1,63 @@
+# Folder ownership (README §4). Replace the placeholder handles with real GitHub usernames
+# before enabling "Require review from Code Owners" on develop/main.
+#   P1 = Data & KB · P2 = AI engine · P3 = Backend · P4 = UI & delivery
+# Later rules win, so the specific paths come after the catch-all.
+
+*                                   @P1-handle @P2-handle @P3-handle @P4-handle
+
+# --- Shared contracts: every owner must approve (contract-change, README §8.3) ---
+/shared/                            @P1-handle @P2-handle @P3-handle @P4-handle
+/config/base.yaml                   @P1-handle @P2-handle @P3-handle @P4-handle
+/docs/architecture.md               @P1-handle @P2-handle @P3-handle @P4-handle
+/requirements/base.txt              @P1-handle @P2-handle @P3-handle @P4-handle
+/requirements/dev.txt               @P1-handle @P2-handle @P3-handle @P4-handle
+/Makefile                           @P1-handle @P2-handle @P3-handle @P4-handle
+/pyproject.toml                     @P1-handle @P2-handle @P3-handle @P4-handle
+/CLAUDE.md                          @P1-handle @P2-handle @P3-handle @P4-handle
+/tests/contract/                    @P1-handle @P2-handle @P3-handle @P4-handle
+/tests/integration/                 @P1-handle @P2-handle @P3-handle @P4-handle
+
+# --- P1 · Data & KB ---
+/privacy/                           @P1-handle
+/ingest/                            @P1-handle
+/store/                             @P1-handle
+/eval/                              @P1-handle
+/data/                              @P1-handle
+/docs/evaluation_report.md          @P1-handle
+/config/data.yaml                   @P1-handle
+/config/privacy.yaml                @P1-handle
+/config/taxonomy_map.yaml           @P1-handle
+/requirements/data.txt              @P1-handle
+/mk/p1.mk                           @P1-handle
+/tests/p1_data/                     @P1-handle
+
+# --- P2 · AI engine ---
+/ai/                                @P2-handle
+/config/ai.yaml                     @P2-handle
+/config/rules.yaml                  @P2-handle
+/config/signals.yaml                @P2-handle
+/requirements/ai.txt                @P2-handle
+/mk/p2.mk                           @P2-handle
+/tests/p2_ai/                       @P2-handle
+
+# --- P3 · Backend & control layer ---
+/backend/                           @P3-handle
+/config/backend.yaml                @P3-handle
+/config/escalation.yaml             @P3-handle
+/config/kb_escalation_clauses.yaml  @P3-handle
+/config/clarify_templates.yaml      @P3-handle
+/config/users.yaml                  @P3-handle
+/requirements/backend.txt           @P3-handle
+/mk/p3.mk                           @P3-handle
+/tests/p3_backend/                  @P3-handle
+/.github/                           @P3-handle
+
+# --- P4 · UI & delivery ---
+/ui/                                @P4-handle
+/trial/                             @P4-handle
+/docs/examples/                     @P4-handle
+/README.md                          @P4-handle
+/config/ui.yaml                     @P4-handle
+/requirements/ui.txt                @P4-handle
+/mk/p4.mk                           @P4-handle
+/tests/p4_ui/                       @P4-handle

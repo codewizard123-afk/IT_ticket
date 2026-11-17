@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    env:
+      GROQ_API_KEY: ""          # tests must pass offline (CLAUDE.md rule 6)
+      USE_STUB_STORES: "1"
+      USE_STUB_ENGINE: "1"
+      USE_STUB_REDACT: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements/*.txt
+      - name: Install dev deps
+        run: python -m pip install -r requirements/dev.txt
+      - name: Install owner deps that exist so far
+        # Owner suites import their own heavy deps; install only what CI needs as they land.
+        run: echo "add per-area installs here when owner tests need them"
+      - name: Lint
+        run: make lint
+      - name: Contract tests
+        run: make test-contract
+      - name: All tests (excluding groq/slow)
+        run: make test
