@@ -71,3 +71,12 @@ taxonomy_map_fallback:
   Software/Operating System: {primary: [KB-0006, KB-0029], secondary: [KB-0026, KB-0027]}
   Inquiry/Help/Antivirus: {primary: [KB-0028], secondary: [KB-0014]}
   Inquiry/Help/Internal Application: {primary: [KB-0029, KB-0030, KB-0014], secondary: [KB-0026]}
+
+# Priority engine (architecture §7.4). matrix[impact][urgency] → code.
+priority:
+  matrix:
+    1: {1: P1, 2: P2, 3: P3}
+    2: {1: P2, 2: P3, 3: P3}
+    3: {1: P3, 2: P3, 3: P4}
+  impact_users_i1: 10        # ≥ this many users → I1
+  shared_resource: '\bshared (?:drive|folder|mailbox|printer|server|calendar)\b|\b(?:file|print) server\b'

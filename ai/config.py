@@ -72,6 +72,15 @@ AI_DEFAULTS: dict[str, Any] = {
         "max_pack_chars": 10000,
     },
     "validator": {"grounding_min": 0.30, "min_steps": 2},
+    "priority": {
+        "matrix": {
+            1: {1: "P1", 2: "P2", 3: "P3"},
+            2: {1: "P2", 2: "P3", 3: "P3"},
+            3: {1: "P3", 2: "P3", 3: "P4"},
+        },
+        "impact_users_i1": 10,
+        "shared_resource": "",
+    },
     "taxonomy_map_fallback": {},
 }
 
