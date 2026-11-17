@@ -27,9 +27,6 @@ jobs:
           cache-dependency-path: requirements/*.txt
       - name: Install dev deps
         run: python -m pip install -r requirements/dev.txt
-      - name: Install owner deps that exist so far
-        # Owner suites import their own heavy deps; install only what CI needs as they land.
-        run: echo "add per-area installs here when owner tests need them"
       - name: Lint
         run: make lint
       - name: Contract tests
