@@ -1,0 +1,203 @@
+{
+  "ticket_id": "DEMO-007",
+  "classification": {
+    "category": "Database",
+    "subcategory": "MS SQL Server",
+    "confidence": 0.92
+  },
+  "priority": {
+    "level": "High",
+    "reason": "Baseline for MS SQL Server"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0007",
+      "similarity_score": 0.91,
+      "resolution": "DBA created the missing login and mapped it to the reporting role."
+    },
+    {
+      "incident_id": "TKT-0013",
+      "similarity_score": 0.85,
+      "resolution": "Resolved via KB-0003: Ask the DBA to create the login if it is missing and map it to the approved database role"
+    },
+    {
+      "incident_id": "TKT-0014",
+      "similarity_score": 0.73,
+      "resolution": "Resolved via KB-0003: Ask the DBA to create the login if it is missing and map it to the approved database role"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0003",
+    "solution": "Ask the DBA to create the login if it is missing and map it to the approved database role"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Confirm the exact login name and the database the user is connecting to",
+      "Check the SQL Server error log for the 18456 state code or the Oracle audit trail",
+      "Ask the DBA to create the login if it is missing and map it to the approved database role",
+      "Have the user reconnect and confirm access"
+    ],
+    "source": "KEDB + Historical Incident"
+  },
+  "escalation_required": false,
+  "human_approval_required": true,
+  "details": {
+    "analysis_id": "golden-demo-007",
+    "decision": "recommend",
+    "primary_decision": "recommend",
+    "clarifying_questions": [],
+    "intent": "access_request",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.94,
+        "knn": 0.86,
+        "rule": 1.0,
+        "margin": 0.8,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Inquiry/Help",
+          "subcategory": "Internal Application",
+          "score": 0.04
+        }
+      ],
+      "rationale": "SQL Server error 18456 for a new joiner",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P2",
+      "impact": 3,
+      "urgency": 2,
+      "drivers": []
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0007",
+        "tier": "SIMILAR",
+        "excerpt": "New joiner gets SQL Server error 18456",
+        "why": "same subcategory; error code 18456; new joiner",
+        "resolution_origin": "curated_verified",
+        "category": "Database",
+        "subcategory": "MS SQL Server"
+      },
+      {
+        "incident_id": "TKT-0013",
+        "tier": "SIMILAR",
+        "excerpt": "SQL Server login failed error 18456",
+        "why": "same subcategory; error code 18456",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Database",
+        "subcategory": "MS SQL Server"
+      },
+      {
+        "incident_id": "TKT-0014",
+        "tier": "RELATED",
+        "excerpt": "Cannot log in to the SQL Server reporting database",
+        "why": "same subcategory; shared terms: SQL Server, log in",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Database",
+        "subcategory": "MS SQL Server"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0003",
+      "title": "Database login failed, access denied or account locked",
+      "score": 0.84,
+      "matched_error_code": "18456",
+      "matched_field": "errors",
+      "excerpt": "18456",
+      "why": "exact error code 18456; 'expired' absent so KB-0004 ranks lower",
+      "alternatives": [
+        {
+          "kb_id": "KB-0004",
+          "score": 0.58
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Confirm the exact login name and the database the user is connecting to",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0003#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Check the SQL Server error log for the 18456 state code or the Oracle audit trail",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0003#diag.2"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      },
+      {
+        "text": "Ask the DBA to create the login if it is missing and map it to the approved database role",
+        "type": "resolution",
+        "citations": [
+          "KB-0003#res.1",
+          "INC-H0007"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      },
+      {
+        "text": "Have the user reconnect and confirm access",
+        "type": "resolution",
+        "citations": [
+          "KB-0003#res.3"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      }
+    ],
+    "escalation": null,
+    "approval_reasons": [
+      "priority High",
+      "step role L2",
+      "KB-0003 requires admin"
+    ],
+    "secondary_issues": [],
+    "signals": {
+      "error_codes": [
+        "18456"
+      ],
+      "products": [
+        "MS SQL Server"
+      ],
+      "affected_users": null,
+      "scope": "single",
+      "urgency_terms": [],
+      "business_critical": false,
+      "environment": null,
+      "location": null,
+      "onset": null,
+      "change_trigger": null,
+      "multi_issue_markers": false,
+      "security_flags": [],
+      "tried_steps": [],
+      "keywords": [
+        "sql server",
+        "login",
+        "new joiner"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}

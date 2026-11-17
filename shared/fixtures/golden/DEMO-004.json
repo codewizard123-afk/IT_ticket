@@ -1,0 +1,208 @@
+{
+  "ticket_id": "DEMO-004",
+  "classification": {
+    "category": "Software",
+    "subcategory": "Email",
+    "confidence": 0.91
+  },
+  "priority": {
+    "level": "High",
+    "reason": "end-of-day deadline; floor: KB-0029 hint P2"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0012",
+      "similarity_score": 0.9,
+      "resolution": "Turned off a faulty add-in found in the crash log; Outlook starts normally."
+    },
+    {
+      "incident_id": "TKT-0029",
+      "similarity_score": 0.82,
+      "resolution": "Resolved via KB-0029: Turn off the add-ins named in the crash log and restart the application"
+    },
+    {
+      "incident_id": "TKT-0030",
+      "similarity_score": 0.79,
+      "resolution": "Resolved via KB-0029: Turn off the add-ins named in the crash log and restart the application"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0029",
+    "solution": "Turn off the add-ins named in the crash log and restart the application"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Open Event Viewer and find the 'Faulting application name' entry for the crash",
+      "Start the application in safe mode to check whether an add-in causes the crash",
+      "Turn off the add-ins named in the crash log and restart the application",
+      "Run an Office repair from Apps & Features"
+    ],
+    "source": "KEDB + Historical Incident"
+  },
+  "escalation_required": false,
+  "human_approval_required": true,
+  "details": {
+    "analysis_id": "golden-demo-004",
+    "decision": "recommend",
+    "primary_decision": "recommend",
+    "clarifying_questions": [],
+    "intent": "incident",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.93,
+        "knn": 0.85,
+        "rule": 1.0,
+        "margin": 0.78,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Inquiry/Help",
+          "subcategory": "Internal Application",
+          "score": 0.05
+        }
+      ],
+      "rationale": "Outlook crash with 0xc0000005 and 'Faulting application name'",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P2",
+      "impact": 3,
+      "urgency": 1,
+      "drivers": [
+        "end-of-day deadline → U1",
+        "floor: KB-0029 hint P2"
+      ]
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0012",
+        "tier": "SIMILAR",
+        "excerpt": "Outlook crashes at start-up with 0xc0000005",
+        "why": "same subcategory; error code 0xc0000005",
+        "resolution_origin": "curated_verified",
+        "category": "Software",
+        "subcategory": "Email"
+      },
+      {
+        "incident_id": "TKT-0029",
+        "tier": "SIMILAR",
+        "excerpt": "Outlook crashes when opening",
+        "why": "same subcategory; shared terms: Outlook, crash",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Software",
+        "subcategory": "Email"
+      },
+      {
+        "incident_id": "TKT-0030",
+        "tier": "SIMILAR",
+        "excerpt": "Outlook closes immediately with APPCRASH",
+        "why": "same subcategory; shared terms: Outlook, APPCRASH",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Software",
+        "subcategory": "Email"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0029",
+      "title": "Application crashes on start-up",
+      "score": 0.87,
+      "matched_error_code": "Faulting application name",
+      "matched_field": "errors",
+      "excerpt": "Faulting application name",
+      "why": "exact error code + Email mapping",
+      "alternatives": [
+        {
+          "kb_id": "KB-0030",
+          "score": 0.44
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Open Event Viewer and find the 'Faulting application name' entry for the crash",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0029#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Start the application in safe mode to check whether an add-in causes the crash",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0029#diag.2"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Turn off the add-ins named in the crash log and restart the application",
+        "type": "resolution",
+        "citations": [
+          "KB-0029#res.1",
+          "INC-H0012"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Run an Office repair from Apps & Features",
+        "type": "resolution",
+        "citations": [
+          "KB-0029#res.2"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      }
+    ],
+    "escalation": null,
+    "approval_reasons": [
+      "priority High",
+      "step role L2",
+      "KB-0029 requires admin"
+    ],
+    "secondary_issues": [],
+    "signals": {
+      "error_codes": [
+        "0xc0000005",
+        "Faulting application name"
+      ],
+      "products": [
+        "Outlook"
+      ],
+      "affected_users": null,
+      "scope": "single",
+      "urgency_terms": [
+        "end of day"
+      ],
+      "business_critical": false,
+      "environment": null,
+      "location": null,
+      "onset": null,
+      "change_trigger": null,
+      "multi_issue_markers": false,
+      "security_flags": [],
+      "tried_steps": [],
+      "keywords": [
+        "outlook",
+        "crash"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}

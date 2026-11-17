@@ -1,0 +1,225 @@
+{
+  "ticket_id": "DEMO-002",
+  "classification": {
+    "category": "Database",
+    "subcategory": "Oracle",
+    "confidence": 0.95
+  },
+  "priority": {
+    "level": "Critical",
+    "reason": "15 users affected; month-end close blocked"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0006",
+      "similarity_score": 0.86,
+      "resolution": "DBA ended a blocking batch session and refreshed table statistics."
+    },
+    {
+      "incident_id": "TKT-0011",
+      "similarity_score": 0.83,
+      "resolution": "Resolved via KB-0001: Ask the DBA to end the blocking session after confirming with its owner"
+    },
+    {
+      "incident_id": "TKT-0012",
+      "similarity_score": 0.74,
+      "resolution": "Resolved via KB-0001: Ask the DBA to end the blocking session after confirming with its owner"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0001",
+    "solution": "Ask the DBA to end the blocking session after confirming with its owner"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Check the database for long-running or blocked sessions during the slow period",
+      "Review the execution plan of the slowest query for full table scans",
+      "Ask the DBA to end the blocking session after confirming with its owner",
+      "Ask the DBA to gather fresh optimiser statistics on the affected tables"
+    ],
+    "source": "KEDB + Historical Incident"
+  },
+  "escalation_required": true,
+  "human_approval_required": true,
+  "details": {
+    "analysis_id": "golden-demo-002",
+    "decision": "escalate",
+    "primary_decision": "escalate",
+    "clarifying_questions": [],
+    "intent": "incident",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.96,
+        "knn": 0.9,
+        "rule": 1.0,
+        "margin": 0.88,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Database",
+          "subcategory": "DB2",
+          "score": 0.03
+        }
+      ],
+      "rationale": "ORA-01013 is an Oracle error code; slow month-end queries",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P1",
+      "impact": 1,
+      "urgency": 1,
+      "drivers": [
+        "15 users affected → I1",
+        "month-end close blocked → U1"
+      ]
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0006",
+        "tier": "SIMILAR",
+        "excerpt": "Oracle month-end report slow for finance team",
+        "why": "same subcategory; shared terms: Oracle, slow, month-end",
+        "resolution_origin": "curated_verified",
+        "category": "Database",
+        "subcategory": "Oracle"
+      },
+      {
+        "incident_id": "TKT-0011",
+        "tier": "SIMILAR",
+        "excerpt": "Oracle report times out with ORA-01013",
+        "why": "same subcategory; error code ORA-01013",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Database",
+        "subcategory": "Oracle"
+      },
+      {
+        "incident_id": "TKT-0012",
+        "tier": "RELATED",
+        "excerpt": "Oracle query very slow since this morning",
+        "why": "same subcategory; shared terms: Oracle, slow",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Database",
+        "subcategory": "Oracle"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0001",
+      "title": "Database queries slow or timing out",
+      "score": 0.88,
+      "matched_error_code": "ORA-01013",
+      "matched_field": "errors",
+      "excerpt": "ORA-01013",
+      "why": "exact error code + slow/timeout symptom",
+      "alternatives": [
+        {
+          "kb_id": "KB-0002",
+          "score": 0.47
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Check the database for long-running or blocked sessions during the slow period",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0001#diag.1"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      },
+      {
+        "text": "Review the execution plan of the slowest query for full table scans",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0001#diag.2"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      },
+      {
+        "text": "Ask the DBA to end the blocking session after confirming with its owner",
+        "type": "resolution",
+        "citations": [
+          "KB-0001#res.1",
+          "INC-H0006"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      },
+      {
+        "text": "Ask the DBA to gather fresh optimiser statistics on the affected tables",
+        "type": "resolution",
+        "citations": [
+          "KB-0001#res.2"
+        ],
+        "role": "L2",
+        "already_attempted": false
+      }
+    ],
+    "escalation": {
+      "reasons": [
+        {
+          "rule": "E4",
+          "text": "ticket priority P1 (Critical)"
+        },
+        {
+          "rule": "E6",
+          "text": "KB-0001: a month-end or financial close process is blocked"
+        }
+      ],
+      "assignment_group": "DBA",
+      "tier": "L3",
+      "bundle_id": "golden-bundle-demo-002",
+      "issue_idx": 0
+    },
+    "approval_reasons": [
+      "decision escalate",
+      "priority Critical",
+      "step role L2",
+      "KB-0001 requires admin"
+    ],
+    "secondary_issues": [],
+    "signals": {
+      "error_codes": [
+        "ORA-01013"
+      ],
+      "products": [
+        "Oracle"
+      ],
+      "affected_users": 15,
+      "scope": "team",
+      "urgency_terms": [
+        "month-end"
+      ],
+      "business_critical": true,
+      "environment": null,
+      "location": null,
+      "onset": null,
+      "change_trigger": null,
+      "multi_issue_markers": false,
+      "security_flags": [],
+      "tried_steps": [],
+      "keywords": [
+        "oracle",
+        "slow",
+        "timeout",
+        "month-end"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}

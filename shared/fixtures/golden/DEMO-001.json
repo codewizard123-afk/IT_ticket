@@ -1,0 +1,223 @@
+{
+  "ticket_id": "DEMO-001",
+  "classification": {
+    "category": "Network",
+    "subcategory": "VPN",
+    "confidence": 0.93
+  },
+  "priority": {
+    "level": "High",
+    "reason": "deadline today; floor: VPN baseline"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0001",
+      "similarity_score": 0.88,
+      "resolution": "Switched the user to the alternate regional gateway in the VPN profile; connection stable."
+    },
+    {
+      "incident_id": "TKT-0001",
+      "similarity_score": 0.84,
+      "resolution": "Resolved via KB-0018: Restart the VPN client and reconnect"
+    },
+    {
+      "incident_id": "TKT-0002",
+      "similarity_score": 0.71,
+      "resolution": "Resolved via KB-0018: Restart the VPN client and reconnect"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0018",
+    "solution": "Restart the VPN client and reconnect"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Confirm the device has working internet access without the VPN",
+      "Check the VPN client log for 'Gateway not responding' and note the gateway name",
+      "Restart the VPN client and reconnect",
+      "Connect to the alternate gateway listed in the VPN client profile",
+      "Clear the saved VPN credentials and sign in again"
+    ],
+    "source": "KEDB + Historical Incident"
+  },
+  "escalation_required": false,
+  "human_approval_required": true,
+  "details": {
+    "analysis_id": "golden-demo-001",
+    "decision": "recommend",
+    "primary_decision": "recommend",
+    "clarifying_questions": [],
+    "intent": "incident",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.95,
+        "knn": 0.86,
+        "rule": 1.0,
+        "margin": 0.82,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Network",
+          "subcategory": "Wireless",
+          "score": 0.04
+        }
+      ],
+      "rationale": "mentions 'Gateway not responding' and the VPN client",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P2",
+      "impact": 3,
+      "urgency": 1,
+      "drivers": [
+        "deadline today → U1",
+        "floor: VPN baseline P2"
+      ]
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0001",
+        "tier": "SIMILAR",
+        "excerpt": "VPN gateway not responding for a remote user",
+        "why": "same subcategory; shared terms: VPN, gateway, not responding",
+        "resolution_origin": "curated_verified",
+        "category": "Network",
+        "subcategory": "VPN"
+      },
+      {
+        "incident_id": "TKT-0001",
+        "tier": "SIMILAR",
+        "excerpt": "VPN client says gateway not responding when working from home",
+        "why": "same subcategory; shared terms: VPN, gateway",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Network",
+        "subcategory": "VPN"
+      },
+      {
+        "incident_id": "TKT-0002",
+        "tier": "RELATED",
+        "excerpt": "Cannot connect to VPN, connection failed after password change",
+        "why": "same subcategory; shared terms: VPN, connect",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Network",
+        "subcategory": "VPN"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0018",
+      "title": "VPN will not connect or repeatedly disconnects",
+      "score": 0.86,
+      "matched_error_code": "Gateway not responding",
+      "matched_field": "errors",
+      "excerpt": "Gateway not responding",
+      "why": "exact error code + VPN mapping",
+      "alternatives": [
+        {
+          "kb_id": "KB-0019",
+          "score": 0.51
+        },
+        {
+          "kb_id": "KB-0023",
+          "score": 0.38
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Confirm the device has working internet access without the VPN",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0018#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Check the VPN client log for 'Gateway not responding' and note the gateway name",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0018#diag.2"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Restart the VPN client and reconnect",
+        "type": "resolution",
+        "citations": [
+          "KB-0018#res.1"
+        ],
+        "role": "L1",
+        "already_attempted": true
+      },
+      {
+        "text": "Connect to the alternate gateway listed in the VPN client profile",
+        "type": "resolution",
+        "citations": [
+          "KB-0018#res.2",
+          "INC-H0001"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Clear the saved VPN credentials and sign in again",
+        "type": "resolution",
+        "citations": [
+          "KB-0018#res.3",
+          "INC-H0002"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      }
+    ],
+    "escalation": null,
+    "approval_reasons": [
+      "priority High"
+    ],
+    "secondary_issues": [],
+    "signals": {
+      "error_codes": [
+        "Gateway not responding"
+      ],
+      "products": [
+        "VPN client"
+      ],
+      "affected_users": null,
+      "scope": "single",
+      "urgency_terms": [
+        "deadline today"
+      ],
+      "business_critical": false,
+      "environment": null,
+      "location": null,
+      "onset": null,
+      "change_trigger": null,
+      "multi_issue_markers": false,
+      "security_flags": [],
+      "tried_steps": [
+        "restarted the VPN client"
+      ],
+      "keywords": [
+        "vpn",
+        "gateway",
+        "remote"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}

@@ -1,0 +1,1200 @@
+[
+  {
+    "id": "KB-0001",
+    "title": "Database queries slow or timing out",
+    "category": "Database",
+    "subcategory": "Performance",
+    "symptoms": [
+      "Queries take much longer than usual",
+      "Reports time out",
+      "Users cancel long-running queries"
+    ],
+    "common_error_codes": [
+      "ORA-01013",
+      "Timeout expired",
+      "SQLSTATE HYT00"
+    ],
+    "root_cause": "Blocking sessions, stale optimiser statistics or a missing index on a hot table.",
+    "diagnostic_steps": [
+      "Check the database for long-running or blocked sessions during the slow period",
+      "Review the execution plan of the slowest query for full table scans",
+      "Check whether optimiser statistics on the affected tables are stale"
+    ],
+    "resolution": {
+      "steps": [
+        "Ask the DBA to end the blocking session after confirming with its owner",
+        "Ask the DBA to gather fresh optimiser statistics on the affected tables",
+        "Re-run the report and confirm it completes within the normal time"
+      ],
+      "estimated_time": "1-2 hours",
+      "requires_admin": true
+    },
+    "escalation_criteria": [
+      "many users are affected",
+      "a month-end or financial close process is blocked"
+    ],
+    "related_kb_ids": [
+      "KB-0002"
+    ],
+    "tags": [
+      "database",
+      "performance",
+      "timeout"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0002",
+    "title": "Database connection pool exhausted",
+    "category": "Database",
+    "subcategory": "Connectivity",
+    "symptoms": [
+      "Application cannot obtain a database connection",
+      "Intermittent connection errors under load"
+    ],
+    "common_error_codes": [
+      "ORA-12519",
+      "ORA-12520",
+      "Timeout expired. The timeout period elapsed prior to obtaining a connection from the pool"
+    ],
+    "root_cause": "Connections are leaked or the pool is sized below peak demand.",
+    "diagnostic_steps": [
+      "Count active and idle sessions for the application account",
+      "Check the application log for connection leak warnings"
+    ],
+    "resolution": {
+      "steps": [
+        "Ask the application team to recycle the application connection pool",
+        "Ask the DBA to review the session and process limits for the application account"
+      ],
+      "estimated_time": "1 hour",
+      "requires_admin": true
+    },
+    "escalation_criteria": [
+      "the application is customer-facing"
+    ],
+    "related_kb_ids": [
+      "KB-0001"
+    ],
+    "tags": [
+      "database",
+      "connection pool"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0003",
+    "title": "Database login failed, access denied or account locked",
+    "category": "Database",
+    "subcategory": "Access",
+    "symptoms": [
+      "User cannot log in to the database",
+      "Login failed for user",
+      "Account is locked"
+    ],
+    "common_error_codes": [
+      "18456",
+      "Login failed for user",
+      "ORA-01017",
+      "ORA-28000"
+    ],
+    "root_cause": "The login does not exist, is not mapped to the database, uses the wrong credentials or is locked.",
+    "diagnostic_steps": [
+      "Confirm the exact login name and the database the user is connecting to",
+      "Check the SQL Server error log for the 18456 state code or the Oracle audit trail",
+      "Check whether the account is locked or disabled"
+    ],
+    "resolution": {
+      "steps": [
+        "Ask the DBA to create the login if it is missing and map it to the approved database role",
+        "Ask the DBA to unlock the account if it is locked",
+        "Have the user reconnect and confirm access"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": true
+    },
+    "escalation_criteria": [
+      "the account belongs to a service or batch job"
+    ],
+    "related_kb_ids": [
+      "KB-0004"
+    ],
+    "tags": [
+      "database",
+      "login",
+      "access"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0004",
+    "title": "Database password expired",
+    "category": "Database",
+    "subcategory": "Access",
+    "symptoms": [
+      "Password has expired",
+      "User is asked to change the password at login"
+    ],
+    "common_error_codes": [
+      "ORA-28001",
+      "18487",
+      "18488",
+      "18456"
+    ],
+    "root_cause": "The database password policy expired the password.",
+    "diagnostic_steps": [
+      "Confirm the error text mentions an expired password"
+    ],
+    "resolution": {
+      "steps": [
+        "Have the user change the password through the approved self-service tool",
+        "Ask the DBA to reset the password if self-service is not available"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": true
+    },
+    "escalation_criteria": [
+      "the account belongs to a service or batch job"
+    ],
+    "related_kb_ids": [
+      "KB-0003"
+    ],
+    "tags": [
+      "database",
+      "password"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0005",
+    "title": "Database backup or restore failure",
+    "category": "Database",
+    "subcategory": "Backup",
+    "symptoms": [
+      "Nightly backup job failed",
+      "Restore did not complete"
+    ],
+    "common_error_codes": [
+      "ORA-19809",
+      "ORA-19804",
+      "BACKUP DATABASE is terminating abnormally",
+      "3201"
+    ],
+    "root_cause": "The backup destination is full or unreachable.",
+    "diagnostic_steps": [
+      "Check the backup job log for the failing step",
+      "Check free space on the backup destination"
+    ],
+    "resolution": {
+      "steps": [
+        "Ask the DBA to free space or switch to the secondary backup destination",
+        "Ask the DBA to re-run the backup and confirm it completes"
+      ],
+      "estimated_time": "2 hours",
+      "requires_admin": true
+    },
+    "escalation_criteria": [
+      "a restore is needed for production data"
+    ],
+    "related_kb_ids": [],
+    "tags": [
+      "database",
+      "backup"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0006",
+    "title": "Laptop slow, hot or shutting down unexpectedly",
+    "category": "Hardware",
+    "subcategory": "Performance",
+    "symptoms": [
+      "Laptop is very hot",
+      "Fans run constantly",
+      "Laptop shuts down without warning"
+    ],
+    "common_error_codes": [
+      "Thermal event",
+      "Kernel-Power 41"
+    ],
+    "root_cause": "Blocked air vents, failing fan or sustained high CPU load.",
+    "diagnostic_steps": [
+      "Check that the air vents are not blocked and the laptop is on a hard surface",
+      "Check Task Manager for processes using high CPU",
+      "Check the system event log for thermal or Kernel-Power 41 events"
+    ],
+    "resolution": {
+      "steps": [
+        "Close or uninstall the process causing sustained high CPU",
+        "Book a hardware check for the fan and thermal paste"
+      ],
+      "estimated_time": "1-3 days",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "the laptop overheats",
+      "the laptop shuts down repeatedly"
+    ],
+    "related_kb_ids": [
+      "KB-0030"
+    ],
+    "tags": [
+      "laptop",
+      "overheating",
+      "cpu"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0007",
+    "title": "Laptop battery not charging",
+    "category": "Hardware",
+    "subcategory": "Power",
+    "symptoms": [
+      "Battery stays at the same percentage",
+      "Plugged in, not charging"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Faulty charger, worn battery or power-management driver issue.",
+    "diagnostic_steps": [
+      "Try a known-good charger",
+      "Check the battery health report"
+    ],
+    "resolution": {
+      "steps": [
+        "Update the battery and power-management drivers",
+        "Replace the battery if health is low"
+      ],
+      "estimated_time": "1 day",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "the battery is swollen"
+    ],
+    "related_kb_ids": [],
+    "tags": [
+      "laptop",
+      "battery"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0008",
+    "title": "External monitor goes black, flickers or shows no signal",
+    "category": "Hardware",
+    "subcategory": "Monitor",
+    "symptoms": [
+      "Monitor goes black intermittently",
+      "No signal on external display",
+      "Screen flickers"
+    ],
+    "common_error_codes": [
+      "No signal"
+    ],
+    "root_cause": "Loose or faulty cable, or a display driver or refresh-rate mismatch after an update.",
+    "diagnostic_steps": [
+      "Check the video cable is firmly connected at both ends and try a different cable",
+      "Note whether the problem started after a driver or operating system update",
+      "Test the monitor with a different laptop or port"
+    ],
+    "resolution": {
+      "steps": [
+        "Roll back or update the display driver to the version approved by IT",
+        "Set the monitor refresh rate to 60 Hz in display settings",
+        "Restart the laptop and confirm the monitor stays on"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "the monitor shows physical damage"
+    ],
+    "related_kb_ids": [
+      "KB-0011"
+    ],
+    "tags": [
+      "monitor",
+      "display",
+      "driver"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0009",
+    "title": "Docking station not detected",
+    "category": "Hardware",
+    "subcategory": "Docking",
+    "symptoms": [
+      "Dock not recognised",
+      "Peripherals on the dock do not work"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Dock firmware or driver out of date.",
+    "diagnostic_steps": [
+      "Reconnect the dock and check the dock power light"
+    ],
+    "resolution": {
+      "steps": [
+        "Update the dock firmware and driver"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [
+      "KB-0008"
+    ],
+    "tags": [
+      "dock"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0010",
+    "title": "Printer not printing",
+    "category": "Hardware",
+    "subcategory": "Printer",
+    "symptoms": [
+      "Print jobs stay in the queue",
+      "Printer offline"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Stuck print spooler or printer offline.",
+    "diagnostic_steps": [
+      "Check the printer is online and has paper"
+    ],
+    "resolution": {
+      "steps": [
+        "Clear the print queue and resend the job"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "printer"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0011",
+    "title": "USB device not recognised",
+    "category": "Hardware",
+    "subcategory": "Peripherals",
+    "symptoms": [
+      "USB device not recognized",
+      "Device keeps disconnecting"
+    ],
+    "common_error_codes": [
+      "Code 43"
+    ],
+    "root_cause": "Faulty port, cable or USB driver.",
+    "diagnostic_steps": [
+      "Try a different USB port",
+      "Check Device Manager for the device status"
+    ],
+    "resolution": {
+      "steps": [
+        "Reinstall the USB device driver"
+      ],
+      "estimated_time": "20 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [
+      "KB-0012"
+    ],
+    "tags": [
+      "usb"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0012",
+    "title": "Keyboard or mouse not responding",
+    "category": "Hardware",
+    "subcategory": "Peripherals",
+    "symptoms": [
+      "Keys do not register",
+      "Mouse pointer does not move",
+      "Wireless receiver not detected"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Flat battery, lost wireless pairing or faulty receiver.",
+    "diagnostic_steps": [
+      "Replace the batteries or charge the device",
+      "Try a different USB port for the receiver"
+    ],
+    "resolution": {
+      "steps": [
+        "Re-pair the device with its receiver",
+        "Replace the device if it still does not respond"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [
+      "KB-0011"
+    ],
+    "tags": [
+      "keyboard",
+      "mouse"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0013",
+    "title": "Bluetooth device will not pair",
+    "category": "Network",
+    "subcategory": "Bluetooth",
+    "symptoms": [
+      "Bluetooth headset will not pair"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Stale pairing record or Bluetooth driver issue.",
+    "diagnostic_steps": [
+      "Check Bluetooth is enabled"
+    ],
+    "resolution": {
+      "steps": [
+        "Remove the device and pair again"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "bluetooth"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0014",
+    "title": "Internal application access request",
+    "category": "Access",
+    "subcategory": "Application",
+    "symptoms": [
+      "User needs access to an internal application",
+      "Permission denied in the application"
+    ],
+    "common_error_codes": [
+      "Access denied",
+      "403 Forbidden"
+    ],
+    "root_cause": "The user is not in the approved access group for the application.",
+    "diagnostic_steps": [
+      "Confirm the application name and the role the user needs"
+    ],
+    "resolution": {
+      "steps": [
+        "Raise an access request for manager approval through the service catalogue"
+      ],
+      "estimated_time": "1 day",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "the request is for privileged access"
+    ],
+    "related_kb_ids": [],
+    "tags": [
+      "access",
+      "application"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0015",
+    "title": "Mailbox full or cannot send email",
+    "category": "Software",
+    "subcategory": "Email",
+    "symptoms": [
+      "Mailbox is full",
+      "Cannot send email"
+    ],
+    "common_error_codes": [
+      "Mailbox quota exceeded"
+    ],
+    "root_cause": "The mailbox has reached its quota.",
+    "diagnostic_steps": [
+      "Check the mailbox size against the quota"
+    ],
+    "resolution": {
+      "steps": [
+        "Archive or delete old items to reduce the mailbox size"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [
+      "KB-0029"
+    ],
+    "tags": [
+      "email",
+      "outlook"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0016",
+    "title": "Shared drive cannot be mapped",
+    "category": "Network",
+    "subcategory": "File share",
+    "symptoms": [
+      "Mapped drive missing"
+    ],
+    "common_error_codes": [
+      "System error 53"
+    ],
+    "root_cause": "Path or permission problem.",
+    "diagnostic_steps": [
+      "Check the share path"
+    ],
+    "resolution": {
+      "steps": [
+        "Re-map the shared drive"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "share"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0017",
+    "title": "Windows account locked out",
+    "category": "Access",
+    "subcategory": "Account",
+    "symptoms": [
+      "Account locked out"
+    ],
+    "common_error_codes": [
+      "Account locked"
+    ],
+    "root_cause": "Repeated failed logins.",
+    "diagnostic_steps": [
+      "Check for saved old passwords on other devices"
+    ],
+    "resolution": {
+      "steps": [
+        "Unlock the account through the self-service portal"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "lockouts repeat within an hour"
+    ],
+    "related_kb_ids": [],
+    "tags": [
+      "account"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0018",
+    "title": "VPN will not connect or repeatedly disconnects",
+    "category": "Network",
+    "subcategory": "VPN",
+    "symptoms": [
+      "VPN client cannot connect",
+      "VPN drops after a few minutes",
+      "Gateway not responding"
+    ],
+    "common_error_codes": [
+      "Gateway not responding",
+      "VPN connection failed",
+      "Error 809"
+    ],
+    "root_cause": "The assigned VPN gateway is unreachable or cached credentials or profiles are stale.",
+    "diagnostic_steps": [
+      "Confirm the device has working internet access without the VPN",
+      "Check the VPN client log for 'Gateway not responding' and note the gateway name",
+      "Check whether colleagues on the same gateway are affected"
+    ],
+    "resolution": {
+      "steps": [
+        "Restart the VPN client and reconnect",
+        "Connect to the alternate gateway listed in the VPN client profile",
+        "Clear the saved VPN credentials and sign in again"
+      ],
+      "estimated_time": "20 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "many users are affected",
+      "the gateway is down for all users"
+    ],
+    "related_kb_ids": [
+      "KB-0019",
+      "KB-0023"
+    ],
+    "tags": [
+      "vpn",
+      "remote access"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0019",
+    "title": "VPN slow or unstable while connected",
+    "category": "Network",
+    "subcategory": "VPN",
+    "symptoms": [
+      "VPN is connected but very slow",
+      "VPN drops when the laptop is busy"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Local resource exhaustion or a congested gateway.",
+    "diagnostic_steps": [
+      "Check endpoint CPU and memory usage while the VPN is connected",
+      "Run a speed test with and without the VPN"
+    ],
+    "resolution": {
+      "steps": [
+        "Close high-CPU applications and reconnect the VPN"
+      ],
+      "estimated_time": "20 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "many users are affected"
+    ],
+    "related_kb_ids": [
+      "KB-0018",
+      "KB-0006"
+    ],
+    "tags": [
+      "vpn",
+      "performance"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0020",
+    "title": "Cannot connect to corporate Wi-Fi",
+    "category": "Network",
+    "subcategory": "WiFi",
+    "symptoms": [
+      "Laptop does not see the corporate SSID",
+      "Authentication to Wi-Fi fails"
+    ],
+    "common_error_codes": [
+      "Can't connect to this network"
+    ],
+    "root_cause": "Expired Wi-Fi certificate or disabled adapter.",
+    "diagnostic_steps": [
+      "Check the wireless adapter is enabled",
+      "Check the Wi-Fi certificate has not expired"
+    ],
+    "resolution": {
+      "steps": [
+        "Forget the network and reconnect with corporate credentials"
+      ],
+      "estimated_time": "20 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "no one in the building can connect"
+    ],
+    "related_kb_ids": [
+      "KB-0021"
+    ],
+    "tags": [
+      "wifi",
+      "wireless"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0021",
+    "title": "Wi-Fi connection drops intermittently",
+    "category": "Network",
+    "subcategory": "WiFi",
+    "symptoms": [
+      "Wi-Fi disconnects every few minutes",
+      "Connection drops in one area of the building"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Access point overload, interference or roaming issues in one area.",
+    "diagnostic_steps": [
+      "Check whether other devices in the same area also drop",
+      "Note the SSID, access point name and signal strength when the drop occurs"
+    ],
+    "resolution": {
+      "steps": [
+        "Forget the network and reconnect",
+        "Update the wireless adapter driver to the version approved by IT"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "multiple managed devices disconnect in the same area"
+    ],
+    "related_kb_ids": [
+      "KB-0020",
+      "KB-0013"
+    ],
+    "tags": [
+      "wifi",
+      "wireless",
+      "access point"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0022",
+    "title": "Web proxy blocks a site",
+    "category": "Network",
+    "subcategory": "Proxy",
+    "symptoms": [
+      "Site blocked by proxy"
+    ],
+    "common_error_codes": [
+      "Access Denied (policy_denied)"
+    ],
+    "root_cause": "Proxy category policy.",
+    "diagnostic_steps": [
+      "Confirm the URL and the block message"
+    ],
+    "resolution": {
+      "steps": [
+        "Raise a proxy exception request"
+      ],
+      "estimated_time": "1 day",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "proxy"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0023",
+    "title": "DNS name resolution failure",
+    "category": "Network",
+    "subcategory": "DNS",
+    "symptoms": [
+      "Internal sites do not resolve",
+      "Server name cannot be found"
+    ],
+    "common_error_codes": [
+      "DNS_PROBE_FINISHED_NXDOMAIN",
+      "Name or service not known"
+    ],
+    "root_cause": "Stale DNS cache or wrong DNS server assigned.",
+    "diagnostic_steps": [
+      "Run nslookup for the failing name",
+      "Check which DNS servers the adapter is using"
+    ],
+    "resolution": {
+      "steps": [
+        "Flush the DNS cache and reconnect to the network"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "many users are affected"
+    ],
+    "related_kb_ids": [
+      "KB-0018"
+    ],
+    "tags": [
+      "dns"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0024",
+    "title": "Website certificate error",
+    "category": "Network",
+    "subcategory": "Certificates",
+    "symptoms": [
+      "Browser shows a certificate warning"
+    ],
+    "common_error_codes": [
+      "NET::ERR_CERT_DATE_INVALID"
+    ],
+    "root_cause": "Wrong system clock or expired certificate.",
+    "diagnostic_steps": [
+      "Check the device date and time"
+    ],
+    "resolution": {
+      "steps": [
+        "Correct the system time and reload the page"
+      ],
+      "estimated_time": "10 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "certificate"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0025",
+    "title": "MFA prompt not received",
+    "category": "Access",
+    "subcategory": "MFA",
+    "symptoms": [
+      "No MFA push notification"
+    ],
+    "common_error_codes": [],
+    "root_cause": "Authenticator app not registered on the new phone.",
+    "diagnostic_steps": [
+      "Check the phone has network access"
+    ],
+    "resolution": {
+      "steps": [
+        "Re-register the authenticator app"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "mfa"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0026",
+    "title": "Software installation fails",
+    "category": "Software",
+    "subcategory": "Installation",
+    "symptoms": [
+      "Installer stops with an error"
+    ],
+    "common_error_codes": [
+      "MSI error 1603",
+      "Error 1618"
+    ],
+    "root_cause": "Another installation is running or prerequisites are missing.",
+    "diagnostic_steps": [
+      "Check whether another installation is running"
+    ],
+    "resolution": {
+      "steps": [
+        "Retry the installation from the software centre"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "install",
+      "msi"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0027",
+    "title": "Windows update fails",
+    "category": "Software",
+    "subcategory": "Operating System",
+    "symptoms": [
+      "Update fails to install"
+    ],
+    "common_error_codes": [
+      "0x80070002"
+    ],
+    "root_cause": "Corrupt update cache.",
+    "diagnostic_steps": [
+      "Check the update history for the failing update"
+    ],
+    "resolution": {
+      "steps": [
+        "Retry the update from the software centre"
+      ],
+      "estimated_time": "1 hour",
+      "requires_admin": false
+    },
+    "escalation_criteria": [],
+    "related_kb_ids": [],
+    "tags": [
+      "windows update"
+    ],
+    "priority_hint": "P4",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0028",
+    "title": "Antivirus quarantined a file or reported a threat",
+    "category": "Security",
+    "subcategory": "Antivirus",
+    "symptoms": [
+      "Antivirus quarantined a file",
+      "Threat detected notification"
+    ],
+    "common_error_codes": [
+      "Threat quarantined"
+    ],
+    "root_cause": "A file matched an antivirus signature.",
+    "diagnostic_steps": [
+      "Record the threat name and file path from the antivirus console"
+    ],
+    "resolution": {
+      "steps": [
+        "Leave the file in quarantine and report the alert to security operations"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "a threat is detected",
+      "multiple devices report the same threat"
+    ],
+    "related_kb_ids": [
+      "KB-0014"
+    ],
+    "tags": [
+      "antivirus",
+      "security"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0029",
+    "title": "Application crashes on start-up",
+    "category": "Software",
+    "subcategory": "Application",
+    "symptoms": [
+      "Application closes immediately after opening",
+      "Application crashes repeatedly"
+    ],
+    "common_error_codes": [
+      "Faulting application name",
+      "0xc0000005",
+      "APPCRASH"
+    ],
+    "root_cause": "A faulty add-in, corrupt user profile or damaged installation.",
+    "diagnostic_steps": [
+      "Open Event Viewer and find the 'Faulting application name' entry for the crash",
+      "Start the application in safe mode to check whether an add-in causes the crash"
+    ],
+    "resolution": {
+      "steps": [
+        "Turn off the add-ins named in the crash log and restart the application",
+        "Run an Office repair from Apps & Features",
+        "Recreate the user profile for the application if the crash continues"
+      ],
+      "estimated_time": "45 minutes",
+      "requires_admin": true
+    },
+    "escalation_criteria": [
+      "the crash affects many users after a release"
+    ],
+    "related_kb_ids": [
+      "KB-0030",
+      "KB-0015"
+    ],
+    "tags": [
+      "application",
+      "crash",
+      "outlook"
+    ],
+    "priority_hint": "P2",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  },
+  {
+    "id": "KB-0030",
+    "title": "Application slow or high CPU/memory usage",
+    "category": "Software",
+    "subcategory": "Performance",
+    "symptoms": [
+      "Application is very slow",
+      "High CPU usage",
+      "Laptop fan runs loudly"
+    ],
+    "common_error_codes": [],
+    "root_cause": "A runaway process or insufficient memory.",
+    "diagnostic_steps": [
+      "Check Task Manager for the process using the most CPU and memory",
+      "Check whether the high usage starts with a specific application"
+    ],
+    "resolution": {
+      "steps": [
+        "Close the runaway process and restart the application",
+        "Apply the latest approved update for the application"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": [
+      "the laptop overheats"
+    ],
+    "related_kb_ids": [
+      "KB-0006",
+      "KB-0029"
+    ],
+    "tags": [
+      "performance",
+      "cpu",
+      "memory"
+    ],
+    "priority_hint": "P3",
+    "last_updated": "2026-09-30",
+    "status": "approved",
+    "version": 1,
+    "approved_by": null,
+    "source": "seed"
+  }
+]

@@ -1,0 +1,210 @@
+{
+  "ticket_id": "DEMO-003",
+  "classification": {
+    "category": "Hardware",
+    "subcategory": "Monitor",
+    "confidence": 0.9
+  },
+  "priority": {
+    "level": "Medium",
+    "reason": "Baseline for Monitor"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0011",
+      "similarity_score": 0.89,
+      "resolution": "Rolled back the display driver and set the refresh rate to 60 Hz."
+    },
+    {
+      "incident_id": "TKT-0025",
+      "similarity_score": 0.81,
+      "resolution": "Resolved via KB-0008: Roll back or update the display driver to the version approved by IT"
+    },
+    {
+      "incident_id": "TKT-0026",
+      "similarity_score": 0.77,
+      "resolution": "Resolved via KB-0008: Roll back or update the display driver to the version approved by IT"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0008",
+    "solution": "Roll back or update the display driver to the version approved by IT"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Check the video cable is firmly connected at both ends and try a different cable",
+      "Note whether the problem started after a driver or operating system update",
+      "Roll back or update the display driver to the version approved by IT",
+      "Set the monitor refresh rate to 60 Hz in display settings",
+      "Restart the laptop and confirm the monitor stays on"
+    ],
+    "source": "KEDB + Historical Incident"
+  },
+  "escalation_required": false,
+  "human_approval_required": false,
+  "details": {
+    "analysis_id": "golden-demo-003",
+    "decision": "recommend",
+    "primary_decision": "recommend",
+    "clarifying_questions": [],
+    "intent": "incident",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.92,
+        "knn": 0.84,
+        "rule": 1.0,
+        "margin": 0.74,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Software",
+          "subcategory": "Operating System",
+          "score": 0.06
+        }
+      ],
+      "rationale": "external monitor goes black after an update",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P3",
+      "impact": 3,
+      "urgency": 2,
+      "drivers": []
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0011",
+        "tier": "SIMILAR",
+        "excerpt": "Monitor blacks out after display driver update",
+        "why": "same subcategory; shared terms: monitor, black, driver update",
+        "resolution_origin": "curated_verified",
+        "category": "Hardware",
+        "subcategory": "Monitor"
+      },
+      {
+        "incident_id": "TKT-0025",
+        "tier": "SIMILAR",
+        "excerpt": "External monitor flickers and goes black",
+        "why": "same subcategory; shared terms: monitor, black",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Hardware",
+        "subcategory": "Monitor"
+      },
+      {
+        "incident_id": "TKT-0026",
+        "tier": "SIMILAR",
+        "excerpt": "Second monitor shows no signal after update",
+        "why": "same subcategory; shared terms: monitor, update",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Hardware",
+        "subcategory": "Monitor"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0008",
+      "title": "External monitor goes black, flickers or shows no signal",
+      "score": 0.84,
+      "matched_error_code": null,
+      "matched_field": "symptom",
+      "excerpt": "Monitor goes black intermittently",
+      "why": "symptom match + Monitor mapping",
+      "alternatives": [
+        {
+          "kb_id": "KB-0011",
+          "score": 0.36
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Check the video cable is firmly connected at both ends and try a different cable",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0008#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": true
+      },
+      {
+        "text": "Note whether the problem started after a driver or operating system update",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0008#diag.2"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Roll back or update the display driver to the version approved by IT",
+        "type": "resolution",
+        "citations": [
+          "KB-0008#res.1",
+          "INC-H0011"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Set the monitor refresh rate to 60 Hz in display settings",
+        "type": "resolution",
+        "citations": [
+          "KB-0008#res.2",
+          "INC-H0011"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Restart the laptop and confirm the monitor stays on",
+        "type": "resolution",
+        "citations": [
+          "KB-0008#res.3"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      }
+    ],
+    "escalation": null,
+    "approval_reasons": [],
+    "secondary_issues": [],
+    "signals": {
+      "error_codes": [],
+      "products": [
+        "monitor"
+      ],
+      "affected_users": null,
+      "scope": "single",
+      "urgency_terms": [],
+      "business_critical": false,
+      "environment": null,
+      "location": null,
+      "onset": null,
+      "change_trigger": "display driver update",
+      "multi_issue_markers": false,
+      "security_flags": [],
+      "tried_steps": [
+        "tried a different cable"
+      ],
+      "keywords": [
+        "monitor",
+        "black",
+        "update"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}

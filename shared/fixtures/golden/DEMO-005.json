@@ -1,0 +1,319 @@
+{
+  "ticket_id": "DEMO-005",
+  "classification": {
+    "category": "Network",
+    "subcategory": "VPN",
+    "confidence": 0.86
+  },
+  "priority": {
+    "level": "High",
+    "reason": "losing unsaved work; floor: VPN baseline"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0002",
+      "similarity_score": 0.87,
+      "resolution": "Cleared saved VPN credentials and re-authenticated; no further drops."
+    },
+    {
+      "incident_id": "TKT-0002",
+      "similarity_score": 0.76,
+      "resolution": "Resolved via KB-0018: Restart the VPN client and reconnect"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0018",
+    "solution": "Restart the VPN client and reconnect"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Confirm the device has working internet access without the VPN",
+      "Check endpoint CPU and memory usage while the VPN is connected",
+      "Restart the VPN client and reconnect",
+      "Clear the saved VPN credentials and sign in again"
+    ],
+    "source": "KEDB + Historical Incident"
+  },
+  "escalation_required": true,
+  "human_approval_required": true,
+  "details": {
+    "analysis_id": "golden-demo-005",
+    "decision": "escalate",
+    "primary_decision": "recommend",
+    "clarifying_questions": [],
+    "intent": "incident",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.88,
+        "knn": 0.8,
+        "rule": 1.0,
+        "margin": 0.55,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Hardware",
+          "subcategory": "CPU",
+          "score": 0.38
+        }
+      ],
+      "rationale": "two issues: VPN drops (primary) and laptop overheating (secondary)",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P2",
+      "impact": 3,
+      "urgency": 2,
+      "drivers": [
+        "losing unsaved work → U2",
+        "floor: VPN baseline P2"
+      ]
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0002",
+        "tier": "SIMILAR",
+        "excerpt": "VPN disconnects every few minutes",
+        "why": "same subcategory; shared terms: VPN, disconnects",
+        "resolution_origin": "curated_verified",
+        "category": "Network",
+        "subcategory": "VPN"
+      },
+      {
+        "incident_id": "TKT-0002",
+        "tier": "SIMILAR",
+        "excerpt": "Cannot connect to VPN, connection failed after password change",
+        "why": "same subcategory; shared terms: VPN, connect",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Network",
+        "subcategory": "VPN"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0018",
+      "title": "VPN will not connect or repeatedly disconnects",
+      "score": 0.79,
+      "matched_error_code": null,
+      "matched_field": "symptom",
+      "excerpt": "VPN client cannot connect",
+      "why": "symptom match + VPN mapping",
+      "alternatives": [
+        {
+          "kb_id": "KB-0019",
+          "score": 0.62
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Confirm the device has working internet access without the VPN",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0018#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Check endpoint CPU and memory usage while the VPN is connected",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0019#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Restart the VPN client and reconnect",
+        "type": "resolution",
+        "citations": [
+          "KB-0018#res.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Clear the saved VPN credentials and sign in again",
+        "type": "resolution",
+        "citations": [
+          "KB-0018#res.3",
+          "INC-H0002"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      }
+    ],
+    "escalation": {
+      "reasons": [
+        {
+          "rule": "E6",
+          "text": "KB-0006: the laptop overheats"
+        }
+      ],
+      "assignment_group": "EUC-HW",
+      "tier": "L2",
+      "bundle_id": "golden-bundle-demo-005",
+      "issue_idx": 1
+    },
+    "approval_reasons": [
+      "decision escalate",
+      "priority High"
+    ],
+    "secondary_issues": [
+      {
+        "classification": {
+          "category": "Hardware",
+          "subcategory": "CPU",
+          "confidence": 0.82
+        },
+        "priority": {
+          "level": "Medium",
+          "reason": "Baseline for CPU"
+        },
+        "kedb_match": {
+          "found": true,
+          "error_code": "KB-0030",
+          "solution": "Close the runaway process and restart the application"
+        },
+        "recommended_solution": {
+          "steps": [
+            "Check Task Manager for the process using the most CPU and memory",
+            "Check that the air vents are not blocked and the laptop is on a hard surface",
+            "Check the system event log for thermal or Kernel-Power 41 events",
+            "Close the runaway process and restart the application"
+          ],
+          "source": "KEDB"
+        },
+        "decision": "escalate",
+        "escalation": {
+          "reasons": [
+            {
+              "rule": "E6",
+              "text": "KB-0006: the laptop overheats"
+            }
+          ],
+          "assignment_group": "EUC-HW",
+          "tier": "L2",
+          "bundle_id": "golden-bundle-demo-005",
+          "issue_idx": 1
+        },
+        "classification_details": {
+          "band": "high",
+          "components": {
+            "llm": 0.85,
+            "knn": 0.78,
+            "rule": 1.0,
+            "margin": 0.6,
+            "agree": 3
+          },
+          "alternatives": [
+            {
+              "category": "Hardware",
+              "subcategory": "Memory",
+              "score": 0.12
+            }
+          ],
+          "rationale": "laptop overheating and fan noise",
+          "conflict": false
+        },
+        "priority_details": {
+          "code": "P3",
+          "impact": 3,
+          "urgency": 2,
+          "drivers": []
+        },
+        "kedb": {
+          "kb_id": "KB-0030",
+          "title": "Application slow or high CPU/memory usage",
+          "score": 0.71,
+          "matched_error_code": null,
+          "matched_field": "symptom",
+          "excerpt": "Application is very slow",
+          "why": "symptom match + CPU mapping",
+          "alternatives": [
+            {
+              "kb_id": "KB-0006",
+              "score": 0.66
+            }
+          ]
+        },
+        "steps": [
+          {
+            "text": "Check Task Manager for the process using the most CPU and memory",
+            "type": "diagnostic",
+            "citations": [
+              "KB-0030#diag.1"
+            ],
+            "role": "L1",
+            "already_attempted": false
+          },
+          {
+            "text": "Check that the air vents are not blocked and the laptop is on a hard surface",
+            "type": "diagnostic",
+            "citations": [
+              "KB-0006#diag.1"
+            ],
+            "role": "L1",
+            "already_attempted": false
+          },
+          {
+            "text": "Check the system event log for thermal or Kernel-Power 41 events",
+            "type": "diagnostic",
+            "citations": [
+              "KB-0006#diag.3"
+            ],
+            "role": "L1",
+            "already_attempted": false
+          },
+          {
+            "text": "Close the runaway process and restart the application",
+            "type": "resolution",
+            "citations": [
+              "KB-0030#res.1"
+            ],
+            "role": "L1",
+            "already_attempted": false
+          }
+        ]
+      }
+    ],
+    "signals": {
+      "error_codes": [],
+      "products": [
+        "VPN client",
+        "laptop"
+      ],
+      "affected_users": null,
+      "scope": "single",
+      "urgency_terms": [],
+      "business_critical": false,
+      "environment": null,
+      "location": null,
+      "onset": null,
+      "change_trigger": null,
+      "multi_issue_markers": true,
+      "security_flags": [],
+      "tried_steps": [],
+      "keywords": [
+        "vpn",
+        "drops",
+        "overheating",
+        "fan"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}

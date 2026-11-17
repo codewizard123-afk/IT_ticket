@@ -1,0 +1,199 @@
+{
+  "ticket_id": "DEMO-006",
+  "classification": {
+    "category": "Network",
+    "subcategory": "Wireless",
+    "confidence": 0.9
+  },
+  "priority": {
+    "level": "High",
+    "reason": "multiple colleagues affected; floor: Wireless baseline"
+  },
+  "similar_incidents": [
+    {
+      "incident_id": "INC-H0003",
+      "similarity_score": 0.88,
+      "resolution": "NET-OPS rebalanced the overloaded access point on that floor."
+    },
+    {
+      "incident_id": "TKT-0003",
+      "similarity_score": 0.82,
+      "resolution": "Resolved via KB-0021: Forget the network and reconnect"
+    }
+  ],
+  "kedb_match": {
+    "found": true,
+    "error_code": "KB-0021",
+    "solution": "Forget the network and reconnect"
+  },
+  "recommended_solution": {
+    "steps": [
+      "Check whether other devices in the same area also drop",
+      "Note the SSID, access point name and signal strength when the drop occurs",
+      "Forget the network and reconnect",
+      "Update the wireless adapter driver to the version approved by IT"
+    ],
+    "source": "KEDB"
+  },
+  "escalation_required": true,
+  "human_approval_required": true,
+  "details": {
+    "analysis_id": "golden-demo-006",
+    "decision": "escalate",
+    "primary_decision": "escalate",
+    "clarifying_questions": [],
+    "intent": "incident",
+    "classification": {
+      "band": "high",
+      "components": {
+        "llm": 0.92,
+        "knn": 0.83,
+        "rule": 1.0,
+        "margin": 0.72,
+        "agree": 3
+      },
+      "alternatives": [
+        {
+          "category": "Network",
+          "subcategory": "VPN",
+          "score": 0.05
+        }
+      ],
+      "rationale": "Wi-Fi drops for several colleagues in one area",
+      "conflict": false
+    },
+    "priority": {
+      "code": "P2",
+      "impact": 2,
+      "urgency": 2,
+      "drivers": [
+        "multiple colleagues affected → I2",
+        "floor: Wireless baseline P2"
+      ]
+    },
+    "similar": [
+      {
+        "incident_id": "INC-H0003",
+        "tier": "SIMILAR",
+        "excerpt": "Wi-Fi drops on one floor for several users",
+        "why": "same subcategory; shared terms: Wi-Fi, drops, floor",
+        "resolution_origin": "curated_verified",
+        "category": "Network",
+        "subcategory": "Wireless"
+      },
+      {
+        "incident_id": "TKT-0003",
+        "tier": "SIMILAR",
+        "excerpt": "Wi-Fi keeps dropping in the meeting room",
+        "why": "same subcategory; shared terms: Wi-Fi, dropping",
+        "resolution_origin": "synthetic_kb_derived",
+        "category": "Network",
+        "subcategory": "Wireless"
+      }
+    ],
+    "keyword_only": [],
+    "kedb": {
+      "kb_id": "KB-0021",
+      "title": "Wi-Fi connection drops intermittently",
+      "score": 0.81,
+      "matched_error_code": null,
+      "matched_field": "symptom",
+      "excerpt": "Wi-Fi disconnects every few minutes",
+      "why": "symptom match + Wireless mapping",
+      "alternatives": [
+        {
+          "kb_id": "KB-0020",
+          "score": 0.55
+        }
+      ]
+    },
+    "steps": [
+      {
+        "text": "Check whether other devices in the same area also drop",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0021#diag.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Note the SSID, access point name and signal strength when the drop occurs",
+        "type": "diagnostic",
+        "citations": [
+          "KB-0021#diag.2"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Forget the network and reconnect",
+        "type": "resolution",
+        "citations": [
+          "KB-0021#res.1"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      },
+      {
+        "text": "Update the wireless adapter driver to the version approved by IT",
+        "type": "resolution",
+        "citations": [
+          "KB-0021#res.2"
+        ],
+        "role": "L1",
+        "already_attempted": false
+      }
+    ],
+    "escalation": {
+      "reasons": [
+        {
+          "rule": "E6",
+          "text": "KB-0021: multiple managed devices disconnect in the same area"
+        }
+      ],
+      "assignment_group": "NET-OPS",
+      "tier": "L2",
+      "bundle_id": "golden-bundle-demo-006",
+      "issue_idx": 0
+    },
+    "approval_reasons": [
+      "decision escalate",
+      "priority High"
+    ],
+    "secondary_issues": [],
+    "signals": {
+      "error_codes": [],
+      "products": [
+        "Wi-Fi"
+      ],
+      "affected_users": null,
+      "scope": "multiple",
+      "urgency_terms": [],
+      "business_critical": false,
+      "environment": null,
+      "location": "Building B, 2nd floor",
+      "onset": null,
+      "change_trigger": null,
+      "multi_issue_markers": false,
+      "security_flags": [],
+      "tried_steps": [],
+      "keywords": [
+        "wifi",
+        "drops",
+        "colleagues"
+      ]
+    },
+    "redactions": {
+      "count": 0,
+      "types": []
+    },
+    "degraded": [],
+    "timings_ms": {},
+    "versions": {
+      "pipeline": "2.0.0",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "fixture": "golden-phase0"
+    }
+  }
+}
