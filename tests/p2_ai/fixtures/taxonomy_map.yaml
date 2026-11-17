@@ -1,0 +1,29 @@
+# P2 TEST COPY of architecture §3.3. The real file is config/taxonomy_map.yaml (owner: P1).
+version: 1
+mappings:
+  - {category: Network, subcategory: VPN, primary: [KB-0018, KB-0019], secondary: [KB-0023]}
+  - {category: Network, subcategory: Wireless, primary: [KB-0020, KB-0021], secondary: [KB-0013]}
+  - {category: Network, subcategory: DNS, primary: [KB-0023], secondary: [KB-0024]}
+  - {category: Network, subcategory: DHCP, primary: [], secondary: [KB-0023, KB-0020], coverage: gap}
+  - {category: Network, subcategory: IP Address, primary: [], secondary: [KB-0023, KB-0022], coverage: gap}
+  - {category: Database, subcategory: Oracle, primary: [KB-0001, KB-0002, KB-0003, KB-0004, KB-0005], secondary: []}
+  - {category: Database, subcategory: MS SQL Server, primary: [KB-0001, KB-0002, KB-0003, KB-0004, KB-0005], secondary: []}
+  - {category: Database, subcategory: DB2, primary: [KB-0001, KB-0002, KB-0003, KB-0004, KB-0005], secondary: [], coverage: partial}
+  - {category: Hardware, subcategory: Monitor, primary: [KB-0008], secondary: [KB-0011]}
+  - {category: Hardware, subcategory: Keyboard, primary: [KB-0012], secondary: [KB-0011]}
+  - {category: Hardware, subcategory: Mouse, primary: [KB-0012], secondary: [KB-0011]}
+  - {category: Hardware, subcategory: CPU, primary: [KB-0030], secondary: [KB-0006, KB-0007], coverage: partial}
+  - {category: Hardware, subcategory: Memory, primary: [KB-0030], secondary: [KB-0006], coverage: partial}
+  - {category: Hardware, subcategory: Disk, primary: [], secondary: [KB-0006], coverage: gap}
+  - {category: Software, subcategory: Email, primary: [KB-0029, KB-0015], secondary: [KB-0030]}
+  - {category: Software, subcategory: Operating System, primary: [KB-0006, KB-0029], secondary: [KB-0026, KB-0027], coverage: partial}
+  - {category: Inquiry/Help, subcategory: Antivirus, primary: [KB-0028], secondary: [KB-0014], coverage: partial}
+  - {category: Inquiry/Help, subcategory: Internal Application, primary: [KB-0029, KB-0030, KB-0014], secondary: [KB-0026], coverage: partial}
+
+# Within Database the primary article is chosen by symptom
+database_symptoms:
+  - {pattern: 'slow|time ?out|timing out|hang', kb_id: KB-0001}
+  - {pattern: 'connection pool|pool error|no free connection', kb_id: KB-0002}
+  - {pattern: 'access denied|login failed|locked|cannot log ?in|cannot connect', kb_id: KB-0003}
+  - {pattern: 'password (?:has )?expired|expired password', kb_id: KB-0004}
+  - {pattern: 'backup|restore', kb_id: KB-0005}
