@@ -1,0 +1,13 @@
+# P3 · Backend & control layer settings (owner: P3). Shared paths live in base.yaml.
+
+db:
+  # Overridable with the APP_DB_PATH env var (tests point it at a temp file).
+  path_key: app_db          # key into base.yaml `paths`
+  journal_mode: WAL         # file databases only; :memory: ignores it
+  busy_timeout_ms: 5000
+
+audit:
+  # Architecture §8.7: prompts are stored only as hashes + token counts unless this is true.
+  store_prompts: false
+  # prev_hash of the first audit_log row.
+  genesis_hash: "0000000000000000000000000000000000000000000000000000000000000000"
