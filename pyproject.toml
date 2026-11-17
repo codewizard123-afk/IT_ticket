@@ -7,7 +7,7 @@ requires-python = ">=3.11,<3.12"
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-extend-exclude = ["data", "eval/out", "trial/results"]
+extend-exclude = ["data", "eval/out", "trial/results", "*.md"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM"]
