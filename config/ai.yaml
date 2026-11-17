@@ -93,3 +93,10 @@ database_symptoms:
 kb_multi_query:
   max_sentences: 6       # also query each sentence (≥ 3 words) and keep the best chunk score
   min_words: 3
+
+# Resolution synthesiser extras (architecture §7.7)
+synthesis_rules:
+  # a step matching this is tagged role L2 (admin / DBA / network-ops work)
+  l2_pattern: '\bask the (?:dba|application team|network team|server team)\b|\bdba\b|\badmin\w*\b|\bnet-?ops\b|\berror log\b|\baudit trail\b|\bexecution plan\b|\boptimi[sz]er\b|\bsessions?\b|\b(?:office )?repair\b|\bregistry\b|\bgroup policy\b|\bfirmware\b|\bprocess limits\b|\bconnection pool\b|\bbackup destination\b|\buser profile\b|\breset the password\b|\bunlock the account\b'
+  attempted_min_overlap: 0.6    # tried-step tokens found in the step text
+  incident_link_min: 0.30       # grounding needed to add a verified incident as a 2nd citation
