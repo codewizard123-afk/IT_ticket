@@ -1,0 +1,31 @@
+# Rule voter for the classifier (owner: P2, architecture §7.3). Python `re`, case-insensitive
+# unless `case_sensitive: true`. `label` is "Category/Subcategory" (split on the LAST "/").
+# A label's rule score is the sum of its matching weights, normalised across labels.
+
+subcategory_rules:
+  - {label: Database/Oracle, pattern: '\bORA-\d{5}\b', weight: 1.5, case_sensitive: true}
+  - {label: Database/Oracle, pattern: '\boracle\b', weight: 1.0}
+  - {label: Database/MS SQL Server, pattern: '\b18456\b', weight: 1.5}
+  - {label: Database/MS SQL Server, pattern: '\b(?:ms\s*)?sql server\b|\bmssql\b|\bssms\b', weight: 1.0}
+  - {label: Database/DB2, pattern: '\bdb2\b', weight: 1.0}
+  - {label: Database/DB2, pattern: '\bSQL\d{4}N\b', weight: 1.5, case_sensitive: true}
+  - {label: Software/Email, pattern: '\boutlook\b|\bexchange\b|\bmailbox\b|\be-?mails?\b|\bshared calendar\b', weight: 1.0}
+  - {label: Network/VPN, pattern: '\bvpn\b|\banyconnect\b|\bglobalprotect\b|\bforticlient\b', weight: 1.0}
+  - {label: Network/Wireless, pattern: '\bwi-?fi\b|\bwireless (?:network|connection|adapter|signal)\b|\bssid\b|\baccess point\b|\bWLAN\b', weight: 1.0}
+  - {label: Network/DNS, pattern: '\bdns\b|\bnslookup\b|\bname resolution\b|\bcannot be resolved\b|\bNXDOMAIN\b|\bname not found\b', weight: 1.0}
+  - {label: Network/DHCP, pattern: '\bdhcp\b|\blease\b|\bno ip address\b|\b169\.254\.', weight: 1.0}
+  - {label: Network/IP Address, pattern: '\bip address(?:es)?\b|\bip conflict\b|\bstatic ip\b|\bduplicate ip\b', weight: 1.0}
+  - {label: Hardware/Monitor, pattern: '\bmonitors?\b|\bdisplay ?port\b|\bhdmi\b|\bexternal (?:screen|display)\b|\bscreen (?:goes|went|is) black\b|\bblacks? out\b|\bflicker\w*\b', weight: 1.0}
+  - {label: Hardware/Keyboard, pattern: '\bkeyboards?\b', weight: 1.0}
+  - {label: Hardware/Mouse, pattern: '\bmouse\b|\bmice\b|\btouchpad\b|\btrackpad\b', weight: 1.0}
+  - {label: Hardware/CPU, pattern: '\bcpu\b|\bprocessor\b|\bfans?\b|\boverheat\w*\b|\bthermal\b|\bvery hot\b', weight: 1.0}
+  - {label: Hardware/Memory, pattern: '\bmemory\b|\bram\b|\bout of memory\b', weight: 1.0}
+  - {label: Hardware/Disk, pattern: '\bdisks?\b|\bhard drive\b|\bssd\b|\bdisk space\b|\bSMART\b|\bclicking nois\w*\b', weight: 1.0}
+  - {label: Software/Operating System, pattern: '\bwindows update\b|\boperating system\b|\bbsod\b|\bblue screen\b|\bwon''t boot\b|\bboot loop\b|\b0x8007[0-9a-f]{4}\b', weight: 1.0}
+  - {label: Inquiry/Help/Antivirus, pattern: '\banti-?virus\b|\bquarantin\w*\b|\bmalware\b|\bvirus\b|\bdefender\b|\bthreat detected\b', weight: 1.0}
+  - {label: Inquiry/Help/Internal Application, pattern: '\binternal (?:app|application|portal|tool)\b|\b(?:hr|expense|procurement|crm|erp|intranet|payroll) (?:portal|app|application|system|tool)\b|\bpermission denied\b|\baccess to the \w+ (?:app|application|portal)\b', weight: 1.0}
+
+intent_rules:
+  how_to: '\bhow (?:do|can|to|should) (?:i|we)\b|\bhow to\b|\bwhere (?:can|do) i find\b|\bis there a way to\b'
+  access_request: '\b(?:need|needs|request|requesting|grant|give me|requires?) (?:\w+ )?(?:access|permissions?)\b|\baccess (?:needed|request)\b'
+  service_request: '\bplease install\b|\brequest(?:ing)? (?:a )?new\b|\bnew (?:laptop|monitor|keyboard|mouse|phone|license)\b|\bset ?up a new\b'
