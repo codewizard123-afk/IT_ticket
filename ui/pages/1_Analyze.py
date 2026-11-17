@@ -6,6 +6,12 @@ import streamlit as st
 
 from ui.client import ApiError
 from ui.components.analysis import render_analysis
+from ui.components.feedback import (
+    classification_correction,
+    decision_form,
+    make_feedback_hook,
+    propose_kb_draft,
+)
 from ui.state import header, sample_tickets
 
 client = header("🔎 Analyze a ticket")
@@ -64,8 +70,27 @@ if submitted:
 
 resp = st.session_state.get("analysis")
 if resp is not None:
-    new = render_analysis(client, resp)
     aid = resp.details.analysis_id
+    new = render_analysis(client, resp, feedback=make_feedback_hook(client, aid))
+    classification_correction(
+        client, aid, (resp.classification.category, resp.classification.subcategory)
+    )
+    kedb = resp.kedb_match.error_code if resp.kedb_match.found else None
+    decision_form(
+        client,
+        aid,
+        mode="assisted",
+        defaults={
+            "final_decision": {"escalate": "escalated", "clarify": "needs_more_info"}.get(
+                resp.details.decision, "resolved"
+            ),
+            "category": resp.classification.category,
+            "subcategory": resp.classification.subcategory,
+            "priority": resp.priority.level,
+            "kb_or_incident_used": kedb,
+        },
+    )
+    propose_kb_draft(client, aid)
     if st.session_state.get("viewed_analysis") != aid:
         try:
             client.event(resp.ticket_id, "ui.viewed", aid, mode="assisted")
