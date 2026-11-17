@@ -200,3 +200,39 @@ def test_index_is_redacted(ts, built_root):
     for rec in ts.get([r["id"] for r in pii]):
         assert "@example.com" not in rec.description and "+91" not in rec.description
         assert "@example.com" not in rec.text
+
+
+# --- FR-07 filters on enriched metadata (P1-T3) -----------------------------------------------
+def test_fr07_filters_in_chroma_where(ts):
+    hits = ts.query("cannot connect", 100)
+    assert hits
+    md = hits[0].metadata
+    for key in ("opened_ts", "assignment_group", "application", "environment", "restricted"):
+        assert key in md, key
+    ts_mid = sorted(h.metadata["opened_ts"] for h in hits)[len(hits) // 2]
+    later = ts.query("cannot connect", 100, where={"opened_ts": {"$gte": ts_mid}})
+    assert later and all(h.metadata["opened_ts"] >= ts_mid for h in later)
+    ranged = ts.query(
+        "cannot connect",
+        100,
+        where={"$and": [{"opened_ts": {"$gte": ts_mid}}, {"environment": "remote"}]},
+    )
+    assert all(h.metadata["environment"] == "remote" for h in ranged)
+    grp = md["assignment_group"]
+    assert {
+        h.metadata["assignment_group"] for h in ts.query("x y", 50, where={"assignment_group": grp})
+    } == {grp}
+    app = md["application"]
+    assert all(
+        h.metadata["application"] == app for h in ts.query("x", 50, where={"application": app})
+    )
+    assert all(
+        h.metadata["restricted"] is False for h in ts.query("x", 50, where={"restricted": False})
+    )
+
+
+def test_enriched_fields_survive_roundtrip(ts, built_root):
+    rec = ts.get([_first_ticket(built_root, "VPN")["id"]])[0]
+    assert rec.opened_ts and rec.resolved_ts and rec.opened_at.endswith("Z")
+    assert rec.derived_fields and "resolution" in rec.derived_fields
+    assert rec.metadata["split"] in ("train", "val", "test")

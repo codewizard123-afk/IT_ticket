@@ -1,8 +1,9 @@
 """``python -m ingest.build_all [--eval-split]`` — build every P1 index (architecture §6, §11.1).
 
-Steps: KEDB (governed file, ``kedb_chunks``, error codes, BM25) → historical tickets
-(``tickets_hist`` + BM25) → manifest ``indexes/manifest.json``
-``{source_sha1, model, built_at, counts}``. ``index_stale()`` lets P3's ``/health`` compare.
+Steps: KEDB (governed file, ``kedb_chunks``, error codes, BM25) → enrich ``tickets.json`` →
+historical tickets (``tickets_hist`` from ``tickets_enriched.json`` + BM25) → manifest
+``indexes/manifest.json`` ``{source_sha1, model, built_at, counts}``.
+``index_stale()`` lets P3's ``/health`` compare.
 """
 
 from __future__ import annotations
@@ -16,9 +17,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from ingest.enrich import enrich
 from ingest.index_kedb import govern, index_kedb, index_path, load_articles, write_governed
-from ingest.index_tickets import index_tickets, plain_record
+from ingest.index_tickets import index_tickets
 from privacy.redact import redact_text
+from shared.schemas import TicketRecord
 from store.bm25_store import BM25Index
 from store.chroma_store import EmbedFn
 from store.config import read_json, repo_path, write_json
@@ -74,8 +77,10 @@ def build_all(
     write_governed(articles, root)
     counts.update(index_kedb(client, embed_fn, articles, root=root))
 
-    # 2. historical tickets
-    records = [plain_record(r) for r in read_json(repo_path("tickets", root))]
+    # 2. enrich + historical tickets
+    enriched = enrich(read_json(repo_path("tickets", root)))
+    write_json(repo_path("tickets_enriched", root), enriched)
+    records = [TicketRecord.model_validate(r) for r in enriched]
     bm25 = BM25Index()
     counts["tickets_hist"] = index_tickets(
         client, embed_fn, records, "tickets_hist", bm25=bm25, redact=redact_text
