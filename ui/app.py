@@ -47,16 +47,15 @@ if settings.demo_auth:
             client.use_demo_role(role, group.strip() or None)
             st.rerun()
 
-with st.expander("Log in with a user account", expanded=not settings.demo_auth):
-    with st.form("login"):
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.form_submit_button("Log in"):
-            try:
-                client.login(username, password)
-                st.rerun()
-            except ApiError as err:
-                st.error(f"Login failed: {err.message}")
+with st.expander("Log in with a user account", expanded=not settings.demo_auth), st.form("login"):
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.form_submit_button("Log in"):
+        try:
+            client.login(username, password)
+            st.rerun()
+        except ApiError as err:
+            st.error(f"Login failed: {err.message}")
 
 st.markdown(
     """

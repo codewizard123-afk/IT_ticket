@@ -8,8 +8,8 @@ import pytest
 
 from shared.schemas import Step
 from tests.p4_ui.helpers import all_markdown, all_text, click, page
-from ui.components.badges import chip_spec, citation_label, source_badges
 from ui.components.analysis import step_html
+from ui.components.badges import chip_spec, citation_label, source_badges
 
 
 def analyze_demo(make_client, demo_id: str, role: str = "l2"):
