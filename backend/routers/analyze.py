@@ -7,7 +7,7 @@ from typing import Annotated, Any, Literal
 from fastapi import APIRouter, Query
 from pydantic import BaseModel
 
-from backend import intake, pipeline, repo
+from backend import access, intake, pipeline, repo
 from backend.config import backend_config
 from backend.deps import DbDep, ServicesDep, UserDep
 from shared.schemas import AnalysisResponse, TicketIn, User
@@ -23,9 +23,10 @@ class ClarifyIn(BaseModel):
 
 def render(resp: AnalysisResponse, user: User, view: str) -> dict[str, Any]:
     """Role filter for display, then the requested view."""
+    shown = access.filter_response(resp.model_dump(mode="json"), user)
     if view == "contract":
-        return resp.to_contract().model_dump(mode="json")
-    return resp.model_dump(mode="json")
+        shown.pop("details", None)
+    return shown
 
 
 @router.post("/analyze", summary="Analyse a ticket (contract + details)")

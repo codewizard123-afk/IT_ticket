@@ -8,10 +8,10 @@ from typing import Annotated
 
 from fastapi import Depends, Request
 
+from backend import auth
 from backend.db.sqlite import open_db
 from backend.errors import ApiError
 from backend.services import Services
-from shared.constants import ROLES
 from shared.schemas import User
 
 
@@ -30,13 +30,16 @@ def get_db(request: Request) -> Iterator[sqlite3.Connection]:
 
 
 def get_current_user(request: Request) -> User:
-    """Demo auth: ``X-Demo-Role`` (+ optional ``X-Demo-Group``) when ``DEMO_AUTH=1``."""
+    """``Authorization: Bearer <jwt>``; or, when ``DEMO_AUTH=1``, ``X-Demo-Role`` (+ group)."""
     services: Services = request.app.state.services
+    header = request.headers.get("Authorization", "")
+    if header.lower().startswith("bearer "):
+        token = header.split(" ", 1)[1].strip()
+        return auth.decode_token(token, auth.signing_secret(services.settings.app_secret))
     role = request.headers.get("X-Demo-Role")
-    if services.settings.demo_auth and role in ROLES:
-        group = request.headers.get("X-Demo-Group") or None
-        return User(username=f"demo-{role}", role=role, assignment_group=group)
-    raise ApiError(401, "unauthenticated", "log in or send X-Demo-Role")
+    if role and services.settings.demo_auth:
+        return auth.demo_user(role, request.headers.get("X-Demo-Group") or None)
+    raise ApiError(401, "unauthenticated", "log in or send X-Demo-Role (DEMO_AUTH=1)")
 
 
 ServicesDep = Annotated[Services, Depends(get_services)]

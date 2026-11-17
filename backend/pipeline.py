@@ -14,7 +14,7 @@ import uuid
 from collections.abc import Mapping
 from typing import Any
 
-from backend import approval, assemble, audit, decision, escalate, llm_audit, repo
+from backend import access, approval, assemble, audit, decision, escalate, llm_audit, repo
 from backend.config import backend_config, escalation_config
 from backend.errors import ApiError, bad_request, not_found
 from backend.intake import IntakeTicket
@@ -81,7 +81,7 @@ def context_inputs(
     services: Services, conn: sqlite3.Connection, user: User
 ) -> tuple[dict[str, float], dict[str, Any]]:
     """``(feedback_prior, retrieval filters)`` for the engine context."""
-    return {}, {}
+    return {}, access.retrieval_filters(user)
 
 
 def _evidence_rows(analysis_id: str, er: EngineResult) -> list[dict[str, Any]]:
@@ -308,7 +308,7 @@ def analyze(
             log.error("engine failed for %s: %s", ticket.ticket_id, type(exc).__name__)
             er = fallback_result(sanitized, "engine_error")
             engine_failed = True
-    er = filter_engine_result(er, user)
+    er = access.filter_engine_result(er, user)
 
     # 3. decision gate, routing, approval, assembly
     t = time.perf_counter()
@@ -417,11 +417,6 @@ def _json(obj: Mapping[str, Any]) -> str:
     return json.dumps(obj, sort_keys=True)
 
 
-def filter_engine_result(er: EngineResult, user: User) -> EngineResult:
-    """Retrieval-time access control hook (P3-T5 fills this in)."""
-    return er
-
-
 def clarify(
     services: Services,
     conn: sqlite3.Connection,
@@ -434,6 +429,9 @@ def clarify(
     prev = repo.get_analysis(conn, analysis_id)
     if prev is None or prev["ticket_id"] != ticket_id:
         raise not_found("unknown analysis for this ticket")
+    full = repo.response_of(prev).model_dump(mode="json")
+    if not access.can_view_analysis(user, prev, access.group_of(full)):
+        raise access.deny(conn, user, f"clarify {analysis_id}")
     max_rounds = int(escalation_config().get("thresholds", {}).get("max_clarify_rounds", 1))
     if int(prev["clarification_round"] or 0) >= max_rounds:
         raise bad_request("only one clarification round is allowed")

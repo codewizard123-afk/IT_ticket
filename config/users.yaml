@@ -1,0 +1,37 @@
+# P3 · Users for JWT login (architecture §8.6). Owner: P3.
+# DEMO ONLY: every account below uses the password "demo-pass-2026" (bcrypt hashed).
+# Replace the hashes before any real deployment. Same usernames as config/ui.yaml mock_api.users.
+
+jwt:
+  algorithm: HS256
+  ttl_hours: 8
+
+demo:
+  # role → assignment group used when X-Demo-Role is sent without X-Demo-Group (DEMO_AUTH=1)
+  default_group:
+    l1: SERVICE-DESK
+    l2: NET-OPS
+    kb_owner: null
+    admin: null
+
+users:
+  - username: l1_alice
+    role: l1
+    assignment_group: SERVICE-DESK
+    password_hash: "$2b$10$09DCkmGITDZYMiOlhHevQ.Bap8BOkddsCenqfHSAG2g4fDc0RP6QW"
+  - username: l2_bob
+    role: l2
+    assignment_group: NET-OPS
+    password_hash: "$2b$10$BoXITFZNgT9t4xVKPqReLey7txUMrAPA7aLxcH6RG1os1IsZ.9hBi"
+  - username: dba_carol
+    role: l2
+    assignment_group: DBA
+    password_hash: "$2b$10$2Cw6./xY5mWn623CveHcoeGsabJNpdW87cv5EyG246oHLRT6/AIKW"
+  - username: kb_dave
+    role: kb_owner
+    assignment_group: null
+    password_hash: "$2b$10$m0strv0tx2lEyGjoBXY4yOQatLSHkGEFV/jjbcoWGQ7vs1JHZnyxa"
+  - username: admin
+    role: admin
+    assignment_group: null
+    password_hash: "$2b$10$TYnN8kQNZ6T.UQO8nDCn9erEN881HrOuMY4AGW9Dw6EqTD55DJuba"
