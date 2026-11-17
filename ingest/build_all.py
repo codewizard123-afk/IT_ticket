@@ -74,7 +74,9 @@ def build_all(
     counts: dict[str, int] = {}
 
     # 1. KEDB
-    articles = govern(load_articles(repo_path("kb_articles", root)))
+    gov_path = repo_path("kb_governed", root)
+    existing = load_articles(gov_path) if gov_path.exists() else None
+    articles = govern(load_articles(repo_path("kb_articles", root)), existing)
     write_governed(articles, root)
     counts.update(index_kedb(client, embed_fn, articles, root=root))
 

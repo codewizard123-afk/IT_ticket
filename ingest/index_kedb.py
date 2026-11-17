@@ -7,6 +7,7 @@
 2. Field-level chunks → Chroma ``kedb_chunks`` (resolution chunks stored, not searched).
 3. Error-code index → ``indexes/error_codes.json``.
 4. BM25 over the searchable approved chunks → ``indexes/bm25_kedb.pkl``.
+5. ``reindex_article(kb_id)`` re-chunks and upserts one article (KB-draft approval flow, P3).
 """
 
 from __future__ import annotations
@@ -19,7 +20,7 @@ from typing import Any
 from ingest.chunks import build_chunks, build_code_index
 from shared.schemas import KBArticle
 from store.bm25_store import BM25Index
-from store.chroma_store import KB_COLLECTION, EmbedFn, reset_collection
+from store.chroma_store import KB_COLLECTION, EmbedFn, get_collection, reset_collection
 from store.config import data_config, read_json, repo_path, write_json
 
 log = logging.getLogger(__name__)
@@ -120,3 +121,58 @@ def index_kedb(
         "kb_searchable_chunks": len(searchable(chunks)),
         "error_codes": len(codes),
     }
+
+
+# --- 5. single-article reindex ----------------------------------------------------------------
+def reindex_article(
+    kb_id: str,
+    article: KBArticle | dict[str, Any] | None = None,
+    *,
+    client: Any = None,
+    embed_fn: EmbedFn | None = None,
+    root: Path | None = None,
+    kb_store: Any = None,
+) -> int:
+    """Re-chunk and upsert one article without a full rebuild (P1-T6).
+
+    ``article`` (if given) is written into ``articles_governed.json`` first; otherwise the
+    governed copy is re-indexed as is. Draft/retired articles are stored with their status, so
+    ``query_chunks`` (approved only) ignores them. Returns the number of chunks written.
+    If ``kb_store`` (a ``ChromaKBStore``) is passed, its in-memory view is refreshed too.
+    """
+    if client is None or embed_fn is None:
+        from store.factory import default_client, default_embed_fn
+
+        client = client or default_client(root)
+        embed_fn = embed_fn or default_embed_fn()
+
+    governed = {a.kb_id: a for a in load_governed(root)}
+    if article is not None:
+        art = article if isinstance(article, KBArticle) else KBArticle.model_validate(article)
+        if art.kb_id != kb_id:
+            raise ValueError(f"article id {art.kb_id!r} does not match {kb_id!r}")
+        governed[kb_id] = art
+        write_governed([governed[k] for k in sorted(governed)], root)
+    elif kb_id not in governed:
+        raise KeyError(f"unknown KB article {kb_id!r}")
+    art = governed[kb_id]
+
+    coll = get_collection(client, KB_COLLECTION)
+    coll.delete(where={"kb_id": kb_id})
+    chunks = build_chunks(art)
+    _add_chunks(coll, chunks, embed_fn)
+
+    # keep the on-disk side indexes consistent with the collection
+    all_arts = list(governed.values())
+    write_json(index_path("error_codes", root), build_code_index(all_arts))
+    bm25_file = index_path("bm25_kedb", root)
+    bm25 = BM25Index.load(bm25_file) if bm25_file.exists() else build_bm25(all_arts)
+    bm25.remove_where(lambda d: d.startswith(f"{kb_id}#"))
+    for c in searchable(chunks):
+        bm25.add(c["id"], c["text"])
+    bm25.save(bm25_file)
+
+    if kb_store is not None:
+        kb_store.refresh_article(art)
+    log.info("reindexed %s v%s (%s): %d chunks", kb_id, art.version, art.status, len(chunks))
+    return len(chunks)
