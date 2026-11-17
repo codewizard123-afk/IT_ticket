@@ -27,10 +27,14 @@ def _subset_tickets(per_subcategory: int = 3) -> list[dict]:
 
 
 def make_root(dst: Path, per_subcategory: int = 3) -> Path:
-    """Copy the KEDB + a ticket subset into ``dst`` with the repo's relative layout."""
+    """Copy the KEDB, curated incidents and a ticket subset into ``dst`` (repo layout)."""
     (dst / "data/processed").mkdir(parents=True)
     (dst / "data/kb").mkdir(parents=True)
+    (dst / "data/seed").mkdir(parents=True)
     shutil.copy(ROOT / "data/kb/articles.json", dst / "data/kb/articles.json")
+    shutil.copy(
+        ROOT / "data/seed/resolved_incidents.json", dst / "data/seed/resolved_incidents.json"
+    )
     (dst / "data/processed/tickets.json").write_text(
         json.dumps(_subset_tickets(per_subcategory)), encoding="utf-8"
     )

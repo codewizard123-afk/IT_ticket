@@ -40,7 +40,8 @@ def test_manifest_written(built_root):
     assert m["counts"]["tickets_hist"] == 90  # 3 per subcategory x 30
     assert m["counts"]["kb_articles"] == 60
     assert m["counts"]["kb_chunks"] > m["counts"]["kb_searchable_chunks"] > 0
-    assert set(m["source_sha1"]) == {"tickets", "kb_articles"}
+    assert m["counts"]["tickets_verified"] == 60
+    assert set(m["source_sha1"]) == {"tickets", "kb_articles", "seed_incidents"}
     assert (built_root / "data/kb/articles_governed.json").exists()
     assert (built_root / "indexes/error_codes.json").exists()
     assert not index_stale(built_root)
@@ -86,7 +87,7 @@ def test_query_where_filters(ts):
 def test_query_edge_cases(ts):
     assert ts.query("", 5) == []
     assert ts.query("vpn", 0) == []
-    assert ts.query("vpn", 5, collections=("tickets_verified",)) == []  # not built yet in T1
+    assert ts.query("vpn", 5, collections=("no_such_collection",)) == []
 
 
 def test_bm25_and_get(ts, built_root):
@@ -236,3 +237,17 @@ def test_enriched_fields_survive_roundtrip(ts, built_root):
     assert rec.opened_ts and rec.resolved_ts and rec.opened_at.endswith("Z")
     assert rec.derived_fields and "resolution" in rec.derived_fields
     assert rec.metadata["split"] in ("train", "val", "test")
+
+
+# --- tickets_verified (P1-T4) ------------------------------------------------------------------
+def test_verified_collection(ts):
+    hits = ts.query(
+        "VPN fails with Gateway not responding after client auto-update",
+        3,
+        collections=("tickets_verified",),
+    )
+    assert hits[0].ticket_id == "INC-H0001"
+    assert all(h.resolution_origin == "curated_verified" for h in hits)
+    rec = ts.get(["INC-H0001"])[0]
+    assert rec.verified and rec.verified_by and rec.collection == "tickets_verified"
+    assert "INC-H0001" in [t for t, _ in ts.bm25("gateway not responding auto-update", 20)]

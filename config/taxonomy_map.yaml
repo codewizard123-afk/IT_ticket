@@ -1,0 +1,44 @@
+# Ticket subcategory -> KEDB articles (architecture §3.3). Owner: P1. Read by ai/kb_search.py.
+# Derived from the dataset generator's scenario links (gen/build_datasets.py, seed 42):
+#   primary   = articles linked to tickets of this subcategory (most frequent first), boost 1.0
+#   secondary = related_kb_ids of the primary articles, boost 0.5
+# A SOFT boost only, never a filter: the ticket and KEDB taxonomies differ
+# (e.g. ticket "Wireless" vs KEDB "WiFi", ticket "Oracle" vs KEDB "DB performance").
+version: 2
+mapping:
+  "Network":
+    "VPN": {primary: [KB-0018, KB-0019], secondary: [KB-0022, KB-0023]}
+    "Wireless": {primary: [KB-0021, KB-0041, KB-0020], secondary: [KB-0013, KB-0023]}
+    "DNS/DHCP": {primary: [KB-0023, KB-0041], secondary: [KB-0018, KB-0021, KB-0024]}
+    "Firewall": {primary: [KB-0042, KB-0022], secondary: [KB-0019, KB-0023, KB-0028]}
+    "Network Drive": {primary: [KB-0025, KB-0024], secondary: [KB-0003, KB-0023]}
+  "Database":
+    "Oracle": {primary: [KB-0031, KB-0001, KB-0003, KB-0032], secondary: [KB-0002, KB-0004, KB-0005, KB-0022, KB-0025, KB-0030]}
+    "MS SQL Server": {primary: [KB-0033, KB-0001, KB-0034, KB-0003], secondary: [KB-0002, KB-0004, KB-0005, KB-0025, KB-0030]}
+    "DB2": {primary: [KB-0001, KB-0003, KB-0035, KB-0036], secondary: [KB-0002, KB-0004, KB-0022, KB-0025, KB-0030]}
+    "PostgreSQL": {primary: [KB-0038, KB-0005, KB-0001, KB-0037], secondary: [KB-0002, KB-0004, KB-0030]}
+    "MySQL": {primary: [KB-0002, KB-0040, KB-0003, KB-0039], secondary: [KB-0001, KB-0004, KB-0005, KB-0025, KB-0030]}
+  "Hardware":
+    "CPU": {primary: [KB-0044, KB-0030, KB-0043], secondary: [KB-0002, KB-0007, KB-0029]}
+    "Monitor": {primary: [KB-0008, KB-0011], secondary: [KB-0006, KB-0007]}
+    "Laptop": {primary: [KB-0006, KB-0007, KB-0045, KB-0016], secondary: [KB-0011, KB-0052]}
+    "Printer": {primary: [KB-0010, KB-0009], secondary: [KB-0023, KB-0027]}
+    "Keyboard/Mouse": {primary: [KB-0046, KB-0012], secondary: [KB-0006, KB-0011]}
+  "Software":
+    "Email": {primary: [KB-0029, KB-0048, KB-0015, KB-0047], secondary: [KB-0004, KB-0017, KB-0027, KB-0030, KB-0053]}
+    "Operating System": {primary: [KB-0006, KB-0044, KB-0050, KB-0049], secondary: [KB-0007, KB-0011, KB-0030, KB-0043, KB-0045]}
+    "Installation": {primary: [KB-0027, KB-0026, KB-0028], secondary: [KB-0010, KB-0014]}
+    "Application Error": {primary: [KB-0029, KB-0030], secondary: [KB-0002, KB-0027]}
+    "Collaboration Tools": {primary: [KB-0051, KB-0052, KB-0013], secondary: [KB-0011, KB-0021, KB-0045]}
+  "Access & Security":
+    "Password Reset": {primary: [KB-0053, KB-0004], secondary: [KB-0002, KB-0003, KB-0017, KB-0054]}
+    "Account Lockout": {primary: [KB-0054, KB-0003], secondary: [KB-0004, KB-0025, KB-0053, KB-0055]}
+    "MFA": {primary: [KB-0055, KB-0017], secondary: [KB-0004, KB-0015, KB-0054]}
+    "Access Request": {primary: [KB-0025, KB-0003, KB-0056], secondary: [KB-0004, KB-0024]}
+    "Phishing/Malware": {primary: [KB-0057, KB-0058], secondary: [KB-0028, KB-0055]}
+  "Inquiry/Help":
+    "How-To": {primary: [KB-0017, KB-0015], secondary: [KB-0004]}
+    "Software Request": {primary: [KB-0014], secondary: [KB-0026, KB-0028]}
+    "Hardware Request": {primary: [KB-0016], secondary: [KB-0006, KB-0007]}
+    "Antivirus": {primary: [KB-0059, KB-0028], secondary: [KB-0014, KB-0026, KB-0058]}
+    "Internal Application": {primary: [KB-0060], secondary: [KB-0029, KB-0056]}

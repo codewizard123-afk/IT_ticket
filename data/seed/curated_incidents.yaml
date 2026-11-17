@@ -1,0 +1,837 @@
+# Curated verified incidents (architecture §6.3.2). Human-edited source for
+# data/seed/resolved_incidents.json — regenerate with `python -m ingest.make_seed`.
+# 2 per ticket subcategory (6 categories x 5 = 30 subcategories -> 60 incidents).
+# Review checklist: data/seed/README.md. These are the ONLY historical items that may be cited
+# as a "Historical Incident" source until analysts verify more in the app.
+seed: 42
+drafted_by: "claude-code (AI-assisted draft)"
+verified_by: "Neeleshkt8"
+review_status: "pending_human_review"   # set to "reviewed" per record after the checklist
+
+incidents:
+  # ------------------------------------------------------------------------------ Network
+  - category: Network
+    subcategory: VPN
+    priority: P2
+    environment: remote
+    application: VPN client
+    kb_ids: [KB-0018]
+    title: VPN fails with Gateway not responding after client auto-update
+    description: >-
+      Since the VPN client updated itself overnight I get 'Gateway not responding' from home.
+      Restarting the client and the laptop did not help. Colleagues on the old client version
+      can connect.
+    resolution: >-
+      The auto-update had reset the connection profile to a retired gateway hostname. Re-imported
+      the managed VPN profile from the self-service portal, reconnected and confirmed access to
+      the file share.
+  - category: Network
+    subcategory: VPN
+    priority: P3
+    environment: remote
+    application: VPN client
+    kb_ids: [KB-0019]
+    title: VPN connected but very slow on home broadband
+    description: >-
+      VPN connects but file copies crawl and Teams calls stutter. Speed test without VPN is fine.
+      The client shows High VPN latency on the assigned gateway.
+    resolution: >-
+      The client was pinned to an overseas gateway. Switched to the nearest regional gateway in
+      the VPN client, confirmed latency dropped from 280 ms to 35 ms and throughput was back to
+      baseline.
+  - category: Network
+    subcategory: Wireless
+    priority: P3
+    environment: office
+    application: Corporate Wi-Fi
+    kb_ids: [KB-0020]
+    title: Cannot join corporate Wi-Fi after laptop rebuild
+    description: >-
+      After my laptop was rebuilt it says 'Cannot connect to this network' for CORP-WIFI.
+      Guest Wi-Fi works. Event log shows 802.1X authentication failed.
+    resolution: >-
+      The rebuilt device had no machine certificate. Ran a Group Policy update on the wired
+      dock to enrol the device certificate, forgot and re-joined CORP-WIFI, and authentication
+      succeeded.
+  - category: Network
+    subcategory: Wireless
+    priority: P3
+    environment: office
+    application: Corporate Wi-Fi
+    kb_ids: [KB-0021]
+    title: Wi-Fi drops near meeting rooms on 4th floor
+    description: >-
+      My laptop drops Wi-Fi every time I walk to the meeting rooms on the 4th floor and shows
+      Limited connectivity for a minute. Only my laptop seems affected.
+    resolution: >-
+      The wireless driver was two years old and roamed poorly between access points. Installed
+      the current approved Wi-Fi driver from the software portal and set the adapter roaming
+      aggressiveness to medium; no drops during a 30-minute walk test.
+  - category: Network
+    subcategory: DNS/DHCP
+    priority: P3
+    environment: office
+    application: Network general
+    kb_ids: [KB-0041]
+    fills_gap: true
+    title: Laptop gets 169.254 address on desk port
+    description: >-
+      On the desk dock I get 'No valid IP configuration' and the address is 169.254.x.x.
+      The same laptop works on Wi-Fi and on my colleague's desk.
+    resolution: >-
+      The desk port was patched to a disabled switch port. Network ops re-enabled the port on the
+      user VLAN; the laptop received a DHCP lease immediately and the dock connection worked.
+  - category: Network
+    subcategory: DNS/DHCP
+    priority: P2
+    environment: office
+    application: Network general
+    kb_ids: [KB-0023]
+    title: Internal sites fail with DNS_PROBE_FINISHED_NXDOMAIN
+    description: >-
+      Intranet and HR portal show DNS_PROBE_FINISHED_NXDOMAIN but public websites work.
+      Started this morning for several people in Building C.
+    resolution: >-
+      A stale DNS suffix list pushed to Building C clients missed the internal zone. Network ops
+      corrected the DHCP option for the suffix list; affected users renewed their lease
+      (ipconfig /renew) and flushed the DNS cache, and internal names resolved again.
+  - category: Network
+    subcategory: Firewall
+    priority: P3
+    environment: office
+    application: Web proxy
+    kb_ids: [KB-0042]
+    title: Supplier portal blocked by web filter
+    description: >-
+      The new supplier portal shows 'This site has been blocked by your organization'. I need it
+      for purchase orders this week.
+    resolution: >-
+      The portal domain was newly registered and auto-categorised as uncategorised. Raised a
+      category review with the security team, who recategorised it as business after checking
+      reputation; access worked after the proxy policy refresh.
+  - category: Network
+    subcategory: Firewall
+    priority: P2
+    environment: production
+    application: Warehouse app
+    kb_ids: [KB-0022]
+    title: Warehouse app cannot reach new API server - Connection timed out
+    description: >-
+      Since the API server was moved to a new subnet, the warehouse app logs 'Connection timed
+      out' on port 8443. Ping to the server works.
+    resolution: >-
+      The firewall rule still referenced the old subnet. Network ops submitted a change to allow
+      TCP 8443 from the app servers to the new subnet only; after approval and deployment the app
+      reconnected and the deny log entries stopped.
+  - category: Network
+    subcategory: Network Drive
+    priority: P3
+    environment: office
+    application: File shares
+    kb_ids: [KB-0024]
+    title: H drive not mapped after sign-in - System error 67
+    description: >-
+      My H: drive no longer maps when I sign in. Running net use gives System error 67. Other
+      shares map fine.
+    resolution: >-
+      The home-drive path in the user's profile pointed at a decommissioned file server.
+      Corrected the home folder path in the directory, signed out and in, and H: mapped
+      automatically.
+  - category: Network
+    subcategory: Network Drive
+    priority: P3
+    environment: office
+    application: File shares
+    kb_ids: [KB-0025]
+    title: Access is denied on Finance shared folder after team move
+    description: >-
+      I moved from Sales to Finance and get 'Access is denied' on the Finance shared folder.
+      My manager says I should have access.
+    resolution: >-
+      The user was not in the Finance share's read/write group. The folder owner approved the
+      request in the access portal, the user was added to the group, and access worked after
+      signing out and back in.
+
+  # ----------------------------------------------------------------------------- Database
+  - category: Database
+    subcategory: Oracle
+    priority: P2
+    environment: production
+    application: Oracle DB
+    kb_ids: [KB-0031]
+    title: ORA-12154 from SQL Developer after client reinstall
+    description: >-
+      After reinstalling the Oracle client SQL Developer fails with ORA-12154 TNS:could not
+      resolve the connect identifier specified. Other users connect fine.
+    resolution: >-
+      The reinstall created a new Oracle home without the managed tnsnames.ora. Pointed TNS_ADMIN
+      to the managed network location and restarted SQL Developer; the alias resolved and the
+      connection succeeded.
+  - category: Database
+    subcategory: Oracle
+    priority: P2
+    environment: production
+    application: Oracle DB
+    kb_ids: [KB-0032]
+    title: Nightly load fails with ORA-01653 unable to extend table
+    description: >-
+      The nightly finance load fails with ORA-01653 unable to extend table in tablespace
+      FIN_DATA. Reports this morning are missing yesterday's data.
+    resolution: >-
+      The tablespace had reached its maximum size. The DBA added a datafile through the approved
+      change, re-ran the failed load, and confirmed row counts matched the source extract.
+  - category: Database
+    subcategory: MS SQL Server
+    priority: P2
+    environment: production
+    application: MS SQL Server
+    kb_ids: [KB-0033]
+    title: SQL Server error 9002 transaction log full on reporting DB
+    description: >-
+      Inserts into the reporting database fail with Error 9002: The transaction log for database
+      is full due to 'LOG_BACKUP'. Started after the weekend.
+    resolution: >-
+      The log backup job had been disabled during maintenance and not re-enabled. The DBA
+      re-enabled and ran the log backup job, the log space was reused, and inserts succeeded.
+  - category: Database
+    subcategory: MS SQL Server
+    priority: P3
+    environment: production
+    application: MS SQL Server
+    kb_ids: [KB-0003]
+    title: New analyst gets SQL Server error 18456 on reporting server
+    description: >-
+      I joined last week and SQL Server Management Studio shows SQL Server error 18456 Login
+      failed for user when I connect to the reporting server.
+    resolution: >-
+      The user's account was not yet in the reporting read-only role. After manager approval the
+      DBA added the account to the approved read-only database role; login succeeded with
+      Windows authentication.
+  - category: Database
+    subcategory: DB2
+    priority: P2
+    environment: production
+    application: DB2
+    kb_ids: [KB-0035]
+    fills_gap: true
+    title: Batch job fails with SQL30081N communication error to DB2
+    description: >-
+      The overnight batch job fails with SQL30081N when connecting to the DB2 server. The server
+      was patched yesterday.
+    resolution: >-
+      The DB2 instance listener had not restarted after patching. The DBA restarted the database
+      manager in the maintenance window, confirmed the listener port was open, and re-ran the
+      batch successfully.
+  - category: Database
+    subcategory: DB2
+    priority: P3
+    environment: production
+    application: DB2
+    kb_ids: [KB-0036]
+    title: Order update screen returns SQL0911N reason code 68
+    description: >-
+      Saving an order intermittently fails with SQL0911N reason code 68 during the afternoon peak.
+      Retrying usually works.
+    resolution: >-
+      A long-running report held row locks on the orders table. The DBA moved the report to the
+      read replica and the application team added a retry with backoff; no further lock timeouts
+      were logged over a week.
+  - category: Database
+    subcategory: PostgreSQL
+    priority: P2
+    environment: production
+    application: PostgreSQL
+    kb_ids: [KB-0038]
+    title: App fails with FATAL sorry, too many clients already
+    description: >-
+      The booking API returns errors and its log shows FATAL: sorry, too many clients already
+      from PostgreSQL. It started after the new release.
+    resolution: >-
+      The new release created a connection pool per request. The application team rolled back to
+      the previous build and fixed pool reuse; the DBA confirmed connections stayed well below
+      max_connections.
+  - category: Database
+    subcategory: PostgreSQL
+    priority: P3
+    environment: production
+    application: PostgreSQL
+    kb_ids: [KB-0037]
+    title: FATAL no pg_hba.conf entry for host from new reporting server
+    description: >-
+      The new reporting server cannot connect to PostgreSQL: FATAL: no pg_hba.conf entry for host.
+      The old reporting server still works.
+    resolution: >-
+      The new server's subnet was missing from pg_hba.conf. The DBA added a scoped entry for the
+      reporting service account and subnet through change control and reloaded the configuration;
+      the connection succeeded.
+  - category: Database
+    subcategory: MySQL
+    priority: P3
+    environment: production
+    application: MySQL
+    kb_ids: [KB-0039]
+    title: Inventory sync hits ERROR 1205 Lock wait timeout exceeded
+    description: >-
+      The inventory sync fails a few times a day with ERROR 1205 (HY000): Lock wait timeout
+      exceeded. The sync and a nightly cleanup overlap.
+    resolution: >-
+      The cleanup job ran a large unindexed delete. Rescheduled the cleanup outside the sync
+      window and the DBA added an index on the filter column; lock waits stopped.
+  - category: Database
+    subcategory: MySQL
+    priority: P2
+    environment: production
+    application: MySQL
+    kb_ids: [KB-0040]
+    title: Reports stale - MySQL replica shows Replica_SQL_Running No
+    description: >-
+      Dashboards fed from the MySQL replica are hours behind. The DBA dashboard shows
+      Replica_SQL_Running: No with Error 1062 Duplicate entry.
+    resolution: >-
+      A manual insert on the replica caused a duplicate key. The DBA removed the conflicting row
+      on the replica after confirming it matched the source, restarted replication, and lag
+      returned to zero; replica write access was restricted to replication only.
+
+  # ----------------------------------------------------------------------------- Hardware
+  - category: Hardware
+    subcategory: CPU
+    priority: P3
+    environment: office
+    application: Laptop
+    kb_ids: [KB-0043]
+    title: Laptop overheating and fan constantly loud
+    description: >-
+      My laptop gets very hot, the fan is always at full speed and the CPU is throttled. It is
+      worse when docked with the lid closed.
+    resolution: >-
+      The air vents were blocked with dust and the power plan was set to maximum performance.
+      Desk-side support cleaned the vents, applied the standard balanced power plan and updated
+      the BIOS; temperatures returned to normal under load.
+  - category: Hardware
+    subcategory: CPU
+    priority: P3
+    environment: remote
+    application: Laptop
+    kb_ids: [KB-0044]
+    title: Laptop freezing with Your computer is low on memory
+    description: >-
+      With Outlook, Teams and a browser open my laptop freezes and shows Your computer is low on
+      memory. It has 8 GB RAM.
+    resolution: >-
+      A browser extension leaked memory. Removed the unapproved extension, set the browser to
+      sleep inactive tabs, and raised a hardware request to upgrade to 16 GB per the standard;
+      no further low-memory warnings.
+  - category: Hardware
+    subcategory: Monitor
+    priority: P3
+    environment: office
+    application: Display
+    kb_ids: [KB-0008]
+    title: External monitor shows No signal after Windows update
+    description: >-
+      Since last night's Windows update my external monitor shows No signal on the dock.
+      I tried a different cable and port already.
+    resolution: >-
+      The update installed a generic display driver. Reinstalled the approved graphics driver
+      from the software portal and updated the dock firmware; both monitors were detected at the
+      correct resolution.
+  - category: Hardware
+    subcategory: Monitor
+    priority: P4
+    environment: office
+    application: Display
+    kb_ids: [KB-0008, KB-0011]
+    title: Second monitor flickers and shows Unsupported mode
+    description: >-
+      My second monitor flickers and sometimes shows Unsupported mode when I open large
+      spreadsheets. It is connected through the docking station.
+    resolution: >-
+      The refresh rate was set above what the dock supports at that resolution. Set the monitor
+      to 60 Hz in display settings and replaced the HDMI adapter with a DisplayPort cable; the
+      flicker stopped.
+  - category: Hardware
+    subcategory: Laptop
+    priority: P2
+    environment: office
+    application: Laptop
+    kb_ids: [KB-0006]
+    title: Laptop blue screen INACCESSIBLE_BOOT_DEVICE after BIOS update
+    description: >-
+      After a BIOS update my laptop shows a blue screen INACCESSIBLE_BOOT_DEVICE and restarts
+      in a loop. I have a client meeting this afternoon.
+    resolution: >-
+      The BIOS update changed the storage controller mode. Desk-side support restored the
+      standard storage mode in the BIOS using the support procedure, the laptop booted normally,
+      and BitLocker recovery was not required.
+  - category: Hardware
+    subcategory: Laptop
+    priority: P3
+    environment: remote
+    application: Laptop
+    kb_ids: [KB-0045]
+    title: Laptop says Low Disk Space and updates fail
+    description: >-
+      My laptop keeps showing Low Disk Space and Windows updates fail. The C drive has less than
+      2 GB free.
+    resolution: >-
+      Old OneDrive offline copies and the Windows update cache used most of the drive. Ran Disk
+      Cleanup including previous update files and set OneDrive folders to online-only; 40 GB was
+      freed and updates installed.
+  - category: Hardware
+    subcategory: Printer
+    priority: P3
+    environment: office
+    application: Print service
+    kb_ids: [KB-0009]
+    title: Floor printer shows offline and jobs stuck in queue
+    description: >-
+      The 3rd floor printer shows Printer offline on my laptop and jobs stay in the queue.
+      Others on the floor can print.
+    resolution: >-
+      The laptop had a stale direct-IP printer object. Removed it, added the printer from the
+      managed print server queue, cleared the local queue, and a test page printed.
+  - category: Hardware
+    subcategory: Printer
+    priority: P4
+    environment: office
+    application: Print service
+    kb_ids: [KB-0010]
+    title: Printer prints pages of garbled characters - PCL XL error
+    description: >-
+      Printing a PDF from one application gives pages of garbled characters and a PCL XL error
+      page. Other documents print fine.
+    resolution: >-
+      The queue used a universal driver that mishandled the PDF fonts. Switched the queue to the
+      model-specific approved driver on the print server; the PDF printed correctly.
+  - category: Hardware
+    subcategory: Keyboard/Mouse
+    priority: P4
+    environment: office
+    application: Peripherals
+    kb_ids: [KB-0012]
+    title: Bluetooth mouse disconnects every few minutes
+    description: >-
+      My Bluetooth mouse disconnects every few minutes and needs to be paired again. Battery is
+      new.
+    resolution: >-
+      USB power management was turning off the Bluetooth radio. Disabled the power-saving option
+      for the Bluetooth adapter in Device Manager and re-paired the mouse; it stayed connected all
+      day.
+  - category: Hardware
+    subcategory: Keyboard/Mouse
+    priority: P4
+    environment: remote
+    application: Peripherals
+    kb_ids: [KB-0046]
+    title: Keyboard types wrong symbols for @ and quotes
+    description: >-
+      My keyboard types " when I press @ and some other symbols are swapped. It started after a
+      Windows update.
+    resolution: >-
+      The update added a UK keyboard layout and made it the default. Set the correct US layout in
+      Language & region and removed the extra layout; all keys typed correctly.
+
+  # ----------------------------------------------------------------------------- Software
+  - category: Software
+    subcategory: Email
+    priority: P3
+    environment: office
+    application: Outlook / Exchange Online
+    kb_ids: [KB-0048]
+    title: Outlook stuck on Trying to connect and keeps asking for password
+    description: >-
+      Outlook shows Trying to connect... and keeps prompting Need Password even though my
+      password is correct. Webmail works.
+    resolution: >-
+      Cached credentials for the old authentication method were stored in Credential Manager.
+      Removed the stale Office credentials, restarted Outlook and signed in with modern
+      authentication; the mailbox connected.
+  - category: Software
+    subcategory: Email
+    priority: P3
+    environment: office
+    application: Outlook / Exchange Online
+    kb_ids: [KB-0047]
+    title: Cannot send - Your mailbox is full
+    description: >-
+      I cannot send email and get Your mailbox is full. People sending to me receive 550 5.2.2
+      mailbox full bounces.
+    resolution: >-
+      The mailbox was at quota because of large attachments in Sent Items. Helped the user move
+      old items to the online archive and empty Deleted Items; usage dropped to 60% and sending
+      worked.
+  - category: Software
+    subcategory: Operating System
+    priority: P3
+    environment: remote
+    application: Windows 11
+    kb_ids: [KB-0049]
+    title: Windows update keeps rolling back with 0x800f0922
+    description: >-
+      The monthly Windows update installs, restarts, then rolls back with 0x800f0922. It has
+      failed three times.
+    resolution: >-
+      The update needed the corporate network to reach the update service and the user was off
+      VPN. Connected to VPN, ran the Windows Update troubleshooter, and the update installed on
+      the next attempt.
+  - category: Software
+    subcategory: Operating System
+    priority: P2
+    environment: office
+    application: Windows 11
+    kb_ids: [KB-0050]
+    title: Signed in with a temporary profile, desktop files missing
+    description: >-
+      Windows says You've been signed in with a temporary profile and my desktop files are
+      missing. I have a presentation today.
+    resolution: >-
+      The profile failed to load because of a corrupted profile registry entry. Desk-side
+      support followed the approved profile-repair procedure, the user's normal profile loaded
+      and all desktop files were present.
+  - category: Software
+    subcategory: Installation
+    priority: P4
+    environment: office
+    application: Software portal
+    kb_ids: [KB-0027]
+    title: Installer fails with MSI error 1618 another installation in progress
+    description: >-
+      Installing a tool from the software portal fails with MSI error 1618 Another installation
+      is already in progress.
+    resolution: >-
+      A background Office update held the installer lock. Waited for the update to finish,
+      restarted the laptop, and the installation from the software portal completed.
+  - category: Software
+    subcategory: Installation
+    priority: P4
+    environment: office
+    application: Software portal
+    kb_ids: [KB-0026]
+    title: Installation requires elevated privileges for approved tool
+    description: >-
+      A tool I need for work says Installation requires elevated privileges. It is on the
+      approved software list.
+    resolution: >-
+      The tool was available as a managed package. Installed it from the software portal, which
+      runs with the deployment service's rights, so no local admin rights were needed.
+  - category: Software
+    subcategory: Application Error
+    priority: P3
+    environment: office
+    application: SAP GUI
+    kb_ids: [KB-0029]
+    title: Application crashes on start - VCRUNTIME140.dll was not found
+    description: >-
+      SAP GUI closes immediately at start and shows VCRUNTIME140.dll was not found. It worked
+      last week.
+    resolution: >-
+      A cleanup tool had removed the Visual C++ runtime. Reinstalled the approved Visual C++
+      redistributable from the software portal; SAP GUI started normally.
+  - category: Software
+    subcategory: Application Error
+    priority: P3
+    environment: office
+    application: Excel
+    kb_ids: [KB-0030]
+    title: Excel Not Responding with high CPU on large workbook
+    description: >-
+      Excel shows Not Responding for minutes when I open the monthly workbook and Task Manager
+      shows High CPU utilization.
+    resolution: >-
+      A third-party add-in recalculated the whole workbook on open. Disabled the add-in from
+      Excel's add-in manager and set calculation to manual for that workbook; it opened in under
+      a minute.
+  - category: Software
+    subcategory: Collaboration Tools
+    priority: P3
+    environment: remote
+    application: Microsoft 365
+    kb_ids: [KB-0051]
+    title: Teams says No camera detected in meetings
+    description: >-
+      In Teams meetings the camera shows No camera detected. The camera works in the Windows
+      Camera app.
+    resolution: >-
+      Camera access for desktop apps was turned off in privacy settings after an update. Turned
+      on camera access for desktop apps, restarted Teams, and the camera worked.
+  - category: Software
+    subcategory: Collaboration Tools
+    priority: P3
+    environment: office
+    application: Microsoft 365
+    kb_ids: [KB-0052]
+    title: OneDrive stuck on Processing changes for days
+    description: >-
+      OneDrive shows Processing changes and files are not syncing to SharePoint. Some files have
+      Can't sync this file.
+    resolution: >-
+      A file path exceeded the length limit and blocked the queue. Shortened the folder names,
+      then reset OneDrive from the client settings; sync completed within an hour.
+
+  # --------------------------------------------------------------------- Access & Security
+  - category: Access & Security
+    subcategory: Password Reset
+    priority: P3
+    environment: remote
+    application: Identity (AD / Entra ID)
+    kb_ids: [KB-0053]
+    title: Password expired while working remotely
+    description: >-
+      Windows says Your password has expired and must be changed, but I am working from home
+      and the change keeps failing.
+    resolution: >-
+      The laptop could not reach a domain controller off VPN. User changed the password through
+      the self-service password portal, connected to VPN, locked and unlocked the laptop to sync
+      the new password.
+  - category: Access & Security
+    subcategory: Password Reset
+    priority: P4
+    environment: office
+    application: Identity (AD / Entra ID)
+    kb_ids: [KB-0053]
+    title: New password rejected - does not meet complexity requirements
+    description: >-
+      Every password I try gives Password does not meet complexity requirements even though it is
+      long.
+    resolution: >-
+      The password reused part of the previous one, which history rules block. Explained the
+      policy and the user set a new passphrase in the self-service portal; the change succeeded.
+  - category: Access & Security
+    subcategory: Account Lockout
+    priority: P2
+    environment: office
+    application: Identity (AD / Entra ID)
+    kb_ids: [KB-0054]
+    title: Account locked out repeatedly every morning
+    description: >-
+      My account gets locked out every morning around 9 even after the service desk unlocks it.
+      Event ID 4740 shows the lockout.
+    resolution: >-
+      An old phone still had the previous password in its mail profile. Removed the mail account
+      from the old phone, unlocked the account after identity verification, and there were no
+      further lockouts.
+  - category: Access & Security
+    subcategory: Account Lockout
+    priority: P3
+    environment: office
+    application: Identity (AD / Entra ID)
+    kb_ids: [KB-0054]
+    title: Account disabled after returning from long leave
+    description: >-
+      After three months of leave I see Your account has been disabled. Please see your system
+      administrator.
+    resolution: >-
+      The account had been disabled by the inactivity policy. HR confirmed the return date, the
+      identity team re-enabled the account after manager approval, and the user reset the
+      password through self-service.
+  - category: Access & Security
+    subcategory: MFA
+    priority: P3
+    environment: remote
+    application: Authenticator / Entra ID
+    kb_ids: [KB-0017]
+    title: New phone - Authenticator approvals not received
+    description: >-
+      I got a new phone and MFA prompts say We didn't receive a response. The old phone was
+      wiped.
+    resolution: >-
+      The authenticator was still registered to the wiped phone. After verifying identity by
+      callback to the number on file, the service desk issued a temporary access pass and the
+      user registered Authenticator on the new phone.
+  - category: Access & Security
+    subcategory: MFA
+    priority: P2
+    environment: remote
+    application: Authenticator / Entra ID
+    kb_ids: [KB-0055, KB-0057]
+    title: Unexpected sign-in request notifications at night
+    description: >-
+      I received several Unexpected sign-in request notifications at 2 am that I did not start.
+      I denied them all.
+    resolution: >-
+      Treated as possible credential compromise and routed to the security team. The user's
+      password was reset, all sessions were revoked, and sign-in logs showed the attempts came
+      from a blocked foreign IP; MFA number matching was confirmed enabled.
+  - category: Access & Security
+    subcategory: Access Request
+    priority: P4
+    environment: office
+    application: Access portal
+    kb_ids: [KB-0056]
+    title: Need access to the Sales shared mailbox
+    description: >-
+      I joined the Sales team and need access to the sales-enquiries shared mailbox. I get You
+      need permission to access this resource.
+    resolution: >-
+      Submitted the request in the access portal; the mailbox owner approved it and the user was
+      added to the mailbox's member group. The mailbox appeared in Outlook after an hour.
+  - category: Access & Security
+    subcategory: Access Request
+    priority: P4
+    environment: office
+    application: Access portal
+    kb_ids: [KB-0056, KB-0025]
+    title: Request read access to Legal contracts SharePoint site
+    description: >-
+      I need read access to the Legal contracts SharePoint site for an audit. The site says Request
+      access.
+    resolution: >-
+      Used the site's Request access button; the site owner approved read-only membership for the
+      audit period with an expiry date, and the user confirmed access.
+  - category: Access & Security
+    subcategory: Phishing/Malware
+    priority: P1
+    environment: office
+    application: Email security / EDR
+    kb_ids: [KB-0057]
+    title: Clicked link in fake invoice email and entered password
+    description: >-
+      I clicked a link in an invoice email and typed my password before realising the page was
+      fake. Other people in Finance got the same email.
+    resolution: >-
+      Escalated to the security team immediately: password reset, sessions revoked, MFA methods
+      reviewed, and the message was purged from all mailboxes. No suspicious sign-ins were found
+      after the reset.
+  - category: Access & Security
+    subcategory: Phishing/Malware
+    priority: P1
+    environment: office
+    application: Email security / EDR
+    kb_ids: [KB-0058]
+    title: Ransomware behavior blocked alert on shared laptop
+    description: >-
+      Endpoint protection showed Ransomware behavior blocked on a shared laptop and some files
+      have a strange extension.
+    resolution: >-
+      The laptop was isolated from the network by the security team, the incident was handled by
+      the security operations process, files were restored from backup, and the device was
+      re-imaged before return.
+
+  # -------------------------------------------------------------------------- Inquiry/Help
+  - category: Inquiry/Help
+    subcategory: How-To
+    priority: P4
+    environment: remote
+    application: Microsoft 365
+    kb_ids: [KB-0015]
+    title: How do I set up work email on my phone
+    description: >-
+      How do I set up my work email on my personal phone? The mail app says Device not compliant.
+    resolution: >-
+      Guided the user to enrol the phone in the device management app and use the approved mail
+      app; after enrolment the device was compliant and mail synced.
+  - category: Inquiry/Help
+    subcategory: How-To
+    priority: P4
+    environment: office
+    application: Authenticator / Entra ID
+    kb_ids: [KB-0017]
+    title: How to add a backup MFA method
+    description: >-
+      How can I add a second MFA method so I am not stuck if I lose my phone?
+    resolution: >-
+      Walked the user through the security info page to add a hardware token as a backup method
+      and test it; both methods are now registered.
+  - category: Inquiry/Help
+    subcategory: Software Request
+    priority: P4
+    environment: office
+    application: Software portal
+    kb_ids: [KB-0014]
+    title: Request to install a diagram tool
+    description: >-
+      I need a diagramming tool for process maps. Is there an approved one I can install?
+    resolution: >-
+      Pointed the user to the approved diagram tool in the software portal; it installed without
+      admin rights and a licence was assigned automatically.
+  - category: Inquiry/Help
+    subcategory: Software Request
+    priority: P4
+    environment: office
+    application: Software portal
+    kb_ids: [KB-0014]
+    title: Request for software not in the catalogue
+    description: >-
+      I need a specific statistics package that is not in the software portal.
+    resolution: >-
+      Raised a software request with business justification and manager approval; the
+      application was security-reviewed, packaged and published to the portal, and the user
+      installed it from there.
+  - category: Inquiry/Help
+    subcategory: Hardware Request
+    priority: P4
+    environment: office
+    application: Asset management
+    kb_ids: [KB-0016]
+    title: Is my laptop eligible for refresh
+    description: >-
+      My laptop is four years old and slow. Is it eligible for a refresh?
+    resolution: >-
+      Checked the asset record: the device was past the refresh cycle. Raised a refresh order
+      with manager approval and scheduled data migration with desk-side support.
+  - category: Inquiry/Help
+    subcategory: Hardware Request
+    priority: P4
+    environment: office
+    application: Asset management
+    kb_ids: [KB-0016]
+    title: Request for a second monitor
+    description: >-
+      I would like a second monitor for my desk to work on spreadsheets.
+    resolution: >-
+      Submitted a hardware request with manager approval from the standard catalogue; the
+      monitor was delivered and connected to the existing dock.
+  - category: Inquiry/Help
+    subcategory: Antivirus
+    priority: P4
+    environment: remote
+    application: Endpoint protection
+    kb_ids: [KB-0059]
+    title: Antivirus says Definitions out of date
+    description: >-
+      Endpoint protection shows Definitions out of date on my laptop. I mostly work from home.
+    resolution: >-
+      The laptop had not reached the update service off VPN. Connected to VPN and triggered a
+      security intelligence update from the endpoint protection app; definitions were current
+      and a quick scan was clean.
+  - category: Inquiry/Help
+    subcategory: Antivirus
+    priority: P3
+    environment: office
+    application: Endpoint protection
+    kb_ids: [KB-0059, KB-0028]
+    title: Business macro file quarantined by antivirus
+    description: >-
+      Our team's macro workbook is quarantined every time I download it from SharePoint with
+      Threat quarantined.
+    resolution: >-
+      Sent the file to the security team for analysis; it was confirmed clean and the security
+      team added a scoped exclusion for the signed workbook hash. Protection stayed fully on and
+      the file opened normally.
+  - category: Inquiry/Help
+    subcategory: Internal Application
+    priority: P3
+    environment: office
+    application: Timesheet app
+    kb_ids: [KB-0060]
+    title: Timesheet app loops at sign-in - ERR_TOO_MANY_REDIRECTS
+    description: >-
+      The timesheet app keeps redirecting at sign-in and the browser shows
+      ERR_TOO_MANY_REDIRECTS. Other internal apps work.
+    resolution: >-
+      Stale session cookies for the app's domain caused the loop. Cleared cookies for that site
+      and signed in again; the app loaded. The app team was told about the cookie issue.
+  - category: Inquiry/Help
+    subcategory: Internal Application
+    priority: P2
+    environment: production
+    application: Expense portal
+    kb_ids: [KB-0060]
+    title: Expense portal returns HTTP 500 for everyone
+    description: >-
+      The expense portal shows HTTP 500 Internal Server Error for everyone in Finance since this
+      morning. Month-end submissions are due today.
+    resolution: >-
+      A failed deployment left the app pool stopped. The application support team rolled back to
+      the previous release and restarted the app pool; the portal returned HTTP 200 and the
+      incident was linked to the change record.

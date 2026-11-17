@@ -1,7 +1,7 @@
 """``python -m ingest.build_all [--eval-split]`` — build every P1 index (architecture §6, §11.1).
 
 Steps: KEDB (governed file, ``kedb_chunks``, error codes, BM25) → enrich ``tickets.json`` →
-historical tickets (``tickets_hist`` from ``tickets_enriched.json`` + BM25) → manifest
+historical tickets (``tickets_hist``) → curated incidents (``tickets_verified``) → manifest
 ``indexes/manifest.json`` ``{source_sha1, model, built_at, counts}``.
 ``index_stale()`` lets P3's ``/health`` compare.
 """
@@ -20,6 +20,7 @@ from typing import Any
 from ingest.enrich import enrich
 from ingest.index_kedb import govern, index_kedb, index_path, load_articles, write_governed
 from ingest.index_tickets import index_tickets
+from ingest.make_seed import load_seed
 from privacy.redact import redact_text
 from shared.schemas import TicketRecord
 from store.bm25_store import BM25Index
@@ -28,7 +29,7 @@ from store.config import read_json, repo_path, write_json
 
 log = logging.getLogger("ingest.build_all")
 
-SOURCE_KEYS = ("tickets", "kb_articles")
+SOURCE_KEYS = ("tickets", "kb_articles", "seed_incidents")
 
 
 def sha1_file(path: Path) -> str:
@@ -84,6 +85,12 @@ def build_all(
     bm25 = BM25Index()
     counts["tickets_hist"] = index_tickets(
         client, embed_fn, records, "tickets_hist", bm25=bm25, redact=redact_text
+    )
+
+    # 3. curated verified incidents (tickets_verified)
+    seed = load_seed(root)
+    counts["tickets_verified"] = index_tickets(
+        client, embed_fn, seed, "tickets_verified", bm25=bm25, redact=redact_text
     )
     bm25.save(index_path("bm25_tickets", root))
 

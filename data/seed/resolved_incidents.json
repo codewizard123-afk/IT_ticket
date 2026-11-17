@@ -1,0 +1,2406 @@
+[
+  {
+    "ticket_id": "INC-H0001",
+    "title": "VPN fails with Gateway not responding after client auto-update",
+    "description": "Since the VPN client updated itself overnight I get 'Gateway not responding' from home. Restarting the client and the laptop did not help. Colleagues on the old client version can connect.",
+    "category": "Network",
+    "subcategory": "VPN",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The auto-update had reset the connection profile to a retired gateway hostname. Re-imported the managed VPN profile from the self-service portal, reconnected and confirmed access to the file share.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0018",
+    "opened_at": "2026-06-29T08:47:00Z",
+    "resolved_at": "2026-06-29T11:53:00Z",
+    "opened_ts": 1782722820,
+    "resolved_ts": 1782733980,
+    "assignment_group": "NET-OPS",
+    "application": "VPN client",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0018"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0002",
+    "title": "VPN connected but very slow on home broadband",
+    "description": "VPN connects but file copies crawl and Teams calls stutter. Speed test without VPN is fine. The client shows High VPN latency on the assigned gateway.",
+    "category": "Network",
+    "subcategory": "VPN",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The client was pinned to an overseas gateway. Switched to the nearest regional gateway in the VPN client, confirmed latency dropped from 280 ms to 35 ms and throughput was back to baseline.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0019",
+    "opened_at": "2026-07-28T10:47:00Z",
+    "resolved_at": "2026-07-28T15:36:11Z",
+    "opened_ts": 1785235620,
+    "resolved_ts": 1785252971,
+    "assignment_group": "NET-OPS",
+    "application": "VPN client",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0019"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0003",
+    "title": "Cannot join corporate Wi-Fi after laptop rebuild",
+    "description": "After my laptop was rebuilt it says 'Cannot connect to this network' for CORP-WIFI. Guest Wi-Fi works. Event log shows 802.1X authentication failed.",
+    "category": "Network",
+    "subcategory": "Wireless",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The rebuilt device had no machine certificate. Ran a Group Policy update on the wired dock to enrol the device certificate, forgot and re-joined CORP-WIFI, and authentication succeeded.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0020",
+    "opened_at": "2026-10-18T09:37:00Z",
+    "resolved_at": "2026-10-18T16:59:31Z",
+    "opened_ts": 1792316220,
+    "resolved_ts": 1792342771,
+    "assignment_group": "NET-OPS",
+    "application": "Corporate Wi-Fi",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0020"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0004",
+    "title": "Wi-Fi drops near meeting rooms on 4th floor",
+    "description": "My laptop drops Wi-Fi every time I walk to the meeting rooms on the 4th floor and shows Limited connectivity for a minute. Only my laptop seems affected.",
+    "category": "Network",
+    "subcategory": "Wireless",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The wireless driver was two years old and roamed poorly between access points. Installed the current approved Wi-Fi driver from the software portal and set the adapter roaming aggressiveness to medium; no drops during a 30-minute walk test.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0021",
+    "opened_at": "2026-06-08T09:13:00Z",
+    "resolved_at": "2026-06-08T15:04:40Z",
+    "opened_ts": 1780909980,
+    "resolved_ts": 1780931080,
+    "assignment_group": "NET-OPS",
+    "application": "Corporate Wi-Fi",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0021"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0005",
+    "title": "Laptop gets 169.254 address on desk port",
+    "description": "On the desk dock I get 'No valid IP configuration' and the address is 169.254.x.x. The same laptop works on Wi-Fi and on my colleague's desk.",
+    "category": "Network",
+    "subcategory": "DNS/DHCP",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The desk port was patched to a disabled switch port. Network ops re-enabled the port on the user VLAN; the laptop received a DHCP lease immediately and the dock connection worked.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0041",
+    "opened_at": "2026-06-07T16:12:00Z",
+    "resolved_at": "2026-06-08T01:55:41Z",
+    "opened_ts": 1780848720,
+    "resolved_ts": 1780883741,
+    "assignment_group": "NET-OPS",
+    "application": "Network general",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0041"
+      ],
+      "fills_gap": true,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0006",
+    "title": "Internal sites fail with DNS_PROBE_FINISHED_NXDOMAIN",
+    "description": "Intranet and HR portal show DNS_PROBE_FINISHED_NXDOMAIN but public websites work. Started this morning for several people in Building C.",
+    "category": "Network",
+    "subcategory": "DNS/DHCP",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A stale DNS suffix list pushed to Building C clients missed the internal zone. Network ops corrected the DHCP option for the suffix list; affected users renewed their lease (ipconfig /renew) and flushed the DNS cache, and internal names resolved again.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0023",
+    "opened_at": "2026-10-18T14:14:00Z",
+    "resolved_at": "2026-10-18T18:01:48Z",
+    "opened_ts": 1792332840,
+    "resolved_ts": 1792346508,
+    "assignment_group": "NET-OPS",
+    "application": "Network general",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0023"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0007",
+    "title": "Supplier portal blocked by web filter",
+    "description": "The new supplier portal shows 'This site has been blocked by your organization'. I need it for purchase orders this week.",
+    "category": "Network",
+    "subcategory": "Firewall",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The portal domain was newly registered and auto-categorised as uncategorised. Raised a category review with the security team, who recategorised it as business after checking reputation; access worked after the proxy policy refresh.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0042",
+    "opened_at": "2026-08-11T08:48:00Z",
+    "resolved_at": "2026-08-11T19:14:47Z",
+    "opened_ts": 1786438080,
+    "resolved_ts": 1786475687,
+    "assignment_group": "NET-OPS",
+    "application": "Web proxy",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0042"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0008",
+    "title": "Warehouse app cannot reach new API server - Connection timed out",
+    "description": "Since the API server was moved to a new subnet, the warehouse app logs 'Connection timed out' on port 8443. Ping to the server works.",
+    "category": "Network",
+    "subcategory": "Firewall",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The firewall rule still referenced the old subnet. Network ops submitted a change to allow TCP 8443 from the app servers to the new subnet only; after approval and deployment the app reconnected and the deny log entries stopped.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0022",
+    "opened_at": "2026-09-17T13:17:00Z",
+    "resolved_at": "2026-09-17T15:54:18Z",
+    "opened_ts": 1789651020,
+    "resolved_ts": 1789660458,
+    "assignment_group": "NET-OPS",
+    "application": "Warehouse app",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0022"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0009",
+    "title": "H drive not mapped after sign-in - System error 67",
+    "description": "My H: drive no longer maps when I sign in. Running net use gives System error 67. Other shares map fine.",
+    "category": "Network",
+    "subcategory": "Network Drive",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The home-drive path in the user's profile pointed at a decommissioned file server. Corrected the home folder path in the directory, signed out and in, and H: mapped automatically.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0024",
+    "opened_at": "2026-08-26T09:05:00Z",
+    "resolved_at": "2026-08-26T16:07:21Z",
+    "opened_ts": 1787735100,
+    "resolved_ts": 1787760441,
+    "assignment_group": "NET-OPS",
+    "application": "File shares",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0024"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0010",
+    "title": "Access is denied on Finance shared folder after team move",
+    "description": "I moved from Sales to Finance and get 'Access is denied' on the Finance shared folder. My manager says I should have access.",
+    "category": "Network",
+    "subcategory": "Network Drive",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The user was not in the Finance share's read/write group. The folder owner approved the request in the access portal, the user was added to the group, and access worked after signing out and back in.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0025",
+    "opened_at": "2026-08-31T13:38:00Z",
+    "resolved_at": "2026-08-31T19:44:58Z",
+    "opened_ts": 1788183480,
+    "resolved_ts": 1788205498,
+    "assignment_group": "NET-OPS",
+    "application": "File shares",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0025"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0011",
+    "title": "ORA-12154 from SQL Developer after client reinstall",
+    "description": "After reinstalling the Oracle client SQL Developer fails with ORA-12154 TNS:could not resolve the connect identifier specified. Other users connect fine.",
+    "category": "Database",
+    "subcategory": "Oracle",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The reinstall created a new Oracle home without the managed tnsnames.ora. Pointed TNS_ADMIN to the managed network location and restarted SQL Developer; the alias resolved and the connection succeeded.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0031",
+    "opened_at": "2026-06-12T15:34:00Z",
+    "resolved_at": "2026-06-12T18:03:57Z",
+    "opened_ts": 1781278440,
+    "resolved_ts": 1781287437,
+    "assignment_group": "DBA",
+    "application": "Oracle DB",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0031"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0012",
+    "title": "Nightly load fails with ORA-01653 unable to extend table",
+    "description": "The nightly finance load fails with ORA-01653 unable to extend table in tablespace FIN_DATA. Reports this morning are missing yesterday's data.",
+    "category": "Database",
+    "subcategory": "Oracle",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The tablespace had reached its maximum size. The DBA added a datafile through the approved change, re-ran the failed load, and confirmed row counts matched the source extract.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0032",
+    "opened_at": "2026-09-05T09:35:00Z",
+    "resolved_at": "2026-09-05T12:45:21Z",
+    "opened_ts": 1788600900,
+    "resolved_ts": 1788612321,
+    "assignment_group": "DBA",
+    "application": "Oracle DB",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0032"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0013",
+    "title": "SQL Server error 9002 transaction log full on reporting DB",
+    "description": "Inserts into the reporting database fail with Error 9002: The transaction log for database is full due to 'LOG_BACKUP'. Started after the weekend.",
+    "category": "Database",
+    "subcategory": "MS SQL Server",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The log backup job had been disabled during maintenance and not re-enabled. The DBA re-enabled and ran the log backup job, the log space was reused, and inserts succeeded.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0033",
+    "opened_at": "2026-09-01T17:12:00Z",
+    "resolved_at": "2026-09-01T22:01:05Z",
+    "opened_ts": 1788282720,
+    "resolved_ts": 1788300065,
+    "assignment_group": "DBA",
+    "application": "MS SQL Server",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0033"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0014",
+    "title": "New analyst gets SQL Server error 18456 on reporting server",
+    "description": "I joined last week and SQL Server Management Studio shows SQL Server error 18456 Login failed for user when I connect to the reporting server.",
+    "category": "Database",
+    "subcategory": "MS SQL Server",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The user's account was not yet in the reporting read-only role. After manager approval the DBA added the account to the approved read-only database role; login succeeded with Windows authentication.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0003",
+    "opened_at": "2026-06-12T11:49:00Z",
+    "resolved_at": "2026-06-12T18:07:54Z",
+    "opened_ts": 1781264940,
+    "resolved_ts": 1781287674,
+    "assignment_group": "DBA",
+    "application": "MS SQL Server",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0003"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0015",
+    "title": "Batch job fails with SQL30081N communication error to DB2",
+    "description": "The overnight batch job fails with SQL30081N when connecting to the DB2 server. The server was patched yesterday.",
+    "category": "Database",
+    "subcategory": "DB2",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The DB2 instance listener had not restarted after patching. The DBA restarted the database manager in the maintenance window, confirmed the listener port was open, and re-ran the batch successfully.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0035",
+    "opened_at": "2026-06-21T11:55:00Z",
+    "resolved_at": "2026-06-21T14:19:14Z",
+    "opened_ts": 1782042900,
+    "resolved_ts": 1782051554,
+    "assignment_group": "DBA",
+    "application": "DB2",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0035"
+      ],
+      "fills_gap": true,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0016",
+    "title": "Order update screen returns SQL0911N reason code 68",
+    "description": "Saving an order intermittently fails with SQL0911N reason code 68 during the afternoon peak. Retrying usually works.",
+    "category": "Database",
+    "subcategory": "DB2",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A long-running report held row locks on the orders table. The DBA moved the report to the read replica and the application team added a retry with backoff; no further lock timeouts were logged over a week.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0036",
+    "opened_at": "2026-08-11T15:40:00Z",
+    "resolved_at": "2026-08-12T02:20:22Z",
+    "opened_ts": 1786462800,
+    "resolved_ts": 1786501222,
+    "assignment_group": "DBA",
+    "application": "DB2",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0036"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0017",
+    "title": "App fails with FATAL sorry, too many clients already",
+    "description": "The booking API returns errors and its log shows FATAL: sorry, too many clients already from PostgreSQL. It started after the new release.",
+    "category": "Database",
+    "subcategory": "PostgreSQL",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The new release created a connection pool per request. The application team rolled back to the previous build and fixed pool reuse; the DBA confirmed connections stayed well below max_connections.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0038",
+    "opened_at": "2026-07-12T13:22:00Z",
+    "resolved_at": "2026-07-12T16:12:16Z",
+    "opened_ts": 1783862520,
+    "resolved_ts": 1783872736,
+    "assignment_group": "DBA",
+    "application": "PostgreSQL",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0038"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0018",
+    "title": "FATAL no pg_hba.conf entry for host from new reporting server",
+    "description": "The new reporting server cannot connect to PostgreSQL: FATAL: no pg_hba.conf entry for host. The old reporting server still works.",
+    "category": "Database",
+    "subcategory": "PostgreSQL",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The new server's subnet was missing from pg_hba.conf. The DBA added a scoped entry for the reporting service account and subnet through change control and reloaded the configuration; the connection succeeded.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0037",
+    "opened_at": "2026-08-08T09:38:00Z",
+    "resolved_at": "2026-08-08T18:42:47Z",
+    "opened_ts": 1786181880,
+    "resolved_ts": 1786214567,
+    "assignment_group": "DBA",
+    "application": "PostgreSQL",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0037"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0019",
+    "title": "Inventory sync hits ERROR 1205 Lock wait timeout exceeded",
+    "description": "The inventory sync fails a few times a day with ERROR 1205 (HY000): Lock wait timeout exceeded. The sync and a nightly cleanup overlap.",
+    "category": "Database",
+    "subcategory": "MySQL",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The cleanup job ran a large unindexed delete. Rescheduled the cleanup outside the sync window and the DBA added an index on the filter column; lock waits stopped.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0039",
+    "opened_at": "2026-10-15T11:10:00Z",
+    "resolved_at": "2026-10-15T18:51:53Z",
+    "opened_ts": 1792062600,
+    "resolved_ts": 1792090313,
+    "assignment_group": "DBA",
+    "application": "MySQL",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0039"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0020",
+    "title": "Reports stale - MySQL replica shows Replica_SQL_Running No",
+    "description": "Dashboards fed from the MySQL replica are hours behind. The DBA dashboard shows Replica_SQL_Running: No with Error 1062 Duplicate entry.",
+    "category": "Database",
+    "subcategory": "MySQL",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A manual insert on the replica caused a duplicate key. The DBA removed the conflicting row on the replica after confirming it matched the source, restarted replication, and lag returned to zero; replica write access was restricted to replication only.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0040",
+    "opened_at": "2026-08-09T16:14:00Z",
+    "resolved_at": "2026-08-09T20:58:18Z",
+    "opened_ts": 1786292040,
+    "resolved_ts": 1786309098,
+    "assignment_group": "DBA",
+    "application": "MySQL",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0040"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0021",
+    "title": "Laptop overheating and fan constantly loud",
+    "description": "My laptop gets very hot, the fan is always at full speed and the CPU is throttled. It is worse when docked with the lid closed.",
+    "category": "Hardware",
+    "subcategory": "CPU",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The air vents were blocked with dust and the power plan was set to maximum performance. Desk-side support cleaned the vents, applied the standard balanced power plan and updated the BIOS; temperatures returned to normal under load.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0043",
+    "opened_at": "2026-06-15T11:52:00Z",
+    "resolved_at": "2026-06-15T16:07:24Z",
+    "opened_ts": 1781524320,
+    "resolved_ts": 1781539644,
+    "assignment_group": "EUC-HW",
+    "application": "Laptop",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0043"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0022",
+    "title": "Laptop freezing with Your computer is low on memory",
+    "description": "With Outlook, Teams and a browser open my laptop freezes and shows Your computer is low on memory. It has 8 GB RAM.",
+    "category": "Hardware",
+    "subcategory": "CPU",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A browser extension leaked memory. Removed the unapproved extension, set the browser to sleep inactive tabs, and raised a hardware request to upgrade to 16 GB per the standard; no further low-memory warnings.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0044",
+    "opened_at": "2026-08-20T14:17:00Z",
+    "resolved_at": "2026-08-20T18:48:46Z",
+    "opened_ts": 1787235420,
+    "resolved_ts": 1787251726,
+    "assignment_group": "EUC-HW",
+    "application": "Laptop",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0044"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0023",
+    "title": "External monitor shows No signal after Windows update",
+    "description": "Since last night's Windows update my external monitor shows No signal on the dock. I tried a different cable and port already.",
+    "category": "Hardware",
+    "subcategory": "Monitor",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The update installed a generic display driver. Reinstalled the approved graphics driver from the software portal and updated the dock firmware; both monitors were detected at the correct resolution.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0008",
+    "opened_at": "2026-10-24T13:13:00Z",
+    "resolved_at": "2026-10-24T22:27:36Z",
+    "opened_ts": 1792847580,
+    "resolved_ts": 1792880856,
+    "assignment_group": "EUC-HW",
+    "application": "Display",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0008"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0024",
+    "title": "Second monitor flickers and shows Unsupported mode",
+    "description": "My second monitor flickers and sometimes shows Unsupported mode when I open large spreadsheets. It is connected through the docking station.",
+    "category": "Hardware",
+    "subcategory": "Monitor",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The refresh rate was set above what the dock supports at that resolution. Set the monitor to 60 Hz in display settings and replaced the HDMI adapter with a DisplayPort cable; the flicker stopped.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0008",
+    "opened_at": "2026-09-10T15:09:00Z",
+    "resolved_at": "2026-09-11T09:30:25Z",
+    "opened_ts": 1789052940,
+    "resolved_ts": 1789119025,
+    "assignment_group": "EUC-HW",
+    "application": "Display",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0008",
+        "KB-0011"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0025",
+    "title": "Laptop blue screen INACCESSIBLE_BOOT_DEVICE after BIOS update",
+    "description": "After a BIOS update my laptop shows a blue screen INACCESSIBLE_BOOT_DEVICE and restarts in a loop. I have a client meeting this afternoon.",
+    "category": "Hardware",
+    "subcategory": "Laptop",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The BIOS update changed the storage controller mode. Desk-side support restored the standard storage mode in the BIOS using the support procedure, the laptop booted normally, and BitLocker recovery was not required.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0006",
+    "opened_at": "2026-08-03T16:34:00Z",
+    "resolved_at": "2026-08-03T19:37:03Z",
+    "opened_ts": 1785774840,
+    "resolved_ts": 1785785823,
+    "assignment_group": "EUC-HW",
+    "application": "Laptop",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0006"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0026",
+    "title": "Laptop says Low Disk Space and updates fail",
+    "description": "My laptop keeps showing Low Disk Space and Windows updates fail. The C drive has less than 2 GB free.",
+    "category": "Hardware",
+    "subcategory": "Laptop",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Old OneDrive offline copies and the Windows update cache used most of the drive. Ran Disk Cleanup including previous update files and set OneDrive folders to online-only; 40 GB was freed and updates installed.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0045",
+    "opened_at": "2026-10-28T14:57:00Z",
+    "resolved_at": "2026-10-28T23:37:05Z",
+    "opened_ts": 1793199420,
+    "resolved_ts": 1793230625,
+    "assignment_group": "EUC-HW",
+    "application": "Laptop",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0045"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0027",
+    "title": "Floor printer shows offline and jobs stuck in queue",
+    "description": "The 3rd floor printer shows Printer offline on my laptop and jobs stay in the queue. Others on the floor can print.",
+    "category": "Hardware",
+    "subcategory": "Printer",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The laptop had a stale direct-IP printer object. Removed it, added the printer from the managed print server queue, cleared the local queue, and a test page printed.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0009",
+    "opened_at": "2026-09-01T11:08:00Z",
+    "resolved_at": "2026-09-01T19:12:34Z",
+    "opened_ts": 1788260880,
+    "resolved_ts": 1788289954,
+    "assignment_group": "EUC-HW",
+    "application": "Print service",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0009"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0028",
+    "title": "Printer prints pages of garbled characters - PCL XL error",
+    "description": "Printing a PDF from one application gives pages of garbled characters and a PCL XL error page. Other documents print fine.",
+    "category": "Hardware",
+    "subcategory": "Printer",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The queue used a universal driver that mishandled the PDF fonts. Switched the queue to the model-specific approved driver on the print server; the PDF printed correctly.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0010",
+    "opened_at": "2026-06-24T08:55:00Z",
+    "resolved_at": "2026-06-24T23:32:53Z",
+    "opened_ts": 1782291300,
+    "resolved_ts": 1782343973,
+    "assignment_group": "EUC-HW",
+    "application": "Print service",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0010"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0029",
+    "title": "Bluetooth mouse disconnects every few minutes",
+    "description": "My Bluetooth mouse disconnects every few minutes and needs to be paired again. Battery is new.",
+    "category": "Hardware",
+    "subcategory": "Keyboard/Mouse",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "USB power management was turning off the Bluetooth radio. Disabled the power-saving option for the Bluetooth adapter in Device Manager and re-paired the mouse; it stayed connected all day.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0012",
+    "opened_at": "2026-07-11T14:38:00Z",
+    "resolved_at": "2026-07-12T04:09:28Z",
+    "opened_ts": 1783780680,
+    "resolved_ts": 1783829368,
+    "assignment_group": "EUC-HW",
+    "application": "Peripherals",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0012"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0030",
+    "title": "Keyboard types wrong symbols for @ and quotes",
+    "description": "My keyboard types \" when I press @ and some other symbols are swapped. It started after a Windows update.",
+    "category": "Hardware",
+    "subcategory": "Keyboard/Mouse",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The update added a UK keyboard layout and made it the default. Set the correct US layout in Language & region and removed the extra layout; all keys typed correctly.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0046",
+    "opened_at": "2026-09-06T17:29:00Z",
+    "resolved_at": "2026-09-07T18:10:55Z",
+    "opened_ts": 1788715740,
+    "resolved_ts": 1788804655,
+    "assignment_group": "EUC-HW",
+    "application": "Peripherals",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0046"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0031",
+    "title": "Outlook stuck on Trying to connect and keeps asking for password",
+    "description": "Outlook shows Trying to connect... and keeps prompting Need Password even though my password is correct. Webmail works.",
+    "category": "Software",
+    "subcategory": "Email",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Cached credentials for the old authentication method were stored in Credential Manager. Removed the stale Office credentials, restarted Outlook and signed in with modern authentication; the mailbox connected.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0048",
+    "opened_at": "2026-10-20T08:43:00Z",
+    "resolved_at": "2026-10-20T18:28:56Z",
+    "opened_ts": 1792485780,
+    "resolved_ts": 1792520936,
+    "assignment_group": "EUC-SW",
+    "application": "Outlook / Exchange Online",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0048"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0032",
+    "title": "Cannot send - Your mailbox is full",
+    "description": "I cannot send email and get Your mailbox is full. People sending to me receive 550 5.2.2 mailbox full bounces.",
+    "category": "Software",
+    "subcategory": "Email",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The mailbox was at quota because of large attachments in Sent Items. Helped the user move old items to the online archive and empty Deleted Items; usage dropped to 60% and sending worked.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0047",
+    "opened_at": "2026-10-16T12:49:00Z",
+    "resolved_at": "2026-10-16T21:56:39Z",
+    "opened_ts": 1792154940,
+    "resolved_ts": 1792187799,
+    "assignment_group": "EUC-SW",
+    "application": "Outlook / Exchange Online",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0047"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0033",
+    "title": "Windows update keeps rolling back with 0x800f0922",
+    "description": "The monthly Windows update installs, restarts, then rolls back with 0x800f0922. It has failed three times.",
+    "category": "Software",
+    "subcategory": "Operating System",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The update needed the corporate network to reach the update service and the user was off VPN. Connected to VPN, ran the Windows Update troubleshooter, and the update installed on the next attempt.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0049",
+    "opened_at": "2026-06-29T12:27:00Z",
+    "resolved_at": "2026-06-29T17:42:54Z",
+    "opened_ts": 1782736020,
+    "resolved_ts": 1782754974,
+    "assignment_group": "EUC-SW",
+    "application": "Windows 11",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0049"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0034",
+    "title": "Signed in with a temporary profile, desktop files missing",
+    "description": "Windows says You've been signed in with a temporary profile and my desktop files are missing. I have a presentation today.",
+    "category": "Software",
+    "subcategory": "Operating System",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The profile failed to load because of a corrupted profile registry entry. Desk-side support followed the approved profile-repair procedure, the user's normal profile loaded and all desktop files were present.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0050",
+    "opened_at": "2026-06-01T12:32:00Z",
+    "resolved_at": "2026-06-01T17:34:52Z",
+    "opened_ts": 1780317120,
+    "resolved_ts": 1780335292,
+    "assignment_group": "EUC-SW",
+    "application": "Windows 11",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0050"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0035",
+    "title": "Installer fails with MSI error 1618 another installation in progress",
+    "description": "Installing a tool from the software portal fails with MSI error 1618 Another installation is already in progress.",
+    "category": "Software",
+    "subcategory": "Installation",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A background Office update held the installer lock. Waited for the update to finish, restarted the laptop, and the installation from the software portal completed.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0027",
+    "opened_at": "2026-10-08T09:55:00Z",
+    "resolved_at": "2026-10-09T12:55:25Z",
+    "opened_ts": 1791453300,
+    "resolved_ts": 1791550525,
+    "assignment_group": "EUC-SW",
+    "application": "Software portal",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0027"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0036",
+    "title": "Installation requires elevated privileges for approved tool",
+    "description": "A tool I need for work says Installation requires elevated privileges. It is on the approved software list.",
+    "category": "Software",
+    "subcategory": "Installation",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The tool was available as a managed package. Installed it from the software portal, which runs with the deployment service's rights, so no local admin rights were needed.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0026",
+    "opened_at": "2026-10-08T17:12:00Z",
+    "resolved_at": "2026-10-09T08:52:05Z",
+    "opened_ts": 1791479520,
+    "resolved_ts": 1791535925,
+    "assignment_group": "EUC-SW",
+    "application": "Software portal",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0026"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0037",
+    "title": "Application crashes on start - VCRUNTIME140.dll was not found",
+    "description": "SAP GUI closes immediately at start and shows VCRUNTIME140.dll was not found. It worked last week.",
+    "category": "Software",
+    "subcategory": "Application Error",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A cleanup tool had removed the Visual C++ runtime. Reinstalled the approved Visual C++ redistributable from the software portal; SAP GUI started normally.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0029",
+    "opened_at": "2026-07-12T16:49:00Z",
+    "resolved_at": "2026-07-13T04:11:46Z",
+    "opened_ts": 1783874940,
+    "resolved_ts": 1783915906,
+    "assignment_group": "EUC-SW",
+    "application": "SAP GUI",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0029"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0038",
+    "title": "Excel Not Responding with high CPU on large workbook",
+    "description": "Excel shows Not Responding for minutes when I open the monthly workbook and Task Manager shows High CPU utilization.",
+    "category": "Software",
+    "subcategory": "Application Error",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A third-party add-in recalculated the whole workbook on open. Disabled the add-in from Excel's add-in manager and set calculation to manual for that workbook; it opened in under a minute.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0030",
+    "opened_at": "2026-06-01T17:20:00Z",
+    "resolved_at": "2026-06-02T01:14:31Z",
+    "opened_ts": 1780334400,
+    "resolved_ts": 1780362871,
+    "assignment_group": "EUC-SW",
+    "application": "Excel",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0030"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0039",
+    "title": "Teams says No camera detected in meetings",
+    "description": "In Teams meetings the camera shows No camera detected. The camera works in the Windows Camera app.",
+    "category": "Software",
+    "subcategory": "Collaboration Tools",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Camera access for desktop apps was turned off in privacy settings after an update. Turned on camera access for desktop apps, restarted Teams, and the camera worked.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0051",
+    "opened_at": "2026-06-29T13:56:00Z",
+    "resolved_at": "2026-06-30T01:48:57Z",
+    "opened_ts": 1782741360,
+    "resolved_ts": 1782784137,
+    "assignment_group": "EUC-SW",
+    "application": "Microsoft 365",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0051"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0040",
+    "title": "OneDrive stuck on Processing changes for days",
+    "description": "OneDrive shows Processing changes and files are not syncing to SharePoint. Some files have Can't sync this file.",
+    "category": "Software",
+    "subcategory": "Collaboration Tools",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A file path exceeded the length limit and blocked the queue. Shortened the folder names, then reset OneDrive from the client settings; sync completed within an hour.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0052",
+    "opened_at": "2026-08-18T11:03:00Z",
+    "resolved_at": "2026-08-18T16:58:37Z",
+    "opened_ts": 1787050980,
+    "resolved_ts": 1787072317,
+    "assignment_group": "EUC-SW",
+    "application": "Microsoft 365",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0052"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0041",
+    "title": "Password expired while working remotely",
+    "description": "Windows says Your password has expired and must be changed, but I am working from home and the change keeps failing.",
+    "category": "Access & Security",
+    "subcategory": "Password Reset",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The laptop could not reach a domain controller off VPN. User changed the password through the self-service password portal, connected to VPN, locked and unlocked the laptop to sync the new password.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0053",
+    "opened_at": "2026-10-24T09:05:00Z",
+    "resolved_at": "2026-10-24T18:56:18Z",
+    "opened_ts": 1792832700,
+    "resolved_ts": 1792868178,
+    "assignment_group": "IAM",
+    "application": "Identity (AD / Entra ID)",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0053"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0042",
+    "title": "New password rejected - does not meet complexity requirements",
+    "description": "Every password I try gives Password does not meet complexity requirements even though it is long.",
+    "category": "Access & Security",
+    "subcategory": "Password Reset",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The password reused part of the previous one, which history rules block. Explained the policy and the user set a new passphrase in the self-service portal; the change succeeded.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0053",
+    "opened_at": "2026-06-18T16:49:00Z",
+    "resolved_at": "2026-06-19T07:50:05Z",
+    "opened_ts": 1781801340,
+    "resolved_ts": 1781855405,
+    "assignment_group": "IAM",
+    "application": "Identity (AD / Entra ID)",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0053"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0043",
+    "title": "Account locked out repeatedly every morning",
+    "description": "My account gets locked out every morning around 9 even after the service desk unlocks it. Event ID 4740 shows the lockout.",
+    "category": "Access & Security",
+    "subcategory": "Account Lockout",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "An old phone still had the previous password in its mail profile. Removed the mail account from the old phone, unlocked the account after identity verification, and there were no further lockouts.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0054",
+    "opened_at": "2026-09-30T16:10:00Z",
+    "resolved_at": "2026-09-30T19:13:36Z",
+    "opened_ts": 1790784600,
+    "resolved_ts": 1790795616,
+    "assignment_group": "IAM",
+    "application": "Identity (AD / Entra ID)",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0054"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0044",
+    "title": "Account disabled after returning from long leave",
+    "description": "After three months of leave I see Your account has been disabled. Please see your system administrator.",
+    "category": "Access & Security",
+    "subcategory": "Account Lockout",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The account had been disabled by the inactivity policy. HR confirmed the return date, the identity team re-enabled the account after manager approval, and the user reset the password through self-service.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0054",
+    "opened_at": "2026-09-17T11:59:00Z",
+    "resolved_at": "2026-09-17T20:17:51Z",
+    "opened_ts": 1789646340,
+    "resolved_ts": 1789676271,
+    "assignment_group": "IAM",
+    "application": "Identity (AD / Entra ID)",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0054"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0045",
+    "title": "New phone - Authenticator approvals not received",
+    "description": "I got a new phone and MFA prompts say We didn't receive a response. The old phone was wiped.",
+    "category": "Access & Security",
+    "subcategory": "MFA",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The authenticator was still registered to the wiped phone. After verifying identity by callback to the number on file, the service desk issued a temporary access pass and the user registered Authenticator on the new phone.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0017",
+    "opened_at": "2026-07-22T12:25:00Z",
+    "resolved_at": "2026-07-23T00:22:40Z",
+    "opened_ts": 1784723100,
+    "resolved_ts": 1784766160,
+    "assignment_group": "IAM",
+    "application": "Authenticator / Entra ID",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0017"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0046",
+    "title": "Unexpected sign-in request notifications at night",
+    "description": "I received several Unexpected sign-in request notifications at 2 am that I did not start. I denied them all.",
+    "category": "Access & Security",
+    "subcategory": "MFA",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Treated as possible credential compromise and routed to the security team. The user's password was reset, all sessions were revoked, and sign-in logs showed the attempts came from a blocked foreign IP; MFA number matching was confirmed enabled.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0055",
+    "opened_at": "2026-09-04T15:57:00Z",
+    "resolved_at": "2026-09-04T20:01:13Z",
+    "opened_ts": 1788537420,
+    "resolved_ts": 1788552073,
+    "assignment_group": "IAM",
+    "application": "Authenticator / Entra ID",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0055",
+        "KB-0057"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0047",
+    "title": "Need access to the Sales shared mailbox",
+    "description": "I joined the Sales team and need access to the sales-enquiries shared mailbox. I get You need permission to access this resource.",
+    "category": "Access & Security",
+    "subcategory": "Access Request",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Submitted the request in the access portal; the mailbox owner approved it and the user was added to the mailbox's member group. The mailbox appeared in Outlook after an hour.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0056",
+    "opened_at": "2026-07-01T11:14:00Z",
+    "resolved_at": "2026-07-02T00:46:11Z",
+    "opened_ts": 1782904440,
+    "resolved_ts": 1782953171,
+    "assignment_group": "IAM",
+    "application": "Access portal",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0056"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0048",
+    "title": "Request read access to Legal contracts SharePoint site",
+    "description": "I need read access to the Legal contracts SharePoint site for an audit. The site says Request access.",
+    "category": "Access & Security",
+    "subcategory": "Access Request",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Used the site's Request access button; the site owner approved read-only membership for the audit period with an expiry date, and the user confirmed access.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0056",
+    "opened_at": "2026-06-06T17:35:00Z",
+    "resolved_at": "2026-06-07T11:06:21Z",
+    "opened_ts": 1780767300,
+    "resolved_ts": 1780830381,
+    "assignment_group": "IAM",
+    "application": "Access portal",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0056",
+        "KB-0025"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0049",
+    "title": "Clicked link in fake invoice email and entered password",
+    "description": "I clicked a link in an invoice email and typed my password before realising the page was fake. Other people in Finance got the same email.",
+    "category": "Access & Security",
+    "subcategory": "Phishing/Malware",
+    "priority": "P1",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Escalated to the security team immediately: password reset, sessions revoked, MFA methods reviewed, and the message was purged from all mailboxes. No suspicious sign-ins were found after the reset.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0057",
+    "opened_at": "2026-07-27T08:04:00Z",
+    "resolved_at": "2026-07-27T10:28:56Z",
+    "opened_ts": 1785139440,
+    "resolved_ts": 1785148136,
+    "assignment_group": "IAM",
+    "application": "Email security / EDR",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0057"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0050",
+    "title": "Ransomware behavior blocked alert on shared laptop",
+    "description": "Endpoint protection showed Ransomware behavior blocked on a shared laptop and some files have a strange extension.",
+    "category": "Access & Security",
+    "subcategory": "Phishing/Malware",
+    "priority": "P1",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The laptop was isolated from the network by the security team, the incident was handled by the security operations process, files were restored from backup, and the device was re-imaged before return.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0058",
+    "opened_at": "2026-06-16T11:04:00Z",
+    "resolved_at": "2026-06-16T13:52:39Z",
+    "opened_ts": 1781607840,
+    "resolved_ts": 1781617959,
+    "assignment_group": "IAM",
+    "application": "Email security / EDR",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0058"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0051",
+    "title": "How do I set up work email on my phone",
+    "description": "How do I set up my work email on my personal phone? The mail app says Device not compliant.",
+    "category": "Inquiry/Help",
+    "subcategory": "How-To",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Guided the user to enrol the phone in the device management app and use the approved mail app; after enrolment the device was compliant and mail synced.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0015",
+    "opened_at": "2026-08-24T09:32:00Z",
+    "resolved_at": "2026-08-25T03:14:43Z",
+    "opened_ts": 1787563920,
+    "resolved_ts": 1787627683,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Microsoft 365",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0015"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0052",
+    "title": "How to add a backup MFA method",
+    "description": "How can I add a second MFA method so I am not stuck if I lose my phone?",
+    "category": "Inquiry/Help",
+    "subcategory": "How-To",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Walked the user through the security info page to add a hardware token as a backup method and test it; both methods are now registered.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0017",
+    "opened_at": "2026-10-03T11:34:00Z",
+    "resolved_at": "2026-10-04T02:44:31Z",
+    "opened_ts": 1791027240,
+    "resolved_ts": 1791081871,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Authenticator / Entra ID",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0017"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0053",
+    "title": "Request to install a diagram tool",
+    "description": "I need a diagramming tool for process maps. Is there an approved one I can install?",
+    "category": "Inquiry/Help",
+    "subcategory": "Software Request",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Pointed the user to the approved diagram tool in the software portal; it installed without admin rights and a licence was assigned automatically.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0014",
+    "opened_at": "2026-10-25T17:30:00Z",
+    "resolved_at": "2026-10-26T11:19:54Z",
+    "opened_ts": 1792949400,
+    "resolved_ts": 1793013594,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Software portal",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0014"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0054",
+    "title": "Request for software not in the catalogue",
+    "description": "I need a specific statistics package that is not in the software portal.",
+    "category": "Inquiry/Help",
+    "subcategory": "Software Request",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Raised a software request with business justification and manager approval; the application was security-reviewed, packaged and published to the portal, and the user installed it from there.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0014",
+    "opened_at": "2026-09-30T14:12:00Z",
+    "resolved_at": "2026-10-01T04:27:49Z",
+    "opened_ts": 1790777520,
+    "resolved_ts": 1790828869,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Software portal",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0014"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0055",
+    "title": "Is my laptop eligible for refresh",
+    "description": "My laptop is four years old and slow. Is it eligible for a refresh?",
+    "category": "Inquiry/Help",
+    "subcategory": "Hardware Request",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Checked the asset record: the device was past the refresh cycle. Raised a refresh order with manager approval and scheduled data migration with desk-side support.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0016",
+    "opened_at": "2026-09-19T13:27:00Z",
+    "resolved_at": "2026-09-20T11:18:59Z",
+    "opened_ts": 1789824420,
+    "resolved_ts": 1789903139,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Asset management",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0016"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0056",
+    "title": "Request for a second monitor",
+    "description": "I would like a second monitor for my desk to work on spreadsheets.",
+    "category": "Inquiry/Help",
+    "subcategory": "Hardware Request",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Submitted a hardware request with manager approval from the standard catalogue; the monitor was delivered and connected to the existing dock.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0016",
+    "opened_at": "2026-06-14T09:03:00Z",
+    "resolved_at": "2026-06-15T06:42:46Z",
+    "opened_ts": 1781427780,
+    "resolved_ts": 1781505766,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Asset management",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0016"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0057",
+    "title": "Antivirus says Definitions out of date",
+    "description": "Endpoint protection shows Definitions out of date on my laptop. I mostly work from home.",
+    "category": "Inquiry/Help",
+    "subcategory": "Antivirus",
+    "priority": "P4",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "The laptop had not reached the update service off VPN. Connected to VPN and triggered a security intelligence update from the endpoint protection app; definitions were current and a quick scan was clean.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0059",
+    "opened_at": "2026-08-26T09:15:00Z",
+    "resolved_at": "2026-08-27T01:50:53Z",
+    "opened_ts": 1787735700,
+    "resolved_ts": 1787795453,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Endpoint protection",
+    "environment": "remote",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0059"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0058",
+    "title": "Business macro file quarantined by antivirus",
+    "description": "Our team's macro workbook is quarantined every time I download it from SharePoint with Threat quarantined.",
+    "category": "Inquiry/Help",
+    "subcategory": "Antivirus",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Sent the file to the security team for analysis; it was confirmed clean and the security team added a scoped exclusion for the signed workbook hash. Protection stayed fully on and the file opened normally.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0059",
+    "opened_at": "2026-10-16T15:08:00Z",
+    "resolved_at": "2026-10-16T22:30:30Z",
+    "opened_ts": 1792163280,
+    "resolved_ts": 1792189830,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Endpoint protection",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0059",
+        "KB-0028"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0059",
+    "title": "Timesheet app loops at sign-in - ERR_TOO_MANY_REDIRECTS",
+    "description": "The timesheet app keeps redirecting at sign-in and the browser shows ERR_TOO_MANY_REDIRECTS. Other internal apps work.",
+    "category": "Inquiry/Help",
+    "subcategory": "Internal Application",
+    "priority": "P3",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "Stale session cookies for the app's domain caused the loop. Cleared cookies for that site and signed in again; the app loaded. The app team was told about the cookie issue.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0060",
+    "opened_at": "2026-08-11T15:15:00Z",
+    "resolved_at": "2026-08-12T02:14:45Z",
+    "opened_ts": 1786461300,
+    "resolved_ts": 1786500885,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Timesheet app",
+    "environment": "office",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0060"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  },
+  {
+    "ticket_id": "INC-H0060",
+    "title": "Expense portal returns HTTP 500 for everyone",
+    "description": "The expense portal shows HTTP 500 Internal Server Error for everyone in Finance since this morning. Month-end submissions are due today.",
+    "category": "Inquiry/Help",
+    "subcategory": "Internal Application",
+    "priority": "P2",
+    "status": "resolved",
+    "source": "curated_team",
+    "resolution": "A failed deployment left the app pool stopped. The application support team rolled back to the previous release and restarted the app pool; the portal returned HTTP 200 and the incident was linked to the change record.",
+    "resolution_origin": "curated_verified",
+    "resolution_kb_id": "KB-0060",
+    "opened_at": "2026-06-20T15:51:00Z",
+    "resolved_at": "2026-06-20T21:17:43Z",
+    "opened_ts": 1781970660,
+    "resolved_ts": 1781990263,
+    "assignment_group": "SERVICE-DESK",
+    "application": "Expense portal",
+    "environment": "production",
+    "location": null,
+    "restricted": false,
+    "verified": true,
+    "verified_by": "Neeleshkt8",
+    "collection": "tickets_verified",
+    "derived_fields": [
+      "opened_at",
+      "resolved_at"
+    ],
+    "dup_group_id": null,
+    "text_hash": null,
+    "metadata": {
+      "source": "curated_team",
+      "kb_ids": [
+        "KB-0060"
+      ],
+      "fills_gap": false,
+      "drafted_by": "claude-code (AI-assisted draft)",
+      "review_status": "pending_human_review"
+    }
+  }
+]
