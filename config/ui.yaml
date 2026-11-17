@@ -1,0 +1,73 @@
+# UI settings (owner: P4). Env vars API_BASE_URL / MOCK_API / DEMO_AUTH override the defaults here.
+api:
+  base_url: http://localhost:8000/api/v1
+  timeout_s: 30
+  # sent as X-Demo-Role when DEMO_AUTH=1 and no JWT is held
+  demo_role_header: X-Demo-Role
+  demo_group_header: X-Demo-Group
+
+mock_api:
+  host: 127.0.0.1
+  port: 8000
+  # demo users accepted by the mock /auth/login (any non-empty password)
+  users:
+    l1_alice: {role: l1, assignment_group: SERVICE-DESK}
+    l2_bob: {role: l2, assignment_group: NET-OPS}
+    dba_carol: {role: l2, assignment_group: DBA}
+    kb_dave: {role: kb_owner, assignment_group: null}
+    admin: {role: admin, assignment_group: null}
+  # default group for a demo-role header that does not say which group
+  default_group:
+    l1: SERVICE-DESK
+    l2: NET-OPS
+    kb_owner: null
+    admin: null
+  # generic (non-golden) tickets: below this KB overlap score the mock asks / escalates
+  generic_kb_threshold: 0.5
+  generic_min_words: 12
+
+search:
+  page_size: 20
+  page_sizes: [10, 20, 50]
+
+review_queue:
+  page_size: 25
+
+# subcategories with no KEDB article (README §15); shown in the KB browser as coverage gaps
+known_kb_gaps: [DHCP, IP Address, Disk, DB2]
+
+# colour + text label for every chip (architecture §9.2 accessibility rule)
+badges:
+  decision:
+    recommend: {color: "#1e7d32", label: "RECOMMEND"}
+    clarify: {color: "#b26a00", label: "CLARIFY"}
+    escalate: {color: "#c62828", label: "ESCALATE"}
+  band:
+    high: {color: "#1e7d32", label: "HIGH"}
+    medium: {color: "#b26a00", label: "MEDIUM"}
+    low: {color: "#c62828", label: "LOW"}
+  priority:
+    Critical: {color: "#b71c1c", label: "CRITICAL"}
+    High: {color: "#e65100", label: "HIGH"}
+    Medium: {color: "#f9a825", label: "MEDIUM"}
+    Low: {color: "#2e7d32", label: "LOW"}
+  tier:
+    DUPLICATE: {color: "#6a1b9a", label: "DUPLICATE"}
+    LIKELY DUPLICATE: {color: "#8e24aa", label: "LIKELY DUPLICATE"}
+    SIMILAR: {color: "#1565c0", label: "SIMILAR"}
+    RELATED: {color: "#546e7a", label: "RELATED"}
+  origin:
+    synthetic_kb_derived: {color: "#757575", label: "SYNTHETIC"}
+    synthetic_escalated: {color: "#757575", label: "SYNTHETIC"}
+    curated_verified: {color: "#2e7d32", label: "VERIFIED"}
+    analyst_verified: {color: "#2e7d32", label: "VERIFIED (ANALYST)"}
+    none: {color: "#9e9e9e", label: "NO RESOLUTION"}
+  role:
+    L1: {color: "#1565c0", label: "L1"}
+    L2: {color: "#6a1b9a", label: "L2"}
+
+trial:
+  seed: 42
+  practice_ticket: DEMO-001
+  manual_block: [T01, T02, T03, T04, T05, T06]
+  assisted_block: [T07, T08, T09, T10, T11, T12]
