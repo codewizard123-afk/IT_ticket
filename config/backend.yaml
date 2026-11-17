@@ -1,10 +1,20 @@
 # P3 · Backend & control layer settings (owner: P3). Shared paths live in base.yaml.
 
+backend_version: "0.2.0"
+
 db:
   # Overridable with the APP_DB_PATH env var (tests point it at a temp file).
   path_key: app_db          # key into base.yaml `paths`
   journal_mode: WAL         # file databases only; :memory: ignores it
   busy_timeout_ms: 5000
+
+intake:                     # architecture §8.1
+  title_min: 5
+  title_max: 200
+  description_min: 10
+  description_max: 5000
+  clarification_max: 1000   # one clarify answer
+  id_prefix: INC            # INC-<yyyymmdd>-<seq> when the ticket has no id
 
 audit:
   # Architecture §8.7: prompts are stored only as hashes + token counts unless this is true.

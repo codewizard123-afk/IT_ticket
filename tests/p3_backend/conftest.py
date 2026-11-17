@@ -72,3 +72,50 @@ def gate_for(ticket: dict[str, Any], er: EngineResult, clarification_round: int 
         text=f"{ticket['title']}\n{ticket['description']}",
         clarification_round=clarification_round,
     )
+
+
+# --- API fixtures -------------------------------------------------------------------------------
+def make_services(tmp_path: Path, **overrides: Any):  # noqa: ANN201 - backend.services.Services
+    """Stub stores/engine/redact, a temp app.db and demo auth."""
+    from backend.services import build_services
+    from backend.settings import Settings
+
+    settings = Settings(
+        demo_auth=True,
+        app_secret="test-secret-not-for-production-0123456789",
+        use_stub_stores=True,
+        use_stub_engine=True,
+        use_stub_redact=True,
+        db_path=tmp_path / "app.db",
+        kb_governed_path=tmp_path / "articles_governed.json",
+    )
+    services = build_services(settings)
+    for key, value in overrides.items():
+        setattr(services, key, value)
+    return services
+
+
+def make_client(services: Any):  # noqa: ANN201 - fastapi.testclient.TestClient
+    from fastapi.testclient import TestClient
+
+    from backend.main import create_app
+
+    return TestClient(create_app(services))
+
+
+def role(r: str, group: str | None = None) -> dict[str, str]:
+    h = {"X-Demo-Role": r}
+    if group:
+        h["X-Demo-Group"] = group
+    return h
+
+
+@pytest.fixture
+def services(tmp_path: Path):  # noqa: ANN201
+    return make_services(tmp_path)
+
+
+@pytest.fixture
+def client(services: Any):  # noqa: ANN201
+    with make_client(services) as c:
+        yield c
