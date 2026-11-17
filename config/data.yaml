@@ -1,0 +1,62 @@
+# P1 · Data & KB configuration (owner: P1). Paths are relative to the repo root.
+# Shared paths (tickets, kb_articles, chroma_dir, indexes_dir, …) live in config/base.yaml.
+
+paths:
+  raw_xlsx: data/raw/Dataset_ticket_5.xlsx
+  taxonomy_map: config/taxonomy_map.yaml
+  privacy: config/privacy.yaml
+  test_seed: data/seed/test_seed.json
+  trial_tickets: data/test/trial_tickets.json
+  trial_gold: data/test/trial_gold.json
+  gold_kb: eval/gold/gold_kb.json
+  eval_out: eval/out
+  trial_raw_events: trial/results/raw_events.csv
+
+# File names inside base.yaml `paths.indexes_dir` (gitignored, rebuilt by `make data`).
+indexes:
+  manifest: manifest.json
+  error_codes: error_codes.json
+  bm25_kedb: bm25_kedb.pkl
+  bm25_tickets: bm25_tickets.pkl
+  bm25_tickets_eval: bm25_tickets_eval.pkl
+
+# Enrichment of tickets.json -> data/processed/tickets_enriched.json (architecture §6.3.1)
+enrich:
+  seed: 42
+  # The generator labels every resolution "synthetic_generated", which is not a ResolutionOrigin.
+  # Map it onto the two synthetic origins the contract knows. Both are NEVER cited as evidence.
+  origin_map:
+    escalated: synthetic_escalated
+    default: synthetic_kb_derived
+  # Access-control demo (§8.6): a seeded share of these subcategories is marked restricted.
+  restricted:
+    subcategories: ["Antivirus", "Phishing/Malware"]
+    rate: 0.04
+  # Every field below was produced by the dataset generator, not observed in a real ITSM tool.
+  derived_fields:
+    - priority
+    - opened_at
+    - resolved_at
+    - assignment_group
+    - application
+    - environment
+    - location
+    - restricted
+    - resolution
+
+# Assignment group per ticket category (architecture §3.1, extended for the 6x5 taxonomy).
+assignment_groups:
+  Network: NET-OPS
+  Database: DBA
+  Hardware: EUC-HW
+  Software: EUC-SW
+  "Access & Security": IAM
+  "Inquiry/Help": SERVICE-DESK
+
+# Evaluation split (architecture §14.1): 70/15/15 stratified by subcategory, duplicate groups
+# kept together. The dataset already carries a generator split in metadata.split; we use it when
+# present and fall back to a seeded stratified split otherwise.
+split:
+  seed: 42
+  ratios: {train: 0.70, val: 0.15, test: 0.15}
+  use_metadata_split: true
