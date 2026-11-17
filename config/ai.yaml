@@ -48,7 +48,19 @@ synthesis:
   verified_min_cos: 0.75
   max_pack_chars: 10000    # ≈ 2.5k tokens
 
-validator: {grounding_min: 0.30, min_steps: 2}
+validator:
+  grounding_min: 0.30
+  min_steps: 2
+  # Steps matching any of these are dropped and logged as safety_violation (architecture §7.8).
+  safety_patterns:
+    - '\b(?:disable|turn off|switch off|uninstall|bypass|deactivate)\b.{0,40}\b(?:anti-?virus|firewall|uac|defender|mfa|edr|endpoint protection|security)\b'
+    - '\bshare (?:your |the |their )?(?:password|credentials|pin|mfa code)\b'
+    - '\b(?:send|tell|give|email)\b.{0,30}\bpasswords?\b'
+    - '\bformat (?:the )?(?:drive|disk|hard drive|c:)'
+    - '\bdelete\b.{0,40}\bregistry\b'
+    - '\bgrant\b.{0,60}\b(?:dba|owner|full control|admin\w*|sysadmin|root|domain admin)\b'
+    - '\b(?:add|make)\b.{0,30}\b(?:local |domain )?admin(?:istrator)?s?\b'
+    - '\bchmod 777\b|\brm -rf\b'
 
 # Fallback copy of P1's config/taxonomy_map.yaml (architecture §3.3), used only when that file
 # is absent. P1's file always wins when present.

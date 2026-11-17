@@ -20,6 +20,7 @@ from pydantic import BaseModel, Field, ValidationError
 from ai.config import ai_config
 from ai.prompts import render
 from ai.text import grounding, token_overlap
+from ai.validate import source_for, validate_steps
 from shared.constants import CITABLE_ORIGINS
 from shared.interfaces import KBStore, LLMClient, LLMUnavailableError
 from shared.schemas import (
@@ -143,46 +144,23 @@ def _finish(steps: list[Step], pack: EvidencePack, cfg: dict[str, Any]) -> list[
     return [s for s in out if s.type == "diagnostic"] + [s for s in out if s.type != "diagnostic"]
 
 
-def source_for(steps: list[Step]) -> str:
-    """§4.2: KEDB · Historical Incident · KEDB + Historical Incident · None."""
-    cites = [c for s in steps for c in s.citations]
-    has_kb = any("#" in c for c in cites)
-    has_inc = any("#" not in c for c in cites)
-    if has_kb and has_inc:
-        return "KEDB + Historical Incident"
-    if has_kb:
-        return "KEDB"
-    if has_inc:
-        return "Historical Incident"
-    return "None"
-
-
-def check_citations(steps: list[Step], pack: EvidencePack) -> tuple[list[Step], int]:
-    """Drop unknown citation IDs; drop steps left without a citation (counted)."""
-    kept: list[Step] = []
-    removed = 0
-    for s in steps:
-        cites = [c for c in dict.fromkeys(s.citations) if c in pack.citable]
-        if not cites:
-            removed += 1
-            continue
-        kept.append(s.model_copy(update={"citations": cites}))
-    return kept, removed
-
-
 def _recommendation(
-    steps: list[Step], pack: EvidencePack, removed: int, cfg: dict[str, Any], **extra: Any
+    steps: list[Step], pack: EvidencePack, cfg: dict[str, Any], **extra: Any
 ) -> Recommendation:
-    used = {c.split("#", 1)[0] for s in steps for c in s.citations if "#" in c}
+    """Run the §7.8 validator over ``steps`` and wrap the survivors in a ``Recommendation``."""
+    report = validate_steps(steps, pack.citable, cfg)
+    kept = report.steps
+    used = {c.split("#", 1)[0] for s in kept for c in s.citations if "#" in c}
     arts = [a for a in pack.articles if a.kb_id in used]
     min_steps = int(cfg["validator"]["min_steps"])
     return Recommendation(
-        steps=steps,
-        source=source_for(steps),  # type: ignore[arg-type]
-        insufficient_evidence=len(steps) < min_steps,
+        steps=kept,
+        source=source_for(kept),  # type: ignore[arg-type]
+        insufficient_evidence=len(kept) < min_steps,
         requires_admin=any(a.resolution.requires_admin for a in arts),
         estimated_time=arts[0].resolution.estimated_time if arts else None,
-        unsupported_steps_removed=removed,
+        unsupported_steps_removed=report.removed,
+        safety_violations=report.safety_violations,
         **extra,
     )
 
@@ -220,7 +198,6 @@ def template_recommendation(pack: EvidencePack, cfg: dict[str, Any] | None = Non
     return _recommendation(
         steps,
         pack,
-        0,
         cfg,
         summary=top.title if top else "Verified incident resolution",
         probable_cause=top.root_cause if top else None,
@@ -297,19 +274,14 @@ def _llm_synthesize(pack: EvidencePack, llm: LLMClient, cfg: dict[str, Any]) -> 
                         already_attempted=s.already_attempted,
                     )
                 )
-        steps, removed = check_citations(steps, pack)
-        if not steps:
-            continue  # nothing usable: counts as a validation failure
         cause = out.probable_cause
         cause_text = cause.text if isinstance(cause, _LLMCause) else cause
-        return _recommendation(
-            _finish(steps, pack, cfg),
-            pack,
-            removed,
-            cfg,
-            summary=out.summary,
-            probable_cause=cause_text,
+        rec = _recommendation(
+            _finish(steps, pack, cfg), pack, cfg, summary=out.summary, probable_cause=cause_text
         )
+        if not rec.steps:
+            continue  # nothing survived validation: counts as a validation failure
+        return rec
     raise LLMUnavailableError("synthesiser output invalid twice")
 
 
