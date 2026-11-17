@@ -15,14 +15,16 @@ _STOPWORDS_TEXT = """a an and are as at be been but by can cannot could did do d
 STOPWORDS: frozenset[str] = frozenset(_STOPWORDS_TEXT.split())
 
 
-def tokenize(text: str, *, drop_stopwords: bool = True) -> list[str]:
+def tokenize(
+    text: str, *, drop_stopwords: bool = True, do_stem: bool = True
+) -> list[str]:
     """Lowercase word tokens; keeps codes like `ora-01013` and `0xc0000005` intact."""
     toks = _TOKEN.findall(text.lower())
     out: list[str] = []
     for t in toks:
         if drop_stopwords and t in STOPWORDS:
             continue
-        out.append(stem(t))
+        out.append(stem(t) if do_stem else t)
     return out
 
 
@@ -67,6 +69,18 @@ def rouge_l_recall(candidate: str, reference: str) -> float:
     if not c:
         return 0.0
     return lcs_len(c, r) / len(c)
+
+
+def display_terms(text: str, wanted_stems: set[str] | None = None) -> list[str]:
+    """Original (unstemmed) content words of `text`, optionally only those whose stem is in
+    `wanted_stems`; order of first appearance, no duplicates."""
+    out: dict[str, str] = {}
+    for word in tokenize(text, do_stem=False):
+        st = stem(word)
+        if st in out or (wanted_stems is not None and st not in wanted_stems):
+            continue
+        out[st] = word
+    return list(out.values())
 
 
 def truncate(text: str, n: int) -> str:
