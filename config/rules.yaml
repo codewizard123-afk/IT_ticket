@@ -1,0 +1,59 @@
+# Classifier rules voter, taxonomy and intent rules (owner: P2). Architecture §3.1, §7.3.
+# `taxonomy` mirrors architecture §3.1; once shared/constants.py lands it must stay identical.
+
+taxonomy:
+  Network: [VPN, Wireless, DNS, DHCP, IP Address]
+  Database: [Oracle, MS SQL Server, DB2]
+  Hardware: [CPU, Disk, Keyboard, Memory, Monitor, Mouse]
+  Software: [Email, Operating System]
+  Inquiry/Help: [Antivirus, Internal Application]
+
+intents: [incident, service_request, how_to, access_request]
+
+# Each match of `pattern` (case-insensitive) is one vote for the label.
+# v_rule(label) = votes(label) / total votes.
+rules:
+  - {name: oracle_code, pattern: '\bORA-\d{5}\b', category: Database, subcategory: Oracle}
+  - {name: oracle, pattern: '\boracle\b', category: Database, subcategory: Oracle}
+  - {name: mssql_18456, pattern: '\b18456\b', category: Database, subcategory: MS SQL Server}
+  - {name: mssql, pattern: '\bsql server\b|\bmssql\b|\bssms\b|management studio', category: Database, subcategory: MS SQL Server}
+  - {name: db2, pattern: '\bdb2\b|\bSQL\d{4}N\b', category: Database, subcategory: DB2}
+  - {name: email, pattern: '\boutlook\b|\bexchange\b|\bmailbox\b|\be-?mails?\b', category: Software, subcategory: Email}
+  - {name: vpn, pattern: '\bvpn\b|anyconnect|globalprotect|forticlient', category: Network, subcategory: VPN}
+  - {name: wireless, pattern: '\bwi-?fi\b|\bwireless (?:network|connection)|\bssid\b|access point', category: Network, subcategory: Wireless}
+  - {name: dns, pattern: '\bdns\b|nslookup|name resolution|not resolved', category: Network, subcategory: DNS}
+  - {name: dhcp, pattern: '\bdhcp\b|lease', category: Network, subcategory: DHCP}
+  - {name: ip, pattern: '\bip address\b|\bip conflict\b|address conflict', category: Network, subcategory: IP Address}
+  - {name: monitor, pattern: '\bmonitors?\b|\bdisplay(?:port)?\b|\bhdmi\b', category: Hardware, subcategory: Monitor}
+  - {name: cpu, pattern: '\bcpu\b|\bfan\b|overheat\w*|\bprocessor\b', category: Hardware, subcategory: CPU}
+  - {name: keyboard, pattern: '\bkeyboard\b|\bkeys\b', category: Hardware, subcategory: Keyboard}
+  - {name: mouse, pattern: '\bmouse\b|touchpad|pointer', category: Hardware, subcategory: Mouse}
+  - {name: memory, pattern: '\bram\b|out of memory|memory (?:usage|error|full|upgrade)', category: Hardware, subcategory: Memory}
+  - {name: disk, pattern: '\bdisk\b|hard drive|\bssd\b|storage full', category: Hardware, subcategory: Disk}
+  - {name: os, pattern: 'windows update|blue screen|\bbsod\b|does not boot|operating system', category: Software, subcategory: Operating System}
+  - {name: antivirus, pattern: 'antivirus|quarantin\w*|\bdefender\b|malware|\bvirus\b', category: Inquiry/Help, subcategory: Antivirus}
+  - {name: internal_app, pattern: 'internal (?:application|app|portal)|intranet|\bportal\b|expense (?:application|app)', category: Inquiry/Help, subcategory: Internal Application}
+
+intent_rules:
+  how_to: ['\bhow (?:do|can|to|should)\b', '\bwhere (?:can|do) i\b', '\bis it possible to\b']
+  access_request: ['\b(?:need|request(?:ing)?|grant|give me) (?:\w+ )?access\b', '\baccess request\b', '\bpermissions? (?:to|for)\b']
+  service_request: ['\b(?:please )?(?:install|provide|order|request(?:ing)?|need) (?:a |an |the )?(?:new|license|software|upgrade|replacement)\b', '\brequest to\b']
+
+# Two few-shot examples per category for the LLM prompt (team-written, not from the test set).
+few_shot:
+  - {text: "AnyConnect says the VPN gateway is unreachable from my hotel", category: Network, subcategory: VPN, intent: incident}
+  - {text: "Several laptops drop off the corporate Wi-Fi in the east wing", category: Network, subcategory: Wireless, intent: incident}
+  - {text: "Batch report on Oracle fails with ORA-00942 since the patch", category: Database, subcategory: Oracle, intent: incident}
+  - {text: "Please give me read access to the SQL Server sales database", category: Database, subcategory: MS SQL Server, intent: access_request}
+  - {text: "Laptop fan is constantly loud and the CPU sits at 100%", category: Hardware, subcategory: CPU, intent: incident}
+  - {text: "Second screen shows no signal through the dock", category: Hardware, subcategory: Monitor, intent: incident}
+  - {text: "Outlook keeps asking for my password and will not sync", category: Software, subcategory: Email, intent: incident}
+  - {text: "Windows update stuck at 30% after reboot", category: Software, subcategory: Operating System, intent: incident}
+  - {text: "How do I check if the antivirus is up to date?", category: Inquiry/Help, subcategory: Antivirus, intent: how_to}
+  - {text: "Need access to the internal travel booking application", category: Inquiry/Help, subcategory: Internal Application, intent: access_request}
+
+# Regex split fallback (architecture §7.2)
+split:
+  enumerated: '\((\d)\)'
+  numbered_line: '(?m)^\s*(\d)[.)]\s+'
+  min_span_words: 4
