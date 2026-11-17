@@ -1,0 +1,423 @@
+[
+  {
+    "kb_id": "KB-0001",
+    "title": "Database queries slow or timing out",
+    "category": "Database",
+    "subcategory": "Performance",
+    "symptoms": ["Database queries are very slow", "Reports and queries time out", "Application screens hang waiting on the database"],
+    "common_error_codes": ["ORA-01013", "Timeout expired", "SQLSTATE HYT00"],
+    "root_cause": "Blocking sessions, stale optimizer statistics or a long-running batch job saturating the database.",
+    "diagnostic_steps": [
+      "Check whether the slowness affects all users or a single application",
+      "Check active sessions and blocking locks on the database",
+      "Review recent changes to queries, indexes or optimizer statistics"
+    ],
+    "resolution": {
+      "steps": [
+        "Ask the DBA to identify and end the blocking database session",
+        "Gather fresh optimizer statistics on the affected tables",
+        "Confirm that query response times are back to normal"
+      ],
+      "estimated_time": "1-2 hours",
+      "requires_admin": true
+    },
+    "escalation_criteria": ["more than 10 users are affected", "a business-critical close process is blocked"],
+    "related_kb_ids": ["KB-0002"],
+    "tags": ["database", "performance", "oracle", "sql server", "slow", "timeout"],
+    "priority_hint": "P2"
+  },
+  {
+    "kb_id": "KB-0002",
+    "title": "Database connection pool exhausted",
+    "category": "Database",
+    "subcategory": "Connectivity",
+    "symptoms": ["Application cannot obtain a database connection", "Intermittent connection errors under load", "Queries wait for a free connection"],
+    "common_error_codes": ["ORA-12519", "Cannot get a connection, pool error"],
+    "root_cause": "Connections are leaked or the pool size is too small for the workload.",
+    "diagnostic_steps": [
+      "Check the number of open connections against the pool limit",
+      "Check the application logs for connection leak warnings"
+    ],
+    "resolution": {
+      "steps": [
+        "Restart the application server to release leaked connections",
+        "Ask the DBA to review the pool size and session limits",
+        "Confirm that new connections are accepted"
+      ],
+      "estimated_time": "1 hour",
+      "requires_admin": true
+    },
+    "escalation_criteria": ["the database refuses all new connections"],
+    "related_kb_ids": ["KB-0001"],
+    "tags": ["database", "connection pool", "oracle"],
+    "priority_hint": "P2"
+  },
+  {
+    "kb_id": "KB-0003",
+    "title": "Database login failed or access denied",
+    "category": "Database",
+    "subcategory": "Access",
+    "symptoms": ["User cannot log in to the database", "Login failed when connecting to the reporting database", "Access denied or account locked after failed logins"],
+    "common_error_codes": ["18456", "Login failed for user", "ORA-01017", "ORA-28000", "SQL1060N"],
+    "root_cause": "The login does not exist, is not mapped to a database user, or the account is locked.",
+    "diagnostic_steps": [
+      "Confirm the exact login error and the database instance name",
+      "Check that the login exists and is mapped to a database user",
+      "Check whether the account is locked or disabled"
+    ],
+    "resolution": {
+      "steps": [
+        "Ask the DBA to create the login and map it to the required database role through an approved access request",
+        "Unlock the account if it is locked",
+        "Ask the user to reconnect and confirm the login succeeds"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": true
+    },
+    "escalation_criteria": ["access to restricted data is requested"],
+    "related_kb_ids": ["KB-0004"],
+    "tags": ["database", "login", "access", "sql server", "oracle", "db2"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0004",
+    "title": "Database password expired",
+    "category": "Database",
+    "subcategory": "Access",
+    "symptoms": ["Login fails because the database password has expired", "User is prompted to change the database password"],
+    "common_error_codes": ["18456", "ORA-28001", "password has expired"],
+    "root_cause": "The database password policy forces a change after the expiry period.",
+    "diagnostic_steps": [
+      "Confirm the error message mentions an expired password",
+      "Check the password expiry date for the login"
+    ],
+    "resolution": {
+      "steps": [
+        "Guide the user through the self-service database password change",
+        "Ask the user to reconnect with the new password"
+      ],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the self-service password change fails"],
+    "related_kb_ids": ["KB-0003"],
+    "tags": ["database", "password", "expired"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0005",
+    "title": "Database backup or restore failure",
+    "category": "Database",
+    "subcategory": "Backup",
+    "symptoms": ["Nightly database backup job failed", "Restore of a database backup fails"],
+    "common_error_codes": ["RMAN-03009", "BACKUP DATABASE is terminating abnormally"],
+    "root_cause": "Insufficient backup storage or a locked backup target.",
+    "diagnostic_steps": ["Check the backup job log for the failing step", "Check free space on the backup target"],
+    "resolution": {
+      "steps": ["Ask the DBA to free space on the backup target and rerun the backup", "Confirm the backup completes successfully"],
+      "estimated_time": "2 hours",
+      "requires_admin": true
+    },
+    "escalation_criteria": ["no valid backup exists for more than 24 hours"],
+    "related_kb_ids": [],
+    "tags": ["database", "backup", "restore"],
+    "priority_hint": "P2"
+  },
+  {
+    "kb_id": "KB-0006",
+    "title": "Laptop overheating or running slowly",
+    "category": "Hardware",
+    "subcategory": "Performance",
+    "symptoms": ["Laptop is hot and the fan runs constantly", "Laptop overheating and shutting down", "System becomes very slow under load"],
+    "common_error_codes": ["Thermal event", "CPU over temperature"],
+    "root_cause": "Blocked air vents, a failing fan or a process keeping the CPU at full load.",
+    "diagnostic_steps": [
+      "Check Task Manager for processes using high CPU",
+      "Check that the air vents are not blocked and that the fan is working"
+    ],
+    "resolution": {
+      "steps": [
+        "Close or update the process that keeps the CPU at full load",
+        "Update the BIOS and chipset drivers",
+        "Place the laptop on a hard, flat surface and confirm the temperature drops"
+      ],
+      "estimated_time": "1 hour",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the laptop overheats", "the fan makes grinding noises"],
+    "related_kb_ids": ["KB-0030"],
+    "tags": ["hardware", "laptop", "overheating", "fan", "cpu"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0008",
+    "title": "External monitor flickers or goes black",
+    "category": "Hardware",
+    "subcategory": "Monitor",
+    "symptoms": ["External monitor goes black intermittently", "Monitor blacks out after a driver or Windows update", "Display flickers or shows no signal"],
+    "common_error_codes": ["No signal", "DisplayPort no signal"],
+    "root_cause": "A faulty video cable, an incompatible display driver or an unsupported refresh rate.",
+    "diagnostic_steps": [
+      "Check and reseat the video cable or try a different cable",
+      "Check whether the problem started after a display driver or Windows update",
+      "Check the refresh rate and resolution settings of the monitor"
+    ],
+    "resolution": {
+      "steps": [
+        "Roll back or update the display driver",
+        "Set the refresh rate to the value supported by the monitor",
+        "Confirm the monitor stays on for 30 minutes"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the monitor shows physical damage"],
+    "related_kb_ids": ["KB-0011"],
+    "tags": ["hardware", "monitor", "display", "driver"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0011",
+    "title": "Docking station peripherals not detected",
+    "category": "Hardware",
+    "subcategory": "Docking",
+    "symptoms": ["Peripherals connected to the docking station are not detected", "Dock does not charge the laptop"],
+    "common_error_codes": ["USB device not recognized"],
+    "root_cause": "Outdated dock firmware or a faulty dock power supply.",
+    "diagnostic_steps": ["Check the dock power supply and connection", "Check the dock firmware version"],
+    "resolution": {
+      "steps": ["Update the docking station firmware", "Reconnect the dock and confirm the peripherals are detected"],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the dock is physically damaged"],
+    "related_kb_ids": ["KB-0008", "KB-0012"],
+    "tags": ["hardware", "dock", "usb"],
+    "priority_hint": "P4"
+  },
+  {
+    "kb_id": "KB-0012",
+    "title": "Keyboard or mouse not responding",
+    "category": "Hardware",
+    "subcategory": "Peripherals",
+    "symptoms": ["Keyboard does not respond", "Mouse pointer does not move", "Wireless mouse or keyboard disconnects"],
+    "common_error_codes": ["USB device not recognized"],
+    "root_cause": "Low batteries, a faulty receiver or a driver problem.",
+    "diagnostic_steps": ["Check the batteries and the USB receiver", "Try a different USB port"],
+    "resolution": {
+      "steps": ["Replace the batteries or the receiver", "Reinstall the input device driver", "Confirm the device responds"],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the device is physically damaged"],
+    "related_kb_ids": ["KB-0011"],
+    "tags": ["hardware", "keyboard", "mouse"],
+    "priority_hint": "P4"
+  },
+  {
+    "kb_id": "KB-0014",
+    "title": "Internal application access request",
+    "category": "Software",
+    "subcategory": "Access",
+    "symptoms": ["User needs access to an internal application", "User sees an access denied page in the intranet application"],
+    "common_error_codes": ["403 Forbidden"],
+    "root_cause": "The user is not a member of the application's access group.",
+    "diagnostic_steps": ["Confirm which application and role the user needs"],
+    "resolution": {
+      "steps": ["Raise an access request for the application role with manager approval", "Confirm the user can open the application"],
+      "estimated_time": "1 day",
+      "requires_admin": true
+    },
+    "escalation_criteria": ["access to restricted data is requested"],
+    "related_kb_ids": [],
+    "tags": ["access", "internal application"],
+    "priority_hint": "P4"
+  },
+  {
+    "kb_id": "KB-0018",
+    "title": "VPN will not connect or repeatedly disconnects",
+    "category": "Network",
+    "subcategory": "VPN",
+    "symptoms": ["VPN client cannot connect from home", "VPN connection drops every few minutes", "VPN disconnects repeatedly and the session is lost"],
+    "common_error_codes": ["Gateway not responding", "VPN error 809", "The connection was terminated by the remote computer"],
+    "root_cause": "The assigned VPN gateway is unreachable or the VPN client version is outdated.",
+    "diagnostic_steps": [
+      "Check internet connectivity without the VPN",
+      "Restart the VPN client",
+      "Check that the VPN client is the current approved version",
+      "Test the connection to an alternate VPN gateway"
+    ],
+    "resolution": {
+      "steps": [
+        "Connect to the alternate VPN gateway listed in the client profile",
+        "Reinstall the approved VPN client version",
+        "Confirm the VPN stays connected for 15 minutes"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["many users are affected", "the VPN gateway is down"],
+    "related_kb_ids": ["KB-0019", "KB-0023"],
+    "tags": ["network", "vpn", "remote access", "gateway"],
+    "priority_hint": "P2"
+  },
+  {
+    "kb_id": "KB-0019",
+    "title": "VPN slow or unstable performance",
+    "category": "Network",
+    "subcategory": "VPN",
+    "symptoms": ["VPN is connected but very slow", "VPN performance is unstable on a busy laptop"],
+    "common_error_codes": ["High latency"],
+    "root_cause": "Local resource exhaustion or a congested home connection.",
+    "diagnostic_steps": [
+      "Check endpoint CPU and memory usage while connected to the VPN",
+      "Run a speed test with and without the VPN"
+    ],
+    "resolution": {
+      "steps": ["Close resource-heavy applications while on the VPN", "Switch to a wired home connection and confirm performance"],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the VPN gateway reports congestion"],
+    "related_kb_ids": ["KB-0018"],
+    "tags": ["network", "vpn", "performance"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0020",
+    "title": "Cannot connect to corporate Wi-Fi",
+    "category": "Network",
+    "subcategory": "WiFi",
+    "symptoms": ["Laptop cannot join the corporate Wi-Fi network", "Wi-Fi authentication fails"],
+    "common_error_codes": ["Can't connect to this network", "802.1X authentication failed"],
+    "root_cause": "An expired device certificate or a wrong network profile.",
+    "diagnostic_steps": ["Check that the device certificate is valid", "Check that the correct SSID profile is installed"],
+    "resolution": {
+      "steps": ["Renew the device certificate through the device management portal", "Reconnect to the corporate SSID"],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["certificate renewal fails"],
+    "related_kb_ids": ["KB-0021"],
+    "tags": ["network", "wifi", "wireless", "certificate"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0021",
+    "title": "Wi-Fi drops intermittently",
+    "category": "Network",
+    "subcategory": "WiFi",
+    "symptoms": ["Wi-Fi connection drops intermittently", "Laptops lose the wireless connection on one floor", "Wireless keeps disconnecting"],
+    "common_error_codes": ["Limited connectivity"],
+    "root_cause": "Weak access-point coverage, channel interference or an outdated wireless driver.",
+    "diagnostic_steps": [
+      "Check the Wi-Fi signal strength at the user's location",
+      "Check whether other devices on the same floor are affected",
+      "Check the wireless adapter driver version"
+    ],
+    "resolution": {
+      "steps": [
+        "Forget and rejoin the corporate wireless network",
+        "Update the wireless network adapter driver",
+        "Confirm the Wi-Fi connection stays up for 30 minutes"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["multiple managed devices disconnect", "an access point is down"],
+    "related_kb_ids": ["KB-0020"],
+    "tags": ["network", "wifi", "wireless", "access point"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0023",
+    "title": "DNS name resolution failures",
+    "category": "Network",
+    "subcategory": "DNS",
+    "symptoms": ["Internal websites cannot be resolved by name", "Server names do not resolve but IP addresses work"],
+    "common_error_codes": ["DNS_PROBE_FINISHED_NXDOMAIN", "Server not found"],
+    "root_cause": "Stale DNS cache or a wrong DNS server assigned to the client.",
+    "diagnostic_steps": ["Check name resolution with nslookup", "Check which DNS servers the client uses"],
+    "resolution": {
+      "steps": ["Flush the local DNS cache", "Renew the network configuration and confirm names resolve"],
+      "estimated_time": "15 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["the DNS server is unreachable for many users"],
+    "related_kb_ids": ["KB-0018"],
+    "tags": ["network", "dns"],
+    "priority_hint": "P3"
+  },
+  {
+    "kb_id": "KB-0028",
+    "title": "Antivirus quarantine or threat alert",
+    "category": "Software",
+    "subcategory": "Security",
+    "symptoms": ["Antivirus quarantined a file", "Antivirus shows a threat alert"],
+    "common_error_codes": ["Threat detected", "File quarantined"],
+    "root_cause": "The endpoint protection engine flagged a file as malicious or suspicious.",
+    "diagnostic_steps": ["Record the threat name and the file path from the alert", "Check whether other devices reported the same threat"],
+    "resolution": {
+      "steps": ["Run a full scan with the endpoint protection tool", "Report the alert to the security operations team"],
+      "estimated_time": "1 hour",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["a threat is detected", "files are encrypted"],
+    "related_kb_ids": [],
+    "tags": ["antivirus", "security", "quarantine"],
+    "priority_hint": "P2"
+  },
+  {
+    "kb_id": "KB-0029",
+    "title": "Application crashes on launch",
+    "category": "Software",
+    "subcategory": "Application",
+    "symptoms": ["Application crashes immediately on startup", "Outlook closes unexpectedly when opened", "Application stops working with an access violation"],
+    "common_error_codes": ["Faulting application name", "0xc0000005", "APPCRASH"],
+    "root_cause": "A corrupted profile, a faulty add-in or damaged application files.",
+    "diagnostic_steps": [
+      "Start the application in safe mode",
+      "Check Event Viewer for the faulting module",
+      "Check recently installed add-ins"
+    ],
+    "resolution": {
+      "steps": [
+        "Repair the Office installation from Programs and Features",
+        "Create a new Outlook profile",
+        "Confirm the application starts normally"
+      ],
+      "estimated_time": "45 minutes",
+      "requires_admin": true
+    },
+    "escalation_criteria": ["the crash continues after a repair"],
+    "related_kb_ids": ["KB-0030"],
+    "tags": ["software", "crash", "outlook", "office", "email"],
+    "priority_hint": "P2"
+  },
+  {
+    "kb_id": "KB-0030",
+    "title": "Application slow or high CPU usage",
+    "category": "Software",
+    "subcategory": "Performance",
+    "symptoms": ["Application uses high CPU", "Computer fan is loud and CPU usage is at 100%", "Laptop gets hot and slow while running applications"],
+    "common_error_codes": ["High CPU usage"],
+    "root_cause": "A runaway process or an outdated application build consuming CPU.",
+    "diagnostic_steps": [
+      "Check Task Manager for the process using the most CPU",
+      "Check for pending application updates"
+    ],
+    "resolution": {
+      "steps": [
+        "End the runaway process and restart the application",
+        "Apply the latest application update",
+        "Confirm CPU usage returns to normal"
+      ],
+      "estimated_time": "30 minutes",
+      "requires_admin": false
+    },
+    "escalation_criteria": ["CPU usage stays high after updates"],
+    "related_kb_ids": ["KB-0006"],
+    "tags": ["software", "performance", "cpu"],
+    "priority_hint": "P3"
+  }
+]

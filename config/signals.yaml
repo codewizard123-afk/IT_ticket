@@ -1,0 +1,149 @@
+# Deterministic signal patterns (owner: P2). Architecture §7.1.
+# All regexes are matched case-insensitively unless `case_sensitive: true`.
+
+error_codes:
+  - {family: oracle, pattern: '\bORA-\d{5}\b'}
+  - {family: sqlserver, pattern: '\b(?:SQL Server )?error \d{3,5}\b'}
+  - {family: sqlstate, pattern: '\bSQLSTATE \w{5}\b'}
+  - {family: windows_exception, pattern: '\b0x[0-9a-fA-F]{8}\b'}
+  - {family: msi, pattern: '\b(?:MSI )?error 16\d\d\b'}
+  - {family: db2, pattern: '\bSQL\d{4}N\b'}
+  - {family: rman, pattern: '\bRMAN-\d{5}\b'}
+  - {family: http, pattern: '\b(?:HTTP )?(?:401|403|404|500|502|503) (?:Unauthorized|Forbidden|Not Found|Internal Server Error|Bad Gateway|Service Unavailable)\b'}
+  - {family: stop_code, pattern: '\b[A-Z]+(?:_[A-Z]+){2,}\b', case_sensitive: true}
+
+# KEDB phrase codes shorter than this are only matched if they contain a digit
+phrase_min_chars: 5
+
+products:
+  vpn: [vpn, anyconnect, globalprotect, forticlient]
+  wifi: [wi-fi, wifi, wireless, ssid, access point]
+  outlook: [outlook, exchange, mailbox]
+  oracle: [oracle, 'ora-']
+  sql server: [sql server, mssql, ssms, management studio]
+  db2: [db2]
+  monitor: [monitor, display, screen, hdmi, displayport]
+  laptop: [laptop, notebook]
+  keyboard: [keyboard]
+  mouse: [mouse, touchpad]
+  printer: [printer]
+  antivirus: [antivirus, defender, endpoint protection]
+  windows: [windows]
+  dns: [dns, nslookup]
+  dhcp: [dhcp]
+  office: [office 365, microsoft office, excel, word, teams]
+
+users:
+  count_patterns:
+    - '\b(?:approximately|approx\.?|about|around|over|more than)?\s*(\d{1,5})\s+(?:\w+\s+){0,2}?(?:users|people|staff|colleagues|employees|members|agents|persons)\b'
+    - '\b(?:approximately|approx\.?|about|around)\s+(\d{1,5})\b'
+  scope_phrases:
+    org: [everyone in the company, whole company, all users, company-wide, entire organisation, entire organization, all offices]
+    site: [whole building, entire building, whole floor, entire floor, whole office, entire office, all branch, entire site]
+    team: [whole team, entire team, our team, the team, whole department, entire department]
+    multiple: [multiple colleagues, several colleagues, multiple users, several users, many users, other colleagues, colleagues have the same, other users, a few colleagues, my colleagues, several people, multiple people]
+  # scope from a count when no phrase matched
+  count_scope: [{min: 50, scope: org}, {min: 10, scope: team}, {min: 2, scope: multiple}]
+
+urgency:
+  U1:
+    - deadline today
+    - due today
+    - end of day
+    - end of the day
+    - by eod
+    - month-end
+    - month end
+    - quarter-end
+    - year-end
+    - blocking
+    - blocked
+    - cannot work
+    - can't work
+    - unable to work
+    - losing unsaved work
+    - lose unsaved work
+    - urgent
+    - asap
+    - immediately needed
+  U2:
+    - next week
+    - by tomorrow
+    - this week
+    - slow
+    - degraded
+    - intermittent
+
+business_critical:
+  - production
+  - prod system
+  - month-end close
+  - finance team
+  - customer-facing
+  - critical system
+  - payroll
+  - trading
+
+security:
+  - malware
+  - phishing
+  - ransomware
+  - breach
+  - quarantined
+  - quarantine
+  - suspicious
+  - data loss
+  - virus
+  - hacked
+  - compromised
+  - files are encrypted
+  - threat detected
+
+tried_steps:
+  - {pattern: '\b(?:re-?started|rebooted|restart(?:ed)?\s+already)\b', action: restart, step_keywords: [restart, reboot], needs_object: true}
+  - {pattern: '\btried (?:a |another )?(?:different|new|other) (?:cable|port)\b', action: cable, step_keywords: [cable, reseat]}
+  - {pattern: '\b(?:re-?installed|reinstall(?:ed)? already)\b', action: reinstall, step_keywords: [reinstall], needs_object: true}
+  - {pattern: '\b(?:dba|database team) (?:has |have )?(?:already )?checked\b', action: dba_checked, step_keywords: [dba, blocking session, active sessions]}
+  - {pattern: '\bcleared (?:the |my )?(?:cache|browser cache|dns cache)\b', action: clear_cache, step_keywords: [cache, flush]}
+  - {pattern: '\bupdated (?:the |my )?driver', action: update_driver, step_keywords: [driver], needs_object: true}
+  - {pattern: '\b(?:changed|reset) (?:my |the )?password\b', action: password_reset, step_keywords: [password]}
+  - {pattern: '\b(?:forgot|forgotten) (?:the )?(?:network|wifi|wi-fi)\b', action: forget_network, step_keywords: [forget, rejoin]}
+  - {pattern: '\bran (?:a )?(?:full )?scan\b', action: scan, step_keywords: [scan]}
+
+# words after a tried-step verb that are kept as its object (e.g. "restarted the VPN client")
+tried_object_words: 4
+
+location:
+  - '\bbuilding\s+[A-Z0-9]{1,3}\b'
+  - '\b\d{1,2}(?:st|nd|rd|th)\s+floor\b'
+  - '\bfloor\s+\d{1,2}\b'
+  - '\b(?:from|at|working from) home\b'
+  - '\b(?:head office|branch office|data ?cent(?:er|re))\b'
+
+onset:
+  - '\bsince (?:this morning|yesterday|last night|last week|monday|tuesday|wednesday|thursday|friday|the weekend|this afternoon|\d{1,2}(?::\d{2})?\s*(?:am|pm))\b'
+  - '\bafter (?:the |last night''s |yesterday''s |today''s |a |the latest )?(?:\w+ )?(?:update|upgrade|patch|reboot|migration)\b'
+  - '\bstarted (?:on|at|after) [^.,;]{3,30}'
+  - '\b(?:this morning|yesterday|last night|an hour ago|today)\b'
+
+change_trigger:
+  - '\b(?:windows |driver |software |firmware |bios |office |security )?(?:update|upgrade|patch|migration)\b'
+  - '\bnew (?:laptop|installation|install|version|joiner|account|password)\b'
+  - '\bpassword (?:change|reset|expired)\b'
+
+environment:
+  production: [production, prod server, live system, prod database]
+  remote: [from home, working from home, remote, home office]
+  office: [office, floor, building, desk]
+  test: [test environment, staging, uat]
+
+multi_issue:
+  - '\(1\).*\(2\)'
+  - '(?m)^\s*1[.)]\s.*\n\s*2[.)]\s'
+  - '\b(?:two|2|several|multiple) (?:separate |different )?(?:problems|issues)\b'
+  - '\banother (?:problem|issue)\b'
+  - '\bsecond (?:problem|issue)\b'
+  - '\bunrelated\b'
+  - '\bseparately\b'
+
+max_keywords: 12
