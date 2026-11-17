@@ -1,0 +1,78 @@
+# Deterministic signal patterns (owner: P2, architecture §7.1). Python `re` syntax, matched
+# case-insensitively unless a family sets `case_sensitive: true`. A named group `code` (if present)
+# is what gets reported as the error code.
+
+error_code_families:
+  oracle: {pattern: '\bORA-\d{5}\b', case_sensitive: true}
+  sql_server: {pattern: '\b(?:SQL Server )?error (?P<code>\d{3,5})\b'}
+  sqlstate: {pattern: '\bSQLSTATE \w{5}\b'}
+  db2: {pattern: '\bSQL\d{4}N\b', case_sensitive: true}
+  windows_exception: {pattern: '\b0x[0-9a-fA-F]{8}\b'}
+  msi: {pattern: '\b(?:MSI )?error (?P<code>16\d\d)\b'}
+  stop_code: {pattern: '\b[A-Z]+(?:_[A-Z]+){2,}\b', case_sensitive: true}
+  http_status: {pattern: '\b(?P<code>40[134]|50[0234]) (?:Forbidden|Unauthorized|Not Found|Internal Server Error|Bad Gateway|Service Unavailable|Gateway Timeout)\b'}
+
+# Canonical product name -> regex. Order matters only for output order.
+products:
+  VPN client: '\b(?:vpn|anyconnect|globalprotect|forticlient)\b'
+  Oracle: '\boracle\b|\bORA-\d{5}\b'
+  MS SQL Server: '\b(?:ms\s*)?sql server\b|\bmssql\b'
+  DB2: '\bdb2\b'
+  Outlook: '\boutlook\b|\bexchange\b'
+  Teams: '\bteams\b'
+  Wi-Fi: '\bwi-?fi\b|\bwireless\b|\bssid\b|\baccess point\b'
+  monitor: '\bmonitor\b|\bdisplay\b|\bscreen\b'
+  keyboard: '\bkeyboard\b'
+  mouse: '\bmouse\b'
+  laptop: '\blaptop\b|\bnotebook\b'
+  printer: '\bprinter\b'
+  antivirus: '\banti-?virus\b|\bdefender\b'
+  Windows: '\bwindows\b'
+
+users:
+  count_patterns:
+    - '\b(?:approximately|about|around|roughly|over|more than)?\s*(?P<n>\d{1,5})\s+(?:users|people|staff|colleagues|employees|members|agents|people)\b'
+    - '\b(?:approximately|about|around|roughly)\s+(?P<n>\d{1,5})\b'
+  scope_patterns:
+    org: '\b(?:whole|entire) (?:company|organisation|organization)\b|\ball users\b|\beveryone in the company\b|\bcompany-?wide\b'
+    site: '\b(?:whole|entire) (?:site|building|office|floor)\b|\beveryone in the (?:building|office)\b|\bno one in the building\b'
+    team: '\b(?:whole|entire) (?:team|department)\b|\bthe finance team\b|\bteam is (?:blocked|affected)\b'
+    multiple: '\bmultiple (?:colleagues|users|people|devices|laptops)\b|\bseveral (?:colleagues|users|people)\b|\b(?:other|many) (?:colleagues|users)\b|\bothers? on the same floor\b'
+
+# term regex -> urgency level (1 = U1 most urgent, 2 = U2). See ai/priority.py.
+urgency:
+  - {label: deadline today, pattern: '\bdeadline (?:is )?today\b|\bdue today\b|\bby today\b', level: 1}
+  - {label: end of day, pattern: '\bend[- ]of[- ](?:the )?day\b|\bby EOD\b|\bbefore close of business\b', level: 1}
+  - {label: month-end, pattern: '\bmonth[- ]end\b|\bquarter[- ]end\b|\byear[- ]end\b', level: 1}
+  - {label: blocking, pattern: '\b(?:is |are |completely |fully )?block(?:ed|ing)\b|\bcannot work at all\b|\bwork is stopped\b', level: 1}
+  - {label: urgent, pattern: '\burgent(?:ly)?\b|\basap\b', level: 1}
+  - {label: losing unsaved work, pattern: '\blos(?:e|ing) (?:unsaved |my )?work\b', level: 2}
+  - {label: next week, pattern: '\bnext week\b|\bthis week\b|\bin (?:a few|two|2|three|3) days\b', level: 2}
+
+business_critical: '\bproduction\b|\bmonth[- ]end close\b|\bfinance team\b|\bcustomer[- ]facing\b|\bcritical system\b|\bpayroll\b'
+
+environment:
+  production: '\bproduction\b|\bprod\b|\blive system\b'
+  staging: '\bstaging\b|\bpre-?prod\b|\buat\b'
+  test: '\btest (?:environment|server|system)\b'
+  development: '\bdev(?:elopment)? (?:environment|server|box)\b'
+
+location:
+  building: '\bbuilding\s+[A-Z0-9]{1,3}\b'
+  floor: '\b(?:\d+(?:st|nd|rd|th)|ground|first|second|third|fourth) floor\b'
+  site: '\b(?:in|at) the (?P<site>[A-Z][a-z]+ (?:office|site|branch))\b'
+
+onset: '\b(?:since|starting|started) (?:this morning|yesterday|last night|today|this afternoon|last week|monday|tuesday|wednesday|thursday|friday|the weekend|\d{1,2}(?::\d{2})?\s*(?:am|pm))\b'
+
+change_trigger: '\b(?:after|since|following) (?:the |a |an |last |yesterday''s |today''s )?(?P<what>(?:[\w-]+ ){0,3}?(?:update|upgrade|patch|migration|installation|install|change|password change|reboot|move))\b'
+
+multi_issue: '\(\s*[12]\s*\)|^\s*[12][.)]\s|\btwo (?:problems|issues)\b|\banother (?:problem|issue)\b|\bsecond (?:problem|issue)\b|\balso,? (?:my|the) \w+ (?:is|keeps|has)\b|\bseparately,'
+
+security: '\bmalware\b|\bphishing\b|\bransomware\b|\bbreach(?:ed)?\b|\bquarantin(?:ed|e)\b|\bsuspicious\b|\bdata loss\b|\bvirus\b|\btrojan\b|\bthreat\b|\bcompromised\b|\bhacked\b'
+
+tried_steps:
+  - '\b(?:have |had |already )*(?:restarted|rebooted|reinstalled|re-?installed|reset|cleared|updated|reconnected|re-?seated|replaced|re-?paired|power-?cycled) (?:the |my |our |a )?[\w-]+(?: [\w-]+){0,2}?(?= twice| again| but| and|[,.;]|$)'
+  - '\b(?:already )?tried (?:a |another |to |the )?[\w-]+(?: [\w-]+){0,3}?(?= but| and|[,.;]|$)'
+  - '\bDBA (?:has )?(?:already )?checked\b[\w ]{0,30}?(?= but|[,.;]|$)'
+
+keywords_max: 8
