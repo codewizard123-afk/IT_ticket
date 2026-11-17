@@ -369,7 +369,11 @@ class MockBackend:
         text = f"{ticket['title']}\n{ticket['description']}"
         threshold = float(self.cfg["generic_kb_threshold"])
         hits = self.ticket_store.query(text, 5)
-        chunks = self.kb_store.query_chunks(text, 10)
+        # score the whole text and each part (title, description, clarification answer) and keep
+        # the best ranking: the stub's overlap is the share of *query* tokens, so long text dilutes
+        parts = [text, ticket["title"], *ticket["description"].split("\n[Clarification] ")]
+        rankings = [self.kb_store.query_chunks(p, 10) for p in parts if p.strip()]
+        chunks = max(rankings, key=lambda r: r[0].score if r else 0.0)
         top = chunks[0] if chunks and chunks[0].score >= threshold else None
         if hits:
             category, subcategory = hits[0].category or "Inquiry/Help", hits[0].subcategory
