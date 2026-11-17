@@ -168,6 +168,13 @@ make ui         # Streamlit on http://localhost:8501 (second terminal)
 make demo       # runs the 7 demo tickets through the API and prints contract JSON
 ```
 
+**No backend yet, or no data?** The UI runs against an in-memory mock that serves the golden fixtures:
+
+```bash
+MOCK_API=1 make ui                 # Windows PowerShell: $env:MOCK_API=1; make ui
+make mock-api                      # or: the same mock as an HTTP server on :8000 for curl / make demo
+```
+
 Quick check with curl:
 
 ```bash
@@ -187,7 +194,10 @@ python -c "import json;print(json.dumps(json.load(open('data/samples/sample_tick
 | `api` | `uvicorn backend.main:app --reload --port 8000` | P3 |
 | `ui` | `streamlit run ui/app.py` | P4 |
 | `mock-api` | serve golden fixtures on port 8000 (for UI work without a backend) | P4 |
-| `demo` | analyse DEMO-001…007 and print results | P4 |
+| `demo` | analyse DEMO-001…007, validate each against the contract, print a §16 ✓/✗ table | P4 |
+| `examples` | regenerate `docs/examples/*.md` from the API (audit records) | P4 |
+| `trial-schedule` | seeded crossover schedule → `trial/results/schedule.csv` (`PARTICIPANTS="a b c d"`) | P4 |
+| `trial-export` | trial events → `trial/results/raw_events.csv` for `make mttr-report` (`TRIAL_USER=admin TRIAL_PASSWORD=…`) | P4 |
 | `test` | all tests except `groq`/`slow` | ALL |
 | `test-p1` … `test-p4` | one owner's tests | each |
 | `test-contract` | validate outputs against the JSON Schema | ALL |
@@ -195,6 +205,27 @@ python -c "import json;print(json.dumps(json.load(open('data/samples/sample_tick
 | `eval` | `python -m eval.run --split test` → `eval/out/` | P1 |
 | `mttr-report` | `python -m eval.mttr_report` → `eval/out/mttr.json` + charts | P1 |
 | `lint` / `fmt` | `ruff check .` / `ruff format .` | ALL |
+
+### 5.5 Analyst UI tour (`make ui`)
+
+| Page | What it is for | Requirement |
+|------|----------------|-------------|
+| **Login** (`ui/app.py`) | Pick a role (demo mode, "DEMO AUTH" badge) or log in; shows API / LLM / index health | access |
+| **1 Analyze** | Ticket form or *Load sample* (demos, test and trial tickets). Cards for classification, priority, similar incidents (tier + `SYNTHETIC`/`VERIFIED` badge + why), KEDB match, cited steps (`[KB-0018·res.1]`, L1/L2, already-tried greyed out), decision banner (clarify answer box / escalation bundle download), approval badge, secondary-issue tab, JSON toggle. 👍 ✗ ? on every item and the final decision form. | FR-01…06 |
+| **2 Manual mode** | Trial baseline: ticket text plus keyword search only, **no AI output**, the same decision form, hidden timer events | FR-09 |
+| **3 Search & filter** | Query plus category, subcategory, priority, status, group, application, environment, source and date filters, with paging and a detail drawer | FR-07 |
+| **4 Review queue** | Clarify, escalate and needs-approval items by priority and age; override labels and priority | FR-05 |
+| **5 KB browser** | Articles with citable step IDs, coverage gaps, drafts and approval (kb_owner) | FR-03/06 |
+| **6 Audit view** | Timeline, evidence, decision and feedback, hash-chain status, masked export, worked-example download | FR-08 |
+| **7 MTTR dashboard** | TTD/TTR/MTTR by category, priority, mode and decision; trial manual vs assisted; feedback; degraded; synthetic baseline | FR-09 |
+
+UI rules: a step is never rendered without its source badge; synthetic data is always badged; every chip has a colour **and** a text label; `ui.viewed` is posted once per result. The timed trial is described in [`trial/protocol.md`](trial/protocol.md), worked examples are in [`docs/examples/`](docs/examples/), and the demo talk track is [`docs/examples/DEMO_SCRIPT.md`](docs/examples/DEMO_SCRIPT.md).
+
+### 5.6 Windows notes
+
+- No GNU make? Use `mingw32-make` (MinGW) or `choco install make`. Pass the venv interpreter when it is not activated: `make test-p4 PY=.venv/Scripts/python`.
+- Without make: `python -m streamlit run ui/app.py`, `python -m ui.mock_api`, `python -m ui.demo`, `python -m pytest tests/p4_ui`. Run them from the repo root so `ui`, `shared` and the other packages import.
+- Python 3.11 is the target (`pyproject.toml`). The UI and tests also run on 3.12 for local work.
 
 ---
 
@@ -374,6 +405,21 @@ You will sometimes need to change `shared/`, `config/base.yaml` or `docs/archite
 - Add dependencies only to **your** `requirements/<area>.txt`, and Make targets only to **your** `mk/p<n>.mk`.
 - Rebase on `develop` at least twice a day; keep PRs small (< 400 lines when you can).
 - Never commit data artefacts (`data/chroma`, `app.db`, caches), secrets or `.env`.
+
+### 8.5 Open integration items (from P4)
+
+The UI is built and tested against `ui/mock_backend.py`, which follows architecture §10. When P3's API lands (M3), these items must match the mock or the UI must be adjusted. Each one is an issue labelled `needs:P3` or `needs:P1`.
+
+| Item | Used by | Owner |
+|------|---------|-------|
+| `GET /kb/drafts?status=` lists drafts (not in §10 yet) | KB browser, Drafts tab | P3 |
+| `GET /metrics/mttr` accepts `metric=ttd\|ttr\|mttr` (default `mttr`) | MTTR dashboard | P3 |
+| `GET /metrics/summary` returns `ttd_by_mode`, `kb_gaps`, `feedback.rates`, `degraded.by_mode`, `historical_baseline` | MTTR dashboard, KB gaps | P3 |
+| `GET /audit/{analysis_id}` returns `ticket, response, evidence, timeline, feedback, decision, chain, filtered_for_role` | Audit view, worked examples | P3 |
+| Audit export rows have `action` (`event` / `decision`), `entity_id`, `payload_json`, `ts_utc` | `trial/export.py` | P3 |
+| `/decisions` accepts a manual-mode `analysis_id` announced by `manual.started` (`manual-<ticket>-<id>`) | Manual mode | P3 |
+| Trial participant accounts in `config/users.yaml` | timed trial | P3 |
+| `data/samples/sample_tickets.json` and `data/test/trial_tickets.json` (the UI falls back to `ui/mock_data/` until they exist) | Load sample, trial | P1 |
 
 ---
 
@@ -604,6 +650,9 @@ Demo users (`config/users.yaml`, `DEMO_AUTH=0`): `l1_alice` (l1, SERVICE-DESK), 
 | Chroma errors about metadata types | Lists must be CSV strings, `null` must be `""`, and dates must be int epochs (architecture §6.5). |
 | Different scores on different machines | Make sure the embedding model is identical and Chroma isn't using its default embedding function. Delete `data/chroma/` and rebuild. |
 | UI can't reach the API | Check `API_BASE_URL`, or run the UI with `MOCK_API=1`. |
+| UI page says "Choose a role or log in" | Open the **Login** page first. The role lives in the browser session, so a new tab needs it again. |
+| `ModuleNotFoundError: ui` / `shared` when starting Streamlit | Start it from the repo root with `python -m streamlit run ui/app.py` (or `make ui`), not from inside `ui/`. |
+| Manual-mode trial events all show the same participant | Each participant needs their own login; demo-role headers all map to one `demo-<role>` actor (`trial/protocol.md` §1). |
 | Golden test fails after a threshold change | Expected. If the change is intended, update the fixtures through a `contract-change` PR. |
 
 ---
