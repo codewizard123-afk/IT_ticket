@@ -1,0 +1,92 @@
+# AI engine configuration (owner: P2). Defaults from architecture §17.
+# Groq's model list changes: check the console and update the model IDs before the demo.
+
+embedding:
+  model: BAAI/bge-small-en-v1.5
+  normalize: true
+
+llm:
+  base_url: https://api.groq.com/openai/v1/chat/completions
+  classify_model: llama-3.1-8b-instant
+  synth_model: llama-3.3-70b-versatile
+  temperature: 0
+  timeout_s: 20
+  max_retries: 2
+  backoff_base_s: 1.0
+  backoff_max_s: 8.0
+  rpm: 25
+  tpm: 5500
+  cache: data/llm_cache.sqlite
+  breaker_failures: 3
+  breaker_cooldown_s: 60
+  max_tokens: 1024
+
+classifier:
+  weights: {llm: 0.45, knn: 0.35, rule: 0.20}
+  weights_no_llm: {knn: 0.65, rule: 0.35}
+  no_llm_conf_cap: 0.80
+  knn_k: 15
+  bands: {high: 0.75, medium: 0.55}
+  conf_mix: {score: 0.6, margin: 0.25, agree: 0.15}
+  conflict_min: 0.4
+  other_min_score: 0.20
+  split_min_score: 0.35
+  max_issues: 2
+
+retrieval:
+  tickets:
+    k_dense: 30
+    k_bm25: 30
+    rrf_k: 60
+    top_n: 5
+    rerank: false
+    related_min: 0.55
+    bonus: {same_category: 0.10, same_subcategory: 0.05, verified_resolution: 0.05}
+    excerpt_chars: 160
+  kb:
+    k_chunks: 20
+    k_bm25: 20
+    top_n: 3
+    tau_show: 0.35
+    tau_kb: 0.50
+    ambiguity_gap: 0.05
+    solution_chars: 200
+  weights_kb: {sem: 0.45, bm25: 0.15, code: 0.20, tax: 0.12, fb: 0.08}
+
+duplicates:
+  near: 0.92
+  similar: 0.75
+  live_window_h: 72
+  cluster_min: 3
+
+synth:
+  max_kb_articles: 2
+  max_verified_incidents: 3
+  verified_min_cos: 0.75
+  max_pack_chars: 10000
+  max_validation_failures: 2
+
+validator:
+  grounding_min: 0.30
+  min_steps: 2
+  safety_patterns:
+    - 'disable\s+(the\s+)?(antivirus|firewall|uac|defender)'
+    - 'turn\s+off\s+(the\s+)?(antivirus|firewall|uac|defender)'
+    - 'share\s+(your\s+|the\s+)?password'
+    - 'format\s+(the\s+)?(drive|disk)'
+    - 'delete\s+.*registry'
+    - 'grant\s+.*(dba|owner|full control|admin)'
+  injection_patterns:
+    - 'ignore\s+(all\s+)?(previous|prior|above)\s+instructions'
+    - 'system\s+prompt'
+    - 'you\s+are\s+now'
+
+priority:
+  level: {P1: Critical, P2: High, P3: Medium, P4: Low}
+  baseline:
+    Network: P2
+    Database: P2
+    Hardware: P3
+    Software: P3
+    Inquiry/Help: P4
+  max_drivers_in_reason: 2
