@@ -90,12 +90,14 @@ validator:
   grounding_min: 0.30
   min_steps: 2
   safety_patterns:
-    - 'disable\s+(the\s+)?(antivirus|firewall|uac|defender)'
-    - 'turn\s+off\s+(the\s+)?(antivirus|firewall|uac|defender)'
-    - 'share\s+(your\s+|the\s+)?password'
-    - 'format\s+(the\s+)?(drive|disk)'
+    # disable/turn off/stop/uninstall a security control, allowing up to 2 words in between
+    - '(?:disable|turn\s+off|switch\s+off|stop|uninstall|bypass|deactivate)\s+(?:\S+\s+){0,2}(?:antivirus|anti-virus|firewall|uac|defender|endpoint protection|mfa|multi-factor|bitlocker|edr)'
+    - 'share\s+(?:\S+\s+){0,2}password'
+    - '(?:send|email|tell|give)\s+(?:\S+\s+){0,3}password'
+    - 'format\s+(?:the\s+)?(?:\S+\s+)?(?:drive|disk|partition)'
     - 'delete\s+.*registry'
-    - 'grant\s+.*(dba|owner|full control|admin)'
+    - 'grant\s+.*(?:dba|owner|full control|admin|sysadmin|domain admin)'
+    - 'add\s+.*to\s+(?:the\s+)?(?:local\s+)?administrators'
   injection_patterns:
     - 'ignore\s+(all\s+)?(previous|prior|above)\s+instructions'
     - 'system\s+prompt'
