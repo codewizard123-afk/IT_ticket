@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://it-ticket-assistant/shared/contract/analysis_output.schema.json",
+  "title": "AnalysisResponse",
+  "description": "Output of POST /api/v1/analyze (architecture §4). view=contract returns exactly the 8 required keys; view=full adds one extra top-level key, 'details'. Contract objects never contain extra keys.",
+  "type": "object",
+  "required": [
+    "ticket_id",
+    "classification",
+    "priority",
+    "similar_incidents",
+    "kedb_match",
+    "recommended_solution",
+    "escalation_required",
+    "human_approval_required"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ticket_id": {"type": "string", "minLength": 1},
+    "classification": {"$ref": "#/$defs/classification"},
+    "priority": {"$ref": "#/$defs/priority"},
+    "similar_incidents": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/similar_incident"}
+    },
+    "kedb_match": {"$ref": "#/$defs/kedb_match"},
+    "recommended_solution": {"$ref": "#/$defs/recommended_solution"},
+    "escalation_required": {"type": "boolean"},
+    "human_approval_required": {"type": "boolean"},
+    "details": {"$ref": "#/$defs/details"}
+  },
+  "$defs": {
+    "classification": {
+      "type": "object",
+      "required": ["category", "subcategory", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "category": {"type": "string", "minLength": 1},
+        "subcategory": {"type": "string", "minLength": 1},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "priority": {
+      "type": "object",
+      "required": ["level", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "level": {"enum": ["Critical", "High", "Medium", "Low"]},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "similar_incident": {
+      "type": "object",
+      "required": ["incident_id", "similarity_score", "resolution"],
+      "additionalProperties": false,
+      "properties": {
+        "incident_id": {"type": "string", "minLength": 1},
+        "similarity_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "resolution": {"type": ["string", "null"]}
+      }
+    },
+    "kedb_match": {
+      "type": "object",
+      "required": ["found", "error_code", "solution"],
+      "additionalProperties": false,
+      "properties": {
+        "found": {"type": "boolean"},
+        "error_code": {
+          "description": "KEDB known-error ID of the top article, e.g. KB-0018. The literal code from the ticket is in details.kedb.matched_error_code.",
+          "oneOf": [{"type": "string", "pattern": "^KB-[0-9]{4}$"}, {"type": "null"}]
+        },
+        "solution": {"type": ["string", "null"], "maxLength": 200}
+      },
+      "if": {"properties": {"found": {"const": true}}},
+      "then": {"properties": {"error_code": {"type": "string"}, "solution": {"type": "string"}}},
+      "else": {"properties": {"error_code": {"type": "null"}, "solution": {"type": "null"}}}
+    },
+    "recommended_solution": {
+      "type": "object",
+      "required": ["steps", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "steps": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "source": {"enum": ["KEDB", "Historical Incident", "KEDB + Historical Incident", "None"]}
+      },
+      "if": {"properties": {"source": {"const": "None"}}},
+      "then": {"properties": {"steps": {"maxItems": 0}}},
+      "else": {"properties": {"steps": {"minItems": 1}}}
+    },
+    "step": {
+      "type": "object",
+      "required": ["text", "type", "citations", "role", "already_attempted"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "type": {"enum": ["diagnostic", "resolution"]},
+        "citations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^(KB-[0-9]{4}#(diag|res)\\.[0-9]+|[A-Z][A-Z0-9]*(-[A-Z0-9]+)+)$"}
+        },
+        "role": {"enum": ["L1", "L2"]},
+        "already_attempted": {"type": "boolean"}
+      }
+    },
+    "escalation": {
+      "type": "object",
+      "required": ["reasons", "assignment_group", "tier"],
+      "properties": {
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["rule", "text"],
+            "properties": {
+              "rule": {"enum": ["E1", "E2", "E3", "E4", "E5", "E6", "E7"]},
+              "text": {"type": "string"}
+            }
+          }
+        },
+        "assignment_group": {"type": "string", "minLength": 1},
+        "tier": {"enum": ["L2", "L3"]},
+        "bundle_id": {"type": ["string", "null"]},
+        "issue_idx": {"type": "integer", "minimum": 0}
+      }
+    },
+    "kedb_details": {
+      "type": "object",
+      "required": ["kb_id", "title", "score"],
+      "properties": {
+        "kb_id": {"type": "string", "pattern": "^KB-[0-9]{4}$"},
+        "title": {"type": "string"},
+        "score": {"type": "number"},
+        "matched_error_code": {"type": ["string", "null"]},
+        "matched_field": {"type": ["string", "null"]},
+        "excerpt": {"type": ["string", "null"]},
+        "why": {"type": ["string", "null"]},
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kb_id", "score"],
+            "properties": {"kb_id": {"type": "string"}, "score": {"type": "number"}}
+          }
+        }
+      }
+    },
+    "similar_details": {
+      "type": "object",
+      "required": ["incident_id", "tier", "resolution_origin"],
+      "properties": {
+        "incident_id": {"type": "string"},
+        "tier": {"enum": ["DUPLICATE", "LIKELY DUPLICATE", "SIMILAR", "RELATED"]},
+        "excerpt": {"type": ["string", "null"]},
+        "why": {"type": ["string", "null"]},
+        "resolution_origin": {
+          "enum": ["synthetic_kb_derived", "synthetic_escalated", "curated_verified", "analyst_verified", "none"]
+        },
+        "category": {"type": ["string", "null"]},
+        "subcategory": {"type": ["string", "null"]}
+      }
+    },
+    "decision": {"enum": ["recommend", "clarify", "escalate"]},
+    "secondary_issue": {
+      "type": "object",
+      "required": ["classification", "priority", "kedb_match", "recommended_solution", "decision"],
+      "properties": {
+        "classification": {"$ref": "#/$defs/classification"},
+        "priority": {"$ref": "#/$defs/priority"},
+        "kedb_match": {"$ref": "#/$defs/kedb_match"},
+        "recommended_solution": {"$ref": "#/$defs/recommended_solution"},
+        "decision": {"$ref": "#/$defs/decision"},
+        "escalation": {"oneOf": [{"$ref": "#/$defs/escalation"}, {"type": "null"}]},
+        "kedb": {"oneOf": [{"$ref": "#/$defs/kedb_details"}, {"type": "null"}]},
+        "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}}
+      }
+    },
+    "details": {
+      "description": "Extension block (architecture §4.3). Additive: unknown keys are allowed here, never in contract objects.",
+      "type": "object",
+      "required": ["analysis_id", "decision", "classification", "priority", "steps", "approval_reasons", "degraded"],
+      "properties": {
+        "analysis_id": {"type": "string", "minLength": 1},
+        "decision": {"$ref": "#/$defs/decision"},
+        "primary_decision": {"oneOf": [{"$ref": "#/$defs/decision"}, {"type": "null"}]},
+        "clarifying_questions": {"type": "array", "maxItems": 3, "items": {"type": "string"}},
+        "intent": {"enum": ["incident", "service_request", "how_to", "access_request"]},
+        "classification": {
+          "type": "object",
+          "required": ["band"],
+          "properties": {
+            "band": {"enum": ["high", "medium", "low"]},
+            "components": {"type": "object", "additionalProperties": {"type": "number"}},
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["category", "subcategory", "score"],
+                "properties": {
+                  "category": {"type": "string"},
+                  "subcategory": {"type": "string"},
+                  "score": {"type": "number"}
+                }
+              }
+            },
+            "rationale": {"type": ["string", "null"]},
+            "conflict": {"type": "boolean"}
+          }
+        },
+        "priority": {
+          "type": "object",
+          "required": ["code", "drivers"],
+          "properties": {
+            "code": {"enum": ["P1", "P2", "P3", "P4"]},
+            "impact": {"type": "integer", "minimum": 1, "maximum": 3},
+            "urgency": {"type": "integer", "minimum": 1, "maximum": 3},
+            "drivers": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "similar": {"type": "array", "items": {"$ref": "#/$defs/similar_details"}},
+        "keyword_only": {"type": "array", "items": {"$ref": "#/$defs/similar_details"}},
+        "kedb": {"oneOf": [{"$ref": "#/$defs/kedb_details"}, {"type": "null"}]},
+        "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}},
+        "escalation": {"oneOf": [{"$ref": "#/$defs/escalation"}, {"type": "null"}]},
+        "approval_reasons": {"type": "array", "items": {"type": "string"}},
+        "secondary_issues": {"type": "array", "maxItems": 1, "items": {"$ref": "#/$defs/secondary_issue"}},
+        "signals": {"type": ["object", "null"]},
+        "redactions": {
+          "type": "object",
+          "properties": {
+            "count": {"type": "integer", "minimum": 0},
+            "types": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "degraded": {"type": "array", "items": {"type": "string"}},
+        "timings_ms": {"type": "object", "additionalProperties": {"type": "integer"}},
+        "versions": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    }
+  }
+}
