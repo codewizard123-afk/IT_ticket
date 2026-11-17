@@ -12,3 +12,11 @@ demo: ## analyse DEMO-001…007 through the API and print contract JSON
 
 test-p4: ## P4 tests
 	$(call run_pytest,tests/p4_ui)
+
+.PHONY: trial-schedule trial-export
+PARTICIPANTS ?= p1 p2 p3 p4
+trial-schedule: ## seeded crossover schedule -> trial/results/schedule.csv (PARTICIPANTS="a b c d")
+	$(PY) -m trial.schedule $(PARTICIPANTS) --csv trial/results/schedule.csv
+
+trial-export: ## trial events -> trial/results/raw_events.csv (TRIAL_USER=admin TRIAL_PASSWORD=...)
+	$(PY) -m trial.export $(if $(TRIAL_USER),--username $(TRIAL_USER) --password "$(TRIAL_PASSWORD)",--demo-role admin)
