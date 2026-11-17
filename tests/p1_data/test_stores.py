@@ -191,3 +191,12 @@ def test_all_error_phrases(kb):
     phrases = kb.all_error_phrases()
     assert "Gateway not responding" in phrases and "ORA-01013" in phrases
     assert len(phrases) == len(set(phrases)) > 100
+
+
+def test_index_is_redacted(ts, built_root):
+    rows = json.loads((built_root / "data/processed/tickets.json").read_text("utf-8"))
+    pii = [r for r in rows if r["metadata"]["contains_pii"]]
+    assert pii, "fixture subset should contain at least one PII ticket"
+    for rec in ts.get([r["id"] for r in pii]):
+        assert "@example.com" not in rec.description and "+91" not in rec.description
+        assert "@example.com" not in rec.text

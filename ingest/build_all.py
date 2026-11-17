@@ -18,6 +18,7 @@ from typing import Any
 
 from ingest.index_kedb import govern, index_kedb, index_path, load_articles, write_governed
 from ingest.index_tickets import index_tickets, plain_record
+from privacy.redact import redact_text
 from store.bm25_store import BM25Index
 from store.chroma_store import EmbedFn
 from store.config import read_json, repo_path, write_json
@@ -76,7 +77,9 @@ def build_all(
     # 2. historical tickets
     records = [plain_record(r) for r in read_json(repo_path("tickets", root))]
     bm25 = BM25Index()
-    counts["tickets_hist"] = index_tickets(client, embed_fn, records, "tickets_hist", bm25=bm25)
+    counts["tickets_hist"] = index_tickets(
+        client, embed_fn, records, "tickets_hist", bm25=bm25, redact=redact_text
+    )
     bm25.save(index_path("bm25_tickets", root))
 
     manifest = {
