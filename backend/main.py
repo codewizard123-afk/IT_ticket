@@ -15,12 +15,15 @@ from fastapi import FastAPI
 from backend import errors
 from backend.config import backend_config, base_config
 from backend.db.sqlite import open_db
-from backend.routers import analyze, audit, auth, feedback, kb, metrics
+from backend.routers import analyze, audit, auth, feedback, health, kb, metrics, review, tickets
 from backend.services import Services, build_services
 
 ROUTERS = (
+    health.router,
     auth.router,
     analyze.router,
+    tickets.router,
+    review.router,
     feedback.router,
     kb.router,
     metrics.router,

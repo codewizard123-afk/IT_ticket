@@ -40,3 +40,11 @@ kb_drafts:                  # architecture §8.9
     - '\b(everyone|all users|domain users)\b.{0,40}\b(full control|admin(istrator)? rights|domain admin)\b'
     - '\bchmod\s+777\b'
     - '\bbypass\b.{0,40}\b(control|policy|approval|security|mfa)\b'
+
+search:                     # FR-07, /tickets/search
+  default_size: 20
+  max_size: 200
+  max_results: 1000         # hits fetched from P2 before paging (gives `total`)
+
+review_queue:
+  page_size: 20
