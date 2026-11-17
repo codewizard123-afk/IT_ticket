@@ -15,10 +15,17 @@ from fastapi import FastAPI
 from backend import errors
 from backend.config import backend_config, base_config
 from backend.db.sqlite import open_db
-from backend.routers import analyze, audit, auth, feedback, metrics
+from backend.routers import analyze, audit, auth, feedback, kb, metrics
 from backend.services import Services, build_services
 
-ROUTERS = (auth.router, analyze.router, feedback.router, metrics.router, audit.router)
+ROUTERS = (
+    auth.router,
+    analyze.router,
+    feedback.router,
+    kb.router,
+    metrics.router,
+    audit.router,
+)
 
 
 def create_app(services: Services | None = None) -> FastAPI:

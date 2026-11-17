@@ -28,3 +28,15 @@ feedback:                   # architecture §8.8
   clip: 0.5
   # feedback whose target_ref names a KB article (or a KB step citation) feeds the prior
   prior_targets: [kedb_match, step, recommendation]
+
+kb_drafts:                  # architecture §8.9
+  max_steps: 12
+  # Never publish steps that weaken security, share secrets or grant broad rights (CLAUDE.md rule 8).
+  unsafe_patterns:
+    - '\b(disable|turn off|switch off|uninstall|stop)\b.{0,40}\b(antivirus|anti-virus|defender|firewall|edr|endpoint protection|security|uac|bitlocker|mfa)\b'
+    - '\b(share|send|tell|give|email|post)\b.{0,40}\bpassword'
+    - '\bpassword\b.{0,30}\b(in|via|over)\b.{0,10}\b(chat|email|ticket|teams|slack)\b'
+    - '\b(grant|give|add)\b.{0,40}\b(domain admin|enterprise admin|full control|local admin(istrator)? rights|sysadmin|db_owner)\b.{0,40}\b(everyone|all users|domain users)\b'
+    - '\b(everyone|all users|domain users)\b.{0,40}\b(full control|admin(istrator)? rights|domain admin)\b'
+    - '\bchmod\s+777\b'
+    - '\bbypass\b.{0,40}\b(control|policy|approval|security|mfa)\b'
