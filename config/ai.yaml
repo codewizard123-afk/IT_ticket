@@ -1,0 +1,102 @@
+# AI engine configuration (owner: P2). Defaults mirror architecture §17.
+# Every value here has a code default in ai/config.py, so a missing key never breaks the engine.
+
+embedding:
+  model: BAAI/bge-small-en-v1.5
+  normalize: true
+
+llm:
+  # Groq's model list changes; check the console before the demo (README §13).
+  classify_model: llama-3.1-8b-instant
+  synth_model: llama-3.3-70b-versatile
+  base_url: https://api.groq.com/openai/v1/chat/completions
+  temperature: 0
+  timeout_s: 20
+  max_retries: 2
+  backoff_base_s: 1.0
+  backoff_max_s: 8.0
+  rpm: 25            # token-bucket requests per minute (below the free-tier limit)
+  tpm: 5500          # token-bucket tokens per minute (estimated from prompt length)
+  cache: data/llm_cache.sqlite
+  breaker_failures: 3
+  breaker_cooldown_s: 60
+
+classifier:
+  weights: {llm: 0.45, knn: 0.35, rule: 0.20}
+  weights_no_llm: {knn: 0.65, rule: 0.35}
+  no_llm_conf_cap: 0.80
+  single_voter_cap: 0.54   # only one voter has an opinion → band low
+  knn_k: 15
+  knn_power: 2.0           # sharpen the kNN vote (1.0 = plain §7.3 formula)
+  knn_min_rel: 0.5         # ignore neighbours scoring below 0.5 × the best neighbour
+  bands: {high: 0.75, medium: 0.55}
+  conflict_min: 0.40
+  other_min: 0.30          # below this top score the subcategory becomes "Other"
+  split_min: 0.35          # both top-2 categories ≥ this → split candidate
+
+retrieval:
+  tickets: {k_dense: 30, k_bm25: 30, rrf_k: 60, top_n: 5, rerank: false, related_min: 0.55}
+  ticket_bonus: {same_category: 0.10, same_subcategory: 0.05, verified_resolution: 0.05}
+  kb: {k_chunks: 20, top_n: 3, tau_show: 0.35, tau_kb: 0.50, ambiguity_gap: 0.05}
+  weights_kb: {sem: 0.45, bm25: 0.15, code: 0.20, tax: 0.12, fb: 0.08}
+
+duplicates: {near: 0.92, similar: 0.75, live_window_h: 72, cluster_min: 3}
+
+synthesis:
+  max_kb_articles: 2
+  max_verified_incidents: 3
+  verified_min_cos: 0.75
+  max_pack_chars: 10000    # ≈ 2.5k tokens
+
+validator: {grounding_min: 0.30, min_steps: 2}
+
+# Fallback copy of P1's config/taxonomy_map.yaml (architecture §3.3), used only when that file
+# is absent. P1's file always wins when present.
+taxonomy_map_fallback:
+  Network/VPN: {primary: [KB-0018, KB-0019], secondary: [KB-0023]}
+  Network/Wireless: {primary: [KB-0020, KB-0021], secondary: [KB-0013]}
+  Network/DNS: {primary: [KB-0023], secondary: [KB-0024]}
+  Network/DHCP: {primary: [], secondary: [KB-0023, KB-0020]}
+  Network/IP Address: {primary: [], secondary: [KB-0023, KB-0022]}
+  Database/Oracle: {primary: [KB-0001, KB-0002, KB-0003, KB-0004, KB-0005], secondary: []}
+  Database/MS SQL Server: {primary: [KB-0001, KB-0002, KB-0003, KB-0004, KB-0005], secondary: []}
+  Database/DB2: {primary: [KB-0001, KB-0002, KB-0003, KB-0004, KB-0005], secondary: []}
+  Hardware/Monitor: {primary: [KB-0008], secondary: [KB-0011]}
+  Hardware/Keyboard: {primary: [KB-0012], secondary: [KB-0011]}
+  Hardware/Mouse: {primary: [KB-0012], secondary: [KB-0011]}
+  Hardware/CPU: {primary: [KB-0030], secondary: [KB-0006, KB-0007]}
+  Hardware/Memory: {primary: [KB-0030], secondary: [KB-0006]}
+  Hardware/Disk: {primary: [], secondary: [KB-0006]}
+  Software/Email: {primary: [KB-0029, KB-0015], secondary: [KB-0030]}
+  Software/Operating System: {primary: [KB-0006, KB-0029], secondary: [KB-0026, KB-0027]}
+  Inquiry/Help/Antivirus: {primary: [KB-0028], secondary: [KB-0014]}
+  Inquiry/Help/Internal Application: {primary: [KB-0029, KB-0030, KB-0014], secondary: [KB-0026]}
+
+# Priority engine (architecture §7.4). matrix[impact][urgency] → code.
+priority:
+  matrix:
+    1: {1: P1, 2: P2, 3: P3}
+    2: {1: P2, 2: P3, 3: P3}
+    3: {1: P3, 2: P3, 3: P4}
+  impact_users_i1: 10        # ≥ this many users → I1
+  shared_resource: '\bshared (?:drive|folder|mailbox|printer|server|calendar)\b|\b(?:file|print) server\b'
+
+# Within Database the article is chosen by symptom (architecture §3.3). Used with the
+# taxonomy map: the symptom-matched article gets the full boost, other primaries get half.
+database_symptoms:
+  KB-0001: '\bslow\w*\b|\btim(?:e|ed|ing) ?out\b|\btimeouts?\b|\bhang\w*\b|\bORA-01013\b|\bcancel\w*\b'
+  KB-0002: '\bconnection pool\b|\bpool exhausted\b|\bmax(?:imum)? connections\b|\bORA-1252[09]\b'
+  KB-0003: '\baccess denied\b|\blogin failed\b|\bcannot log ?in\b|\bcan''t log ?in\b|\blocked\b|\b18456\b|\bORA-01017\b'
+  KB-0004: '\bpassword (?:has )?expired\b|\bexpired password\b|\bORA-28001\b'
+  KB-0005: '\bbackup\b|\brestore\b'
+
+kb_multi_query:
+  max_sentences: 6       # also query each sentence (≥ 3 words) and keep the best chunk score
+  min_words: 3
+
+# Resolution synthesiser extras (architecture §7.7)
+synthesis_rules:
+  # a step matching this is tagged role L2 (admin / DBA / network-ops work)
+  l2_pattern: '\bask the (?:dba|application team|network team|server team)\b|\bdba\b|\badmin\w*\b|\bnet-?ops\b|\berror log\b|\baudit trail\b|\bexecution plan\b|\boptimi[sz]er\b|\bsessions?\b|\b(?:office )?repair\b|\bregistry\b|\bgroup policy\b|\bfirmware\b|\bprocess limits\b|\bconnection pool\b|\bbackup destination\b|\buser profile\b|\breset the password\b|\bunlock the account\b'
+  attempted_min_overlap: 0.6    # tried-step tokens found in the step text
+  incident_link_min: 0.30       # grounding needed to add a verified incident as a 2nd citation
