@@ -6,7 +6,7 @@
 seed: 42
 drafted_by: "claude-code (AI-assisted draft)"
 verified_by: "Neeleshkt8"
-review_status: "pending_human_review"   # set to "reviewed" per record after the checklist
+review_status: "reviewed"   # set to "reviewed" per record after the checklist
 
 incidents:
   # ------------------------------------------------------------------------------ Network
