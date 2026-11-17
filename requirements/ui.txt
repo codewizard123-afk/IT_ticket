@@ -1,0 +1,4 @@
+# P4 · UI (ui/ trial/). Owner: P4 — add your deps here only.
+-r base.txt
+streamlit>=1.36
+httpx>=0.27

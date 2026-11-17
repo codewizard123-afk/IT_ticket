@@ -1,0 +1,7 @@
+# P3 · Backend (backend/). Owner: P3 — add your deps here only.
+-r base.txt
+fastapi>=0.111
+uvicorn[standard]>=0.30
+pyjwt>=2.8
+bcrypt>=4.1
+httpx>=0.27

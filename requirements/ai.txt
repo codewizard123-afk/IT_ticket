@@ -1,0 +1,4 @@
+# P2 · AI engine (ai/). Owner: P2 — add your deps here only.
+-r base.txt
+httpx>=0.27
+jinja2>=3.1

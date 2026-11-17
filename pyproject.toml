@@ -1,0 +1,23 @@
+[project]
+name = "it-ticket-assistant"
+version = "0.1.0"
+description = "IT Ticket Analysis & Resolution Assistant (HCLTech hackathon, use case 1)"
+requires-python = ">=3.11,<3.12"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["data", "eval/out", "trial/results"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["shared", "privacy", "ingest", "store", "eval", "ai", "backend", "ui", "trial"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "groq: needs a real GROQ_API_KEY (excluded from CI)",
+    "slow: needs `make data` or full HTTP round-trips (excluded from CI)",
+]

@@ -1,0 +1,31 @@
+# --- Secrets and local env (never commit) ---
+.env
+.venv/
+venv/
+
+# --- Generated data artefacts (never commit; README §8.4, CLAUDE.md rule 10) ---
+data/chroma/
+data/app.db
+data/app.db-*
+data/llm_cache.sqlite
+eval/out/
+trial/results/
+indexes/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

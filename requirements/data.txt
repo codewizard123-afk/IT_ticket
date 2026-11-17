@@ -1,0 +1,7 @@
+# P1 · Data & KB (privacy/ ingest/ store/ eval/). Owner: P1 — add your deps here only.
+-r base.txt
+numpy>=1.26
+chromadb>=0.5
+sentence-transformers>=3.0
+rank-bm25>=0.2.2
+openpyxl>=3.1

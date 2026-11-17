@@ -1,0 +1,5 @@
+# Full install used by `make setup`. Each area file is owned by one person (README §4).
+-r requirements/data.txt
+-r requirements/ai.txt
+-r requirements/backend.txt
+-r requirements/ui.txt

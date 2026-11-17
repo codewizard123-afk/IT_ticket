@@ -1,0 +1,5 @@
+# Shared runtime deps (owner: ALL). Needed by shared/ and every module.
+pydantic>=2.6,<3
+pyyaml>=6.0
+jsonschema>=4.21
+python-dotenv>=1.0
