@@ -4,3 +4,4 @@ numpy>=1.26
 chromadb>=0.5
 sentence-transformers>=3.0
 openpyxl>=3.1
+matplotlib>=3.8

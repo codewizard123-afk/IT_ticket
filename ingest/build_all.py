@@ -21,6 +21,7 @@ from ingest.enrich import enrich
 from ingest.index_kedb import govern, index_kedb, index_path, load_articles, write_governed
 from ingest.index_tickets import index_tickets
 from ingest.make_seed import load_seed
+from ingest.split import assign_splits
 from privacy.redact import redact_text
 from shared.schemas import TicketRecord
 from store.bm25_store import BM25Index
@@ -55,6 +56,33 @@ def index_stale(root: Path | None = None) -> bool:
     if not manifest.exists():
         return True
     return read_json(manifest).get("source_sha1") != source_hashes(root)
+
+
+def build_eval_collections(
+    client: Any,
+    embed_fn: EmbedFn,
+    enriched: list[dict[str, Any]],
+    seed: list[TicketRecord],
+    *,
+    root: Path | None = None,
+) -> dict[str, int]:
+    """``tickets_hist_eval`` (train split) + ``tickets_verified_eval`` + their BM25."""
+    splits = assign_splits(enriched)
+    train = [TicketRecord.model_validate(r) for r in enriched if splits[r["ticket_id"]] == "train"]
+    bm25 = BM25Index()
+    counts = {
+        "tickets_hist_eval": index_tickets(
+            client, embed_fn, train, "tickets_hist_eval", bm25=bm25, redact=redact_text
+        ),
+        "tickets_verified_eval": index_tickets(
+            client, embed_fn, seed, "tickets_verified_eval", bm25=bm25, redact=redact_text
+        ),
+    }
+    bm25.save(index_path("bm25_tickets_eval", root))
+    counts["split_train"] = sum(1 for s in splits.values() if s == "train")
+    counts["split_val"] = sum(1 for s in splits.values() if s == "val")
+    counts["split_test"] = sum(1 for s in splits.values() if s == "test")
+    return counts
 
 
 def build_all(
@@ -95,6 +123,10 @@ def build_all(
         client, embed_fn, seed, "tickets_verified", bm25=bm25, redact=redact_text
     )
     bm25.save(index_path("bm25_tickets", root))
+
+    # 4. evaluation copies built from the 70% train split only (architecture §11.1, §14.1)
+    if eval_split:
+        counts.update(build_eval_collections(client, embed_fn, enriched, seed, root=root))
 
     manifest = {
         "source_sha1": source_hashes(root),

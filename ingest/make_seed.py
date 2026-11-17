@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Any
 
 from shared.schemas import TicketRecord
-from store.config import ROOT, data_config, load_yaml, read_json, repo_path, write_json
+from store.config import CONFIG_DIR, ROOT, data_config, load_yaml, read_json, repo_path, write_json
 
 SEED_SOURCE = "data/seed/curated_incidents.yaml"
 UNSAFE = re.compile(
@@ -35,9 +35,16 @@ UNSAFE = re.compile(
 DURATION_H = {"P1": 2, "P2": 4, "P3": 8, "P4": 24}
 
 
+def taxonomy_map() -> dict[str, dict[str, dict[str, list[str]]]]:
+    """``config/taxonomy_map.yaml`` ``mapping``: category → subcategory → primary/secondary."""
+    raw = load_yaml(CONFIG_DIR / "taxonomy_map.yaml")
+    return raw.get("mapping") or raw.get("map") or {}
+
+
 def taxonomy(root: Path | None = None) -> dict[str, list[str]]:
-    """``{category: [subcategory, …]}`` from P1's taxonomy map (the 6x5 ticket taxonomy)."""
-    raw = load_yaml(repo_path("taxonomy_map", root))
+    """``{category: [subcategory, …]}`` from P1's taxonomy map (the 6x5 ticket taxonomy).
+    Config always comes from the repo's ``config/``; ``root`` is accepted for symmetry."""
+    raw = load_yaml(CONFIG_DIR / "taxonomy_map.yaml")
     mapping = raw.get("mapping") or raw.get("map") or {}
     return {cat: list(subs) for cat, subs in mapping.items()}
 

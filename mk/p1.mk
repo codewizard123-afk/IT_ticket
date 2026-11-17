@@ -1,5 +1,5 @@
 # P1 · Data & KB targets (owner: P1). Add new P1 targets here only.
-.PHONY: data data-eval seed test-sets eval mttr-report test-p1
+.PHONY: data data-eval seed test-sets eval eval-tune mttr-report test-p1
 
 data: ## enrich history + build Chroma, BM25 and error-code indexes
 	$(PY) -m ingest.build_all
@@ -13,8 +13,11 @@ seed: ## regenerate data/seed/resolved_incidents.json from curated_incidents.yam
 test-sets: ## regenerate data/test/*.json from the seed files
 	$(PY) -m ingest.make_test_sets
 
-eval: ## evaluation on the test split -> eval/out/
+eval: ## evaluation on the test split -> eval/out/ (needs `make data-eval`)
 	$(PY) -m eval.run --split test
+
+eval-tune: ## tuning on the validation split -> eval/out/tuning.json (for P2's config/ai.yaml)
+	$(PY) -m eval.run --split val
 
 mttr-report: ## MTTR trial report -> eval/out/mttr.json + charts
 	$(PY) -m eval.mttr_report
