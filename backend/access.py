@@ -178,6 +178,13 @@ def can_view_analysis(user: User, analysis: Mapping[str, Any], group: str) -> bo
     return False
 
 
+def can_act_on_analysis(user: User, analysis: Mapping[str, Any], group: str) -> bool:
+    """Clarify, feedback and decisions: the analysis owner, same-group l2, or admin."""
+    if analysis.get("user") == user.username or user.role == "admin":
+        return True
+    return user.role == "l2" and bool(user.assignment_group) and group == user.assignment_group
+
+
 def pseudonym(name: str) -> str:
     return "user-" + hashlib.sha256(name.encode("utf-8")).hexdigest()[:8]
 

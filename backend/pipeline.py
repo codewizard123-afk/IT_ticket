@@ -14,7 +14,7 @@ import uuid
 from collections.abc import Mapping
 from typing import Any
 
-from backend import access, approval, assemble, audit, decision, escalate, llm_audit, repo
+from backend import access, approval, assemble, audit, decision, escalate, feedback, llm_audit, repo
 from backend.config import backend_config, escalation_config
 from backend.errors import ApiError, bad_request, not_found
 from backend.intake import IntakeTicket
@@ -81,7 +81,7 @@ def context_inputs(
     services: Services, conn: sqlite3.Connection, user: User
 ) -> tuple[dict[str, float], dict[str, Any]]:
     """``(feedback_prior, retrieval filters)`` for the engine context."""
-    return {}, access.retrieval_filters(user)
+    return feedback.kb_prior(conn), access.retrieval_filters(user)
 
 
 def _evidence_rows(analysis_id: str, er: EngineResult) -> list[dict[str, Any]]:
@@ -430,7 +430,7 @@ def clarify(
     if prev is None or prev["ticket_id"] != ticket_id:
         raise not_found("unknown analysis for this ticket")
     full = repo.response_of(prev).model_dump(mode="json")
-    if not access.can_view_analysis(user, prev, access.group_of(full)):
+    if not access.can_act_on_analysis(user, prev, access.group_of(full)):
         raise access.deny(conn, user, f"clarify {analysis_id}")
     max_rounds = int(escalation_config().get("thresholds", {}).get("max_clarify_rounds", 1))
     if int(prev["clarification_round"] or 0) >= max_rounds:

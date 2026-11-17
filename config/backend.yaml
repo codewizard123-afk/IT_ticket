@@ -21,3 +21,10 @@ audit:
   store_prompts: false
   # prev_hash of the first audit_log row.
   genesis_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+
+feedback:                   # architecture §8.8
+  # fb(kb) = (useful − incorrect) / (useful + incorrect + smoothing), clipped to ±clip
+  smoothing: 5
+  clip: 0.5
+  # feedback whose target_ref names a KB article (or a KB step citation) feeds the prior
+  prior_targets: [kedb_match, step, recommendation]
