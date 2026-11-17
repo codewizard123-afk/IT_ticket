@@ -1,0 +1,110 @@
+{
+  "T01": {
+    "category": "Network",
+    "subcategory": "VPN",
+    "priority": "High",
+    "kb_ids": [
+      "KB-0018"
+    ],
+    "decision": "recommend"
+  },
+  "T02": {
+    "category": "Network",
+    "subcategory": "DNS/DHCP",
+    "priority": "Medium",
+    "kb_ids": [
+      "KB-0041"
+    ],
+    "decision": "recommend"
+  },
+  "T03": {
+    "category": "Database",
+    "subcategory": "Oracle",
+    "priority": "Critical",
+    "kb_ids": [
+      "KB-0032"
+    ],
+    "decision": "escalate"
+  },
+  "T04": {
+    "category": "Database",
+    "subcategory": "MySQL",
+    "priority": "High",
+    "kb_ids": [
+      "KB-0039"
+    ],
+    "decision": "recommend"
+  },
+  "T05": {
+    "category": "Hardware",
+    "subcategory": "Laptop",
+    "priority": "Medium",
+    "kb_ids": [
+      "KB-0007"
+    ],
+    "decision": "recommend"
+  },
+  "T06": {
+    "category": "Hardware",
+    "subcategory": "Printer",
+    "priority": "Low",
+    "kb_ids": [
+      "KB-0009"
+    ],
+    "decision": "recommend"
+  },
+  "T07": {
+    "category": "Software",
+    "subcategory": "Collaboration Tools",
+    "priority": "Medium",
+    "kb_ids": [
+      "KB-0051"
+    ],
+    "decision": "recommend"
+  },
+  "T08": {
+    "category": "Software",
+    "subcategory": "Operating System",
+    "priority": "Medium",
+    "kb_ids": [
+      "KB-0049"
+    ],
+    "decision": "recommend"
+  },
+  "T09": {
+    "category": "Access & Security",
+    "subcategory": "MFA",
+    "priority": "Medium",
+    "kb_ids": [
+      "KB-0055"
+    ],
+    "decision": "recommend"
+  },
+  "T10": {
+    "category": "Access & Security",
+    "subcategory": "Phishing/Malware",
+    "priority": "Critical",
+    "kb_ids": [
+      "KB-0057"
+    ],
+    "decision": "escalate"
+  },
+  "T11": {
+    "category": "Inquiry/Help",
+    "subcategory": "Antivirus",
+    "priority": "Low",
+    "kb_ids": [
+      "KB-0059"
+    ],
+    "decision": "recommend"
+  },
+  "T12": {
+    "category": "Inquiry/Help",
+    "subcategory": "Internal Application",
+    "priority": "High",
+    "kb_ids": [
+      "KB-0060"
+    ],
+    "decision": "escalate"
+  }
+}

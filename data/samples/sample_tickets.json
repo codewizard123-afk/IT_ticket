@@ -1,0 +1,150 @@
+[
+  {
+    "id": "DEMO-001",
+    "title": "VPN not connecting - Gateway not responding",
+    "description": "Since this morning I cannot connect to the VPN from home. The client shows 'Gateway not responding'. I already restarted the VPN client but it still fails. I have a deadline today and need to reach the file share.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Network",
+      "expected_subcategory": "VPN",
+      "expected_priority": "High",
+      "expected_kb_ids": [
+        "KB-0018"
+      ],
+      "expected_decision": "recommend"
+    }
+  },
+  {
+    "id": "DEMO-002",
+    "title": "Oracle database extremely slow",
+    "description": "Queries against the finance Oracle database are extremely slow and time out with ORA-01013: user requested cancel of current operation. Approximately 15 users in the finance team are affected and the month-end close is blocked.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Database",
+      "expected_subcategory": "Oracle",
+      "expected_priority": "Critical",
+      "expected_kb_ids": [
+        "KB-0001"
+      ],
+      "expected_decision": "escalate"
+    }
+  },
+  {
+    "id": "DEMO-003",
+    "title": "Monitor blacks out after update",
+    "description": "After last night's Windows update my external monitor goes black every few minutes and then comes back. I tried a different cable already but the monitor still blacks out.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Hardware",
+      "expected_subcategory": "Monitor",
+      "expected_priority": "Medium",
+      "expected_kb_ids": [
+        "KB-0008"
+      ],
+      "expected_decision": "recommend"
+    }
+  },
+  {
+    "id": "DEMO-004",
+    "title": "Outlook crashes on startup",
+    "description": "Outlook crashes immediately every time I open it. Event Viewer shows Faulting application name: OUTLOOK.EXE with exception code 0xc0000005. I need to send the client report by end of day.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Software",
+      "expected_subcategory": "Email",
+      "expected_priority": "High",
+      "expected_kb_ids": [
+        "KB-0029"
+      ],
+      "expected_decision": "recommend"
+    }
+  },
+  {
+    "id": "DEMO-005",
+    "title": "VPN keeps dropping and laptop overheating",
+    "description": "Two problems: (1) My VPN connection drops every 10 minutes and I keep losing unsaved work when it disconnects. (2) My laptop is also overheating, the fan is very loud and the CPU is at 100% most of the day.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Network",
+      "expected_subcategory": "VPN",
+      "expected_priority": "High",
+      "expected_kb_ids": [
+        "KB-0018"
+      ],
+      "expected_decision": "escalate",
+      "expected_secondary": {
+        "category": "Hardware",
+        "subcategory": "CPU",
+        "kb_ids": [
+          "KB-0043",
+          "KB-0030"
+        ]
+      }
+    }
+  },
+  {
+    "id": "DEMO-006",
+    "title": "Wi-Fi keeps dropping in Building B",
+    "description": "The Wi-Fi keeps dropping on the 2nd floor of Building B. My laptop loses the wireless connection several times an hour and multiple colleagues on the same floor have the same problem.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Network",
+      "expected_subcategory": "Wireless",
+      "expected_priority": "High",
+      "expected_kb_ids": [
+        "KB-0021"
+      ],
+      "expected_decision": "escalate"
+    }
+  },
+  {
+    "id": "DEMO-007",
+    "title": "Cannot log in to SQL Server reporting database",
+    "description": "I am a new joiner and cannot connect to the reporting database. SQL Server Management Studio shows SQL Server error 18456: Login failed for user. My account was created yesterday.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "demo",
+      "expected_category": "Database",
+      "expected_subcategory": "MS SQL Server",
+      "expected_priority": "High",
+      "expected_kb_ids": [
+        "KB-0003"
+      ],
+      "expected_decision": "recommend"
+    }
+  }
+]

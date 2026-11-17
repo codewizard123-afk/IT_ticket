@@ -1,0 +1,158 @@
+[
+  {
+    "id": "T01",
+    "title": "VPN disconnects every 20 minutes",
+    "description": "My VPN connects but drops every 20 minutes with an IKEv2 error and I have to reconnect. I'm working from home today.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T02",
+    "title": "IP address conflict on office laptop",
+    "description": "Windows says Windows has detected an IP address conflict whenever I dock at my desk and I lose network access for a few minutes.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T03",
+    "title": "Month-end report fails with ORA-01652",
+    "description": "The month-end finance report fails with ORA-01652 unable to extend temp segment. About 20 people in Finance are waiting for it and the close is blocked.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T04",
+    "title": "Deadlocks in order service",
+    "description": "The order service log shows ERROR 1213 (40001): Deadlock found when trying to get lock a few times an hour. Orders are retried but some fail.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T05",
+    "title": "Laptop plugged in, not charging",
+    "description": "My laptop battery icon shows Plugged in, not charging and the laptop dies within an hour when I unplug it.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T06",
+    "title": "Print jobs stuck, printer offline",
+    "description": "My print jobs are stuck in the queue and the 2nd floor printer shows Printer offline on my laptop. Colleagues can print.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T07",
+    "title": "Teams cannot find microphone",
+    "description": "In Teams meetings I get We can't find a microphone although my headset works for music.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T08",
+    "title": "Windows update fails with 0x80070002",
+    "description": "The Windows update keeps failing with 0x80070002 and asks to retry every day.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T09",
+    "title": "MFA push approval times out",
+    "description": "I don't get the MFA push on my phone and the sign-in page says Approval request timed out.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T10",
+    "title": "Replied to fake CEO gift card email",
+    "description": "I got an urgent email from our CEO asking me to buy gift cards and send the codes. I replied before noticing the sender address was external.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T11",
+    "title": "Security intelligence update failed",
+    "description": "Endpoint protection says Security intelligence update failed and the definitions are three days old.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  },
+  {
+    "id": "T12",
+    "title": "Leave portal HTTP 503 for HR",
+    "description": "The leave management portal shows HTTP 503 Service Unavailable for everyone in HR since 9 am. Payroll cut-off is today.",
+    "category": null,
+    "subcategory": null,
+    "priority": null,
+    "status": "new",
+    "resolution": null,
+    "metadata": {
+      "source": "synthetic_team"
+    }
+  }
+]

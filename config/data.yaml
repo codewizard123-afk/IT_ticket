@@ -5,7 +5,7 @@ paths:
   raw_xlsx: data/raw/Dataset_ticket_5.xlsx
   taxonomy_map: config/taxonomy_map.yaml
   privacy: config/privacy.yaml
-  test_seed: data/seed/test_seed.json
+  test_seed: data/seed/test_seed.yaml
   trial_tickets: data/test/trial_tickets.json
   trial_gold: data/test/trial_gold.json
   gold_kb: eval/gold/gold_kb.json

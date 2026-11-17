@@ -1,0 +1,845 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "ticket_id": "DEMO-001",
+      "set": "demo",
+      "category": "Network",
+      "subcategory": "VPN",
+      "kb_ids": [
+        "KB-0018"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "DEMO-002",
+      "set": "demo",
+      "category": "Database",
+      "subcategory": "Oracle",
+      "kb_ids": [
+        "KB-0001"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "DEMO-003",
+      "set": "demo",
+      "category": "Hardware",
+      "subcategory": "Monitor",
+      "kb_ids": [
+        "KB-0008"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "DEMO-004",
+      "set": "demo",
+      "category": "Software",
+      "subcategory": "Email",
+      "kb_ids": [
+        "KB-0029"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "DEMO-005",
+      "set": "demo",
+      "category": "Network",
+      "subcategory": "VPN",
+      "kb_ids": [
+        "KB-0018"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "DEMO-006",
+      "set": "demo",
+      "category": "Network",
+      "subcategory": "Wireless",
+      "kb_ids": [
+        "KB-0021"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "DEMO-007",
+      "set": "demo",
+      "category": "Database",
+      "subcategory": "MS SQL Server",
+      "kb_ids": [
+        "KB-0003"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-001",
+      "set": "test",
+      "category": "Hardware",
+      "subcategory": "Printer",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-002",
+      "set": "test",
+      "category": "Network",
+      "subcategory": "Network Drive",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-003",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Application Error",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-004",
+      "set": "test",
+      "category": "Inquiry/Help",
+      "subcategory": "How-To",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-005",
+      "set": "test",
+      "category": null,
+      "subcategory": null,
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-006",
+      "set": "test",
+      "category": null,
+      "subcategory": null,
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-007",
+      "set": "test",
+      "category": null,
+      "subcategory": null,
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-008",
+      "set": "test",
+      "category": null,
+      "subcategory": null,
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "clarify",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-009",
+      "set": "test",
+      "category": "Access & Security",
+      "subcategory": null,
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "clarify",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-010",
+      "set": "test",
+      "category": null,
+      "subcategory": null,
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": "clarify",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-011",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Email",
+      "kb_ids": [
+        "KB-0048"
+      ],
+      "accept_escalate": false,
+      "decision": "clarify",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-012",
+      "set": "test",
+      "category": "Network",
+      "subcategory": "Wireless",
+      "kb_ids": [
+        "KB-0020",
+        "KB-0021"
+      ],
+      "accept_escalate": false,
+      "decision": "clarify",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-013",
+      "set": "test",
+      "category": "Access & Security",
+      "subcategory": "Phishing/Malware",
+      "kb_ids": [
+        "KB-0057"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-014",
+      "set": "test",
+      "category": "Access & Security",
+      "subcategory": "Phishing/Malware",
+      "kb_ids": [
+        "KB-0058"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-015",
+      "set": "test",
+      "category": "Access & Security",
+      "subcategory": "Phishing/Malware",
+      "kb_ids": [
+        "KB-0058",
+        "KB-0059"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-016",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Application Error",
+      "kb_ids": [
+        "KB-0030"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-017",
+      "set": "test",
+      "category": "Hardware",
+      "subcategory": "Keyboard/Mouse",
+      "kb_ids": [
+        "KB-0046"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-018",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Email",
+      "kb_ids": [
+        "KB-0047"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-019",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Email",
+      "kb_ids": [
+        "KB-0048"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-020",
+      "set": "test",
+      "category": "Hardware",
+      "subcategory": "Monitor",
+      "kb_ids": [
+        "KB-0008"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-021",
+      "set": "test",
+      "category": "Database",
+      "subcategory": "PostgreSQL",
+      "kb_ids": [
+        "KB-0037"
+      ],
+      "accept_escalate": true,
+      "decision": "escalate",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-022",
+      "set": "test",
+      "category": "Network",
+      "subcategory": "VPN",
+      "kb_ids": [
+        "KB-0018"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-023",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Installation",
+      "kb_ids": [
+        "KB-0026"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-024",
+      "set": "test",
+      "category": "Software",
+      "subcategory": "Email",
+      "kb_ids": [
+        "KB-0047"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "TEST-025",
+      "set": "test",
+      "category": "Access & Security",
+      "subcategory": "Account Lockout",
+      "kb_ids": [
+        "KB-0054"
+      ],
+      "accept_escalate": false,
+      "decision": "recommend",
+      "label_source": "team"
+    },
+    {
+      "ticket_id": "INC0020",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "Phishing/Malware",
+      "kb_ids": [
+        "KB-0057"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0037",
+      "set": "test_split",
+      "category": "Inquiry/Help",
+      "subcategory": "Internal Application",
+      "kb_ids": [
+        "KB-0060"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0043",
+      "set": "test_split",
+      "category": "Inquiry/Help",
+      "subcategory": "Antivirus",
+      "kb_ids": [
+        "KB-0059"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0065",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "MFA",
+      "kb_ids": [
+        "KB-0017"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0072",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "Firewall",
+      "kb_ids": [
+        "KB-0042"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0097",
+      "set": "test_split",
+      "category": "Database",
+      "subcategory": "MS SQL Server",
+      "kb_ids": [
+        "KB-0034"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0118",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "Account Lockout",
+      "kb_ids": [
+        "KB-0003"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0175",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "DNS/DHCP",
+      "kb_ids": [
+        "KB-0041"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0192",
+      "set": "test_split",
+      "category": "Database",
+      "subcategory": "PostgreSQL",
+      "kb_ids": [
+        "KB-0037"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0280",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "Password Reset",
+      "kb_ids": [
+        "KB-0053"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0296",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "Network Drive",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0313",
+      "set": "test_split",
+      "category": "Database",
+      "subcategory": "MySQL",
+      "kb_ids": [
+        "KB-0002"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0336",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "Monitor",
+      "kb_ids": [
+        "KB-0008"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0378",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "Account Lockout",
+      "kb_ids": [
+        "KB-0054"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0393",
+      "set": "test_split",
+      "category": "Database",
+      "subcategory": "DB2",
+      "kb_ids": [
+        "KB-0036"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0528",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "Monitor",
+      "kb_ids": [
+        "KB-0011"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0660",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "Network Drive",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0732",
+      "set": "test_split",
+      "category": "Software",
+      "subcategory": "Collaboration Tools",
+      "kb_ids": [
+        "KB-0013"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0761",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "VPN",
+      "kb_ids": [
+        "KB-0018"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0766",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "Wireless",
+      "kb_ids": [
+        "KB-0021"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0860",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "CPU",
+      "kb_ids": [
+        "KB-0043"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0882",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "Printer",
+      "kb_ids": [],
+      "accept_escalate": true,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0901",
+      "set": "test_split",
+      "category": "Database",
+      "subcategory": "Oracle",
+      "kb_ids": [
+        "KB-0032"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0902",
+      "set": "test_split",
+      "category": "Inquiry/Help",
+      "subcategory": "Software Request",
+      "kb_ids": [
+        "KB-0014"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0929",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "Phishing/Malware",
+      "kb_ids": [
+        "KB-0058"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0953",
+      "set": "test_split",
+      "category": "Software",
+      "subcategory": "Application Error",
+      "kb_ids": [
+        "KB-0029"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0957",
+      "set": "test_split",
+      "category": "Software",
+      "subcategory": "Installation",
+      "kb_ids": [
+        "KB-0026"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC0973",
+      "set": "test_split",
+      "category": "Network",
+      "subcategory": "Wireless",
+      "kb_ids": [
+        "KB-0021"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1020",
+      "set": "test_split",
+      "category": "Inquiry/Help",
+      "subcategory": "Hardware Request",
+      "kb_ids": [
+        "KB-0016"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1053",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "Keyboard/Mouse",
+      "kb_ids": [
+        "KB-0012"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1093",
+      "set": "test_split",
+      "category": "Software",
+      "subcategory": "Application Error",
+      "kb_ids": [
+        "KB-0030"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1113",
+      "set": "test_split",
+      "category": "Database",
+      "subcategory": "Oracle",
+      "kb_ids": [
+        "KB-0003"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1114",
+      "set": "test_split",
+      "category": "Software",
+      "subcategory": "Operating System",
+      "kb_ids": [
+        "KB-0006"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1123",
+      "set": "test_split",
+      "category": "Inquiry/Help",
+      "subcategory": "How-To",
+      "kb_ids": [
+        "KB-0015"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1263",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "CPU",
+      "kb_ids": [
+        "KB-0043"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1287",
+      "set": "test_split",
+      "category": "Access & Security",
+      "subcategory": "Access Request",
+      "kb_ids": [
+        "KB-0025"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1341",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "Laptop",
+      "kb_ids": [
+        "KB-0045"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1368",
+      "set": "test_split",
+      "category": "Inquiry/Help",
+      "subcategory": "Software Request",
+      "kb_ids": [
+        "KB-0014"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1450",
+      "set": "test_split",
+      "category": "Software",
+      "subcategory": "Email",
+      "kb_ids": [
+        "KB-0015"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    },
+    {
+      "ticket_id": "INC1488",
+      "set": "test_split",
+      "category": "Hardware",
+      "subcategory": "Monitor",
+      "kb_ids": [
+        "KB-0008"
+      ],
+      "accept_escalate": false,
+      "decision": null,
+      "label_source": "generator_scenario_link"
+    }
+  ]
+}
