@@ -69,6 +69,22 @@ synth:
   verified_min_cos: 0.75
   max_pack_chars: 10000
   max_validation_failures: 2
+  # steps matching any of these are tagged role L2 (admin / DBA / network-ops work)
+  l2_patterns:
+    - '\bdba\b'
+    - '\badmin(?:istrator)?\b'
+    - 'access request'
+    - 'active sessions|blocking (?:locks|session)'
+    - 'optimizer statistics|pool size|session limits'
+    - 'application server'
+    - '\bbios\b|firmware|chipset'
+    - 'net-?ops|network operations|access point|gateway logs'
+    - 'repair the office installation|programs and features'
+    - 'device management portal'
+    - 'security operations'
+  # resolution steps matching these stay L1 even when the article requires admin
+  verification_patterns:
+    - '^(?:confirm|verify|ask the user to (?:reconnect|confirm|retry))\b'
 
 validator:
   grounding_min: 0.30
