@@ -183,3 +183,25 @@ def test_kb_search_without_query_lists_approved_articles(client: Any) -> None:
         "/api/v1/kb/search", params={"category": "Network"}, headers=role("l1")
     ).json()["items"]
     assert items and all(i["category"] == "Network" for i in items)
+
+
+def test_real_store_publisher_calls_p1_reindex_article(
+    services: Any, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from dataclasses import replace
+
+    import ingest.index_kedb as p1
+    from shared.schemas import KBArticle
+
+    calls: list[tuple[Any, ...]] = []
+    monkeypatch.setattr(
+        p1,
+        "reindex_article",
+        lambda kb_id, article, *, kb_store: calls.append((kb_id, article, kb_store)) or 7,
+    )
+    services.settings = replace(services.settings, use_stub_stores=False)
+    art = KBArticle.model_validate(
+        {"kb_id": "KB-0999", "title": "t", "resolution": {"steps": ["s"]}, "status": "approved"}
+    )
+    kb_drafts.default_publisher(services)(art)
+    assert calls == [("KB-0999", art, services.kb_store)]

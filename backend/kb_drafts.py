@@ -4,14 +4,14 @@
    comments are turned into an article in the exact KEDB schema - by Groq when available, else by a
    deterministic template. Saved as ``status=draft``; not searchable.
 2. ``approve_draft`` (kb_owner/admin): applies edits, sets ``status=approved``, ``version+1`` and
-   ``approved_by``, writes ``articles_governed.json`` and publishes the article to the KB store.
+   ``approved_by`` and publishes it: P1's ``reindex_article`` writes ``articles_governed.json``
+   and re-indexes the article (stub stores: the governed file is written here instead).
 
 Unsafe steps (disable security controls, share passwords, broad privileges) are always dropped.
 """
 
 from __future__ import annotations
 
-import contextlib
 import json
 import logging
 import re
@@ -252,18 +252,18 @@ def write_governed(path: Path, article: KBArticle) -> None:
 def default_publisher(services: Services) -> Callable[[KBArticle], None]:
     """Make an approved article searchable without a full rebuild.
 
-    Prefers P1's ``ingest.index_kedb.reindex_article`` (P1-T6); until that lands, refreshes the
-    store in memory (``ChromaKBStore.refresh_article``) or rebuilds the fake store.
+    Real stores: P1's ``ingest.index_kedb.reindex_article(kb_id, article, kb_store=...)`` writes the
+    governed file, re-chunks the article into Chroma and refreshes the store's in-memory view.
+    Stub stores: the fake KB store is rebuilt with the article added.
     """
 
     def publish(article: KBArticle) -> None:
         kb = services.kb_store
-        reindex = None
         if not services.settings.use_stub_stores:
-            with contextlib.suppress(ImportError):
-                from ingest.index_kedb import reindex_article as reindex  # type: ignore[attr-defined]
-        if reindex is not None:
-            reindex(article.kb_id)
+            from ingest.index_kedb import reindex_article
+
+            reindex_article(article.kb_id, article, kb_store=kb)
+            return
         if kb is not None and hasattr(kb, "refresh_article"):
             kb.refresh_article(article)
         elif kb is not None and hasattr(kb, "kb_ids"):
@@ -307,7 +307,8 @@ def approve_draft(
     except ValidationError as exc:
         raise bad_request(f"invalid article: {exc.errors()[0].get('msg')}") from exc
     now = repo.iso(services.clock())
-    write_governed(services.settings.kb_governed_path, art)
+    if services.settings.use_stub_stores:
+        write_governed(services.settings.kb_governed_path, art)
     if services.kb_publisher is not None:
         services.kb_publisher(art)
     conn.execute(
