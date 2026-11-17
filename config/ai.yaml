@@ -80,3 +80,16 @@ priority:
     3: {1: P3, 2: P3, 3: P4}
   impact_users_i1: 10        # ≥ this many users → I1
   shared_resource: '\bshared (?:drive|folder|mailbox|printer|server|calendar)\b|\b(?:file|print) server\b'
+
+# Within Database the article is chosen by symptom (architecture §3.3). Used with the
+# taxonomy map: the symptom-matched article gets the full boost, other primaries get half.
+database_symptoms:
+  KB-0001: '\bslow\w*\b|\btim(?:e|ed|ing) ?out\b|\btimeouts?\b|\bhang\w*\b|\bORA-01013\b|\bcancel\w*\b'
+  KB-0002: '\bconnection pool\b|\bpool exhausted\b|\bmax(?:imum)? connections\b|\bORA-1252[09]\b'
+  KB-0003: '\baccess denied\b|\blogin failed\b|\bcannot log ?in\b|\bcan''t log ?in\b|\blocked\b|\b18456\b|\bORA-01017\b'
+  KB-0004: '\bpassword (?:has )?expired\b|\bexpired password\b|\bORA-28001\b'
+  KB-0005: '\bbackup\b|\brestore\b'
+
+kb_multi_query:
+  max_sentences: 6       # also query each sentence (≥ 3 words) and keep the best chunk score
+  min_words: 3
