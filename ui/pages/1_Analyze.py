@@ -16,6 +16,12 @@ from ui.state import header, sample_tickets
 
 client = header("🔎 Analyze a ticket")
 samples = sample_tickets()
+try:  # trial tickets (assisted block of the timed trial); the API never sends their gold
+    trial = {t["id"]: t for t in client.trial_tickets()}
+    trial_ids = set(trial)
+    samples.update(trial)
+except ApiError:
+    trial_ids = set()
 FIELDS = ("title", "description", "application", "environment", "location")
 
 
@@ -89,6 +95,7 @@ if resp is not None:
             "priority": resp.priority.level,
             "kb_or_incident_used": kedb,
         },
+        ask_confidence=resp.ticket_id in trial_ids,
     )
     propose_kb_draft(client, aid)
     if st.session_state.get("viewed_analysis") != aid:

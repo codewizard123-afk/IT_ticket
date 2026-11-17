@@ -15,6 +15,7 @@ VERDICTS = (
     ("incorrect", "✗", "Incorrect"),
     ("unresolved", "?", "Unsure"),
 )
+CONFIDENCE_PREFIX = "Self-reported confidence: "
 DECISION_LABELS = {
     "resolved": "Resolved",
     "escalated": "Escalated",
@@ -86,8 +87,15 @@ def decision_form(
     mode: str = "assisted",
     defaults: dict[str, Any] | None = None,
     key: str = "decision",
+    ask_confidence: bool = False,
+    ticket_id: str | None = None,
 ) -> dict[str, Any] | None:
-    """The final decision form (same in assisted and manual mode). Returns the posted decision."""
+    """The final decision form (same in assisted and manual mode). Returns the posted decision.
+
+    ``ask_confidence`` adds the trial's self-reported confidence (1-5), stored as the last line of
+    the notes (the frozen ``Decision`` schema has no field for it). In manual mode the
+    ``manual.decision`` timer event is posted for ``ticket_id`` right after the decision.
+    """
     defaults = defaults or {}
     done: dict[str, dict[str, Any]] = st.session_state.setdefault("decisions_done", {})
     if analysis_id in done:
@@ -129,6 +137,11 @@ def decision_form(
             value=defaults.get("kb_or_incident_used") or "",
         )
         notes = st.text_area("Resolution notes (one step per line)")
+        confidence = (
+            st.slider("How confident are you in this decision? (1-5)", 1, 5, 3)
+            if ask_confidence
+            else None
+        )
         if not st.form_submit_button("Submit decision", type="primary"):
             return None
     decision = {
@@ -141,8 +154,13 @@ def decision_form(
         "resolution_notes": notes.strip() or None,
         "mode": mode,
     }
+    if confidence is not None:
+        line = f"{CONFIDENCE_PREFIX}{confidence}/5"
+        decision["resolution_notes"] = "\n".join(filter(None, [decision["resolution_notes"], line]))
     try:
         client.decide(decision)
+        if mode == "manual" and ticket_id:
+            client.event(ticket_id, "manual.decision", analysis_id, mode="manual")
     except ApiError as err:
         st.error(f"Decision failed: {err.message}")
         return None
