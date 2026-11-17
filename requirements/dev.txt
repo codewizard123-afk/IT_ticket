@@ -3,3 +3,8 @@
 ruff>=0.6
 pytest>=8.0
 pre-commit>=3.7
+# CI runs every owner's unit tests with only this file installed: P2 tests need httpx/jinja2,
+# P4 tests need httpx/streamlit (Streamlit AppTest).
+httpx>=0.27
+jinja2>=3.1
+streamlit>=1.36

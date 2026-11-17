@@ -110,7 +110,8 @@ def test_taxonomy_map_and_database_symptoms() -> None:
         {"database_symptoms": {"KB-0001": r"\bslow\b"}},
     )
     assert boost["KB-0001"] == 1.0 and boost["KB-0003"] == 0.5
-    assert tax_boost(cls("Hardware", "Disk"), "disk full", {})["KB-0006"] == 0.5
+    # 6x5 taxonomy (config/taxonomy_map.yaml): KB-0006 is a secondary article for Monitor
+    assert tax_boost(cls("Hardware", "Monitor"), "no signal", {})["KB-0006"] == 0.5
 
 
 def test_unrelated_text_is_not_found(kb_store) -> None:
