@@ -104,6 +104,14 @@ def _group_of(response: dict[str, Any]) -> str:
     return ASSIGNMENT_GROUP.get(response["classification"]["category"], "SERVICE-DESK")
 
 
+def _best_per_key(pairs: Any) -> list[tuple[Any, float]]:
+    """Keep the highest score per key, best first (alternatives must not repeat)."""
+    best: dict[Any, float] = {}
+    for key, score in pairs:
+        best[key] = max(score, best.get(key, 0.0))
+    return sorted(best.items(), key=lambda kv: -kv[1])
+
+
 def filter_for_role(response: dict[str, Any], role: str) -> dict[str, Any]:
     """Display filter (§8.6): for ``l1`` users the text of L2 steps becomes "Handled by <group>"."""
     out = copy.deepcopy(response)
@@ -422,9 +430,10 @@ class MockBackend:
                 "excerpt": top.text[:200],
                 "why": "keyword overlap (mock API)",
                 "alternatives": [
-                    {"kb_id": c.kb_id, "score": round(min(1.0, c.score), 2)}
-                    for c in chunks[1:]
-                    if c.kb_id != art.kb_id
+                    {"kb_id": kb, "score": round(min(1.0, sc), 2)}
+                    for kb, sc in _best_per_key(
+                        (c.kb_id, c.score) for c in chunks if c.kb_id != art.kb_id
+                    )
                 ][:2],
             }
 
@@ -520,10 +529,15 @@ class MockBackend:
                     "band": band,
                     "components": {"knn": round(top_score, 2), "llm": 0.0, "rule": 0.0},
                     "alternatives": [
-                        {"category": h.category, "subcategory": h.subcategory, "score": h.score}
-                        for h in hits[1:3]
-                        if h.category and h.subcategory
-                    ],
+                        {"category": c, "subcategory": sub, "score": sc}
+                        for (c, sub), sc in _best_per_key(
+                            ((h.category, h.subcategory), h.score)
+                            for h in hits
+                            if h.category
+                            and h.subcategory
+                            and (h.category, h.subcategory) != (category, subcategory)
+                        )
+                    ][:2],
                     "rationale": "mock API: keyword overlap with historical tickets",
                     "conflict": False,
                 },
