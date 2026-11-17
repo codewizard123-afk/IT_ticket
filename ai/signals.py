@@ -29,6 +29,7 @@ class Signals:
     affected_users: int | None = None
     scope: Scope = "single"
     scope_explicit: bool = False  # False when scope is only the default guess
+    scope_evidence: str | None = None  # e.g. "15 users", "multiple colleagues"
     urgency_terms: list[str] = field(default_factory=list)
     urgency_level: int | None = None  # 1 (U1) or 2 (U2); None = no urgency signal
     business_critical: bool = False
@@ -112,34 +113,47 @@ def extract_error_codes(
     return _dedupe(codes), families
 
 
-def extract_users(text: str, cfg: dict[str, Any]) -> tuple[int | None, Scope, bool]:
+def extract_users(
+    text: str, cfg: dict[str, Any]
+) -> tuple[int | None, Scope, bool, str | None]:
+    """Return `(count, scope, explicit, evidence)`; evidence is the phrase behind the scope."""
     ucfg = cfg.get("users", {})
     count: int | None = None
+    count_noun = "users"
     for pat in ucfg.get("count_patterns", []):
         m = _compile(pat, re.IGNORECASE).search(text)
         if m:
             n = int(m.group(1))
             if 1 <= n <= 100000:
                 count = n
+                noun = re.search(
+                    r"(users|people|staff|colleagues|employees|members|agents|persons)\b",
+                    m.group(0),
+                    re.IGNORECASE,
+                )
+                count_noun = noun.group(1).lower() if noun else "users"
                 break
 
     scope: Scope = "single"
     explicit = False
+    evidence: str | None = None
     for sc, phrases in (ucfg.get("scope_phrases") or {}).items():
-        if (
-            any(_contains(text, p) for p in phrases)
-            and _SCOPE_RANK[sc] > _SCOPE_RANK[scope]
-        ):
+        hit = next((p for p in phrases if _contains(text, p)), None)
+        if hit and _SCOPE_RANK[sc] > _SCOPE_RANK[scope]:
             scope = sc
             explicit = True
+            evidence = hit
     if count is not None:
         explicit = True
         for rule in ucfg.get("count_scope", []):
             if count >= int(rule["min"]):
-                if _SCOPE_RANK[rule["scope"]] > _SCOPE_RANK[scope]:
+                if _SCOPE_RANK[rule["scope"]] >= _SCOPE_RANK[scope]:
                     scope = rule["scope"]
+                    evidence = f"{count} {count_noun}"
                 break
-    return count, scope, explicit
+        if evidence is None:
+            evidence = f"{count} {count_noun}"
+    return count, scope, explicit, evidence
 
 
 def extract_urgency(text: str, cfg: dict[str, Any]) -> tuple[list[str], int | None]:
@@ -196,7 +210,7 @@ def extract(
     """Extract all signals from redacted ticket text."""
     cfg = cfg if cfg is not None else signals_config()
     codes, families = extract_error_codes(text, kb_phrases, cfg)
-    users, scope, explicit = extract_users(text, cfg)
+    users, scope, explicit, scope_evidence = extract_users(text, cfg)
     urgency_terms, urgency_level = extract_urgency(text, cfg)
     tried, actions = extract_tried_steps(text, cfg)
 
@@ -226,6 +240,7 @@ def extract(
         affected_users=users,
         scope=scope,
         scope_explicit=explicit,
+        scope_evidence=scope_evidence,
         urgency_terms=urgency_terms,
         urgency_level=urgency_level,
         business_critical=any(
