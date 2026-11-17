@@ -20,3 +20,7 @@ trial-schedule: ## seeded crossover schedule -> trial/results/schedule.csv (PART
 
 trial-export: ## trial events -> trial/results/raw_events.csv (TRIAL_USER=admin TRIAL_PASSWORD=...)
 	$(PY) -m trial.export $(if $(TRIAL_USER),--username $(TRIAL_USER) --password "$(TRIAL_PASSWORD)",--demo-role admin)
+
+.PHONY: examples
+examples: ## regenerate docs/examples/ from the API (MOCK_API=1 for golden fixtures)
+	$(PY) -m ui.examples --out docs/examples

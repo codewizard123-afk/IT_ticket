@@ -9,6 +9,7 @@ import streamlit as st
 
 from ui.client import ApiError
 from ui.components.badges import chip, plain_chip
+from ui.examples import worked_example_md
 from ui.state import header
 
 client = header("🧾 Audit view")
@@ -104,6 +105,17 @@ if analysis_id:
                 )
         with t_raw:
             st.json(rec)
+            st.download_button(
+                "⬇ Worked example (Markdown)",
+                worked_example_md(
+                    rec,
+                    title=f"Worked example: {rec['ticket_id']}",
+                    summary=rec["ticket"]["title"],
+                    origin="exported from the Audit view",
+                ),
+                f"example-{rec['ticket_id']}.md",
+                "text/markdown",
+            )
             st.download_button(
                 "⬇ Audit record (JSON)",
                 json.dumps(rec, indent=2),
