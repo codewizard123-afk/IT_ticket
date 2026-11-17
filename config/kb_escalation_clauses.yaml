@@ -1,0 +1,381 @@
+# P3 · E6: KEDB escalation criteria hand-mapped to signal predicates (architecture §8.2). Owner: P3.
+#
+# For the top-2 KB articles of an issue (score ≥ tau_show), every clause whose `when` holds adds an
+# E6 reason "<kb_id>: <text>". All keys inside one `when` must hold (AND). Supported keys:
+#   scope_in: [..]        Signals.scope is one of these
+#   min_users: n          Signals.affected_users ≥ n
+#   business_critical: true
+#   security: true        Signals.security_flags non-empty or a secret was detected
+#   environment_in: [..]  Signals.environment / ticket environment (lower-case)
+#   change_trigger: true  Signals.change_trigger is set
+#   text_any: [..]        any phrase occurs in the lower-cased (redacted) ticket text
+#   text_all: [..]        every phrase occurs in it
+# Phrases are deliberately specific: a clause should fire only when the ticket states the criterion.
+
+_multi: &multi [multiple, team, site, org]
+_wide: &wide [site, org]
+
+KB-0001:
+  - text: a month-end or financial close process is blocked
+    when: {business_critical: true}
+  - text: multiple services are affected
+    when: {text_any: [multiple services, several services, multiple applications, all services]}
+  - text: blocking or resource saturation is present
+    when: {text_any: [blocking session, blocked session, deadlock, cpu at 100, resource saturation]}
+  - text: an index change is being considered in production
+    when: {text_all: [index, production]}
+KB-0002:
+  - text: a production service is unavailable
+    when: {environment_in: [production], text_any: [unavailable, outage, is down, service down]}
+  - text: database-wide connection limits are reached
+    when: {text_any: [connection limit, max connections, too many connections, ora-00018, ora-00020]}
+  - text: transactions may have been lost
+    when: {text_any: [transactions lost, lost transactions, data loss, data was lost]}
+KB-0003:
+  - text: the account is privileged
+    when: {text_any: [privileged, sysadmin, sa account, admin account, dba account, service account]}
+  - text: lockouts recur
+    when: {text_any: [locked out again, keeps locking, repeated lockout, lockouts]}
+  - text: unauthorized access is suspected
+    when: {security: true}
+  - text: the required approval is missing
+    when: {text_any: [no approval, without approval, approval missing, not approved]}
+  - text: multiple accounts are affected
+    when: {text_any: [multiple accounts, several accounts, many accounts]}
+KB-0004:
+  - text: a privileged or service credential without a known owner is involved
+    when: {text_any: [service account, service credential, shared credential, unknown owner]}
+  - text: credential rotation may affect production
+    when: {text_all: [rotat, production]}
+  - text: multiple systems fail
+    when: {text_any: [multiple systems, several systems, all systems]}
+  - text: credential compromise is suspected
+    when: {security: true}
+KB-0005:
+  - text: data loss or corruption is suspected
+    when: {text_any: [data loss, corrupt, lost data, missing data]}
+  - text: a backup chain is missing or the integrity check failed
+    when: {text_any: [backup chain, integrity check, dbcc, restore point, backup failed]}
+KB-0006:
+  - text: the laptop overheats
+    when: {text_any: [overheat, too hot, very hot, thermal shutdown]}
+  - text: the device stays in a boot loop
+    when: {text_any: [boot loop, bootloop, keeps rebooting, restart loop]}
+  - text: BitLocker recovery is required
+    when: {text_any: [bitlocker]}
+  - text: unbacked-up data may be at risk
+    when: {text_any: [not backed up, no backup, lose my data, data at risk]}
+KB-0007:
+  - text: the battery is swollen, hot or smells of burning
+    when: {text_any: [swollen, burning smell, smells of burning, smoke, battery is hot]}
+  - text: repeated unexpected shutdowns
+    when: {text_any: [shuts down repeatedly, keeps shutting down, unexpected shutdown, turns off by itself]}
+KB-0008:
+  - text: the display flickers across devices
+    when: {text_any: [across devices, on every device, other laptops too, multiple devices]}
+  - text: the port is physically damaged
+    when: {text_any: [damaged port, port is damaged, bent pin, broken port]}
+  - text: a shared meeting-room system is affected
+    when: {text_any: [meeting room, meeting-room, conference room, boardroom]}
+KB-0009:
+  - text: multiple users or floors are affected
+    when: {scope_in: *multi}
+  - text: the print jobs contain sensitive documents
+    when: {text_any: [sensitive, confidential, payroll, hr documents]}
+KB-0010:
+  - text: a shared queue is affected for multiple users
+    when: {scope_in: *multi}
+  - text: toner leakage or a hardware warning
+    when: {text_any: [toner leak, leaking toner, hardware warning, hardware error]}
+KB-0011:
+  - text: the dock or connector is hot or damaged
+    when: {text_any: [dock is hot, dock gets hot, damaged dock, damaged connector, burnt]}
+  - text: the dock firmware update fails
+    when: {text_all: [firmware, fail]}
+  - text: a fleet-wide compatibility issue appears
+    when: {scope_in: *wide}
+KB-0012:
+  - text: the Bluetooth adapter is missing
+    when: {text_any: [bluetooth adapter is missing, no bluetooth adapter, bluetooth missing]}
+  - text: the peripheral is physically damaged
+    when: {text_any: [physically damaged, broken keyboard, broken mouse, liquid spill, spilled]}
+KB-0013:
+  - text: emergency calling is affected
+    when: {text_any: [emergency call, "911", "112"]}
+  - text: multiple users have one-way audio
+    when: {scope_in: *multi, text_any: [one-way audio, cannot hear, can't hear]}
+  - text: the phone cannot register to the voice service
+    when: {text_any: [cannot register, registration failed, not registered]}
+KB-0014:
+  - text: a business-critical deadline is at risk
+    when: {business_critical: true}
+  - text: regulated or confidential data is involved
+    when: {text_any: [regulated, confidential, gdpr, pii]}
+KB-0015:
+  - text: the phone is reported lost
+    when: {text_any: [lost phone, phone is lost, lost my phone, stolen]}
+  - text: sign-in prompts look suspicious
+    when: {security: true}
+KB-0016:
+  - text: the device is unsafe or physically damaged
+    when: {text_any: [unsafe, physically damaged, cracked, smoke]}
+  - text: an accessibility accommodation is required
+    when: {text_any: [accessibility, accommodation, screen reader]}
+KB-0017:
+  - text: suspected MFA fatigue or phishing
+    when: {security: true}
+  - text: an unexpected approval prompt
+    when: {text_any: [unexpected prompt, did not request, didn't request, random mfa]}
+  - text: a lost device still has corporate access
+    when: {text_any: [lost phone, lost device, stolen]}
+KB-0018:
+  - text: many users are affected
+    when: {scope_in: *multi}
+  - text: the VPN gateway is unavailable
+    when: {text_any: [gateway is down, gateway down, gateway outage, gateway is unavailable]}
+  - text: access to a critical service is blocked
+    when: {business_critical: true}
+  - text: repeated drops interrupt active transactions
+    when: {text_all: [drop, transaction]}
+KB-0019:
+  - text: performance prevents critical work
+    when: {business_critical: true}
+  - text: packet loss is sustained
+    when: {text_any: [packet loss]}
+  - text: many remote users are affected
+    when: {scope_in: *multi}
+  - text: a split-tunnel or firewall change is proposed
+    when: {text_any: [split tunnel, split-tunnel, firewall change, firewall rule]}
+KB-0020:
+  - text: multiple users cannot authenticate
+    when: {scope_in: *multi, text_any: [authenticat, certificate, sign in, log in, login]}
+  - text: the SSID may be spoofed
+    when: {text_any: [spoof, rogue, fake network, evil twin]}
+  - text: certificate enrollment fails
+    when: {text_all: [certificate, fail]}
+KB-0021:
+  - text: multiple managed devices disconnect in the same area
+    when: {scope_in: *multi}
+  - text: an entire area loses connectivity
+    when: {scope_in: *wide}
+  - text: voice or emergency systems are affected
+    when: {text_any: [emergency, voip, desk phone]}
+KB-0022:
+  - text: a production outage or suspected malicious traffic
+    when: {security: true}
+  - text: a broad rule or a request to disable security controls
+    when: {text_any: [disable the firewall, disable firewall, allow all, any-any, open all ports]}
+  - text: a production outage
+    when: {environment_in: [production], text_any: [outage, is down, unavailable]}
+KB-0023:
+  - text: many users or critical services cannot resolve names
+    when: {scope_in: *multi}
+  - text: records point to an unexpected host
+    when: {text_any: [unexpected host, wrong ip, unexpected ip, hijack]}
+  - text: identity or security services are affected
+    when: {security: true}
+KB-0024:
+  - text: the share is unavailable to multiple users
+    when: {scope_in: *multi}
+  - text: business-critical files cannot be reached
+    when: {business_critical: true}
+  - text: the mapping points to an unexpected location
+    when: {text_any: [unexpected location, wrong share, wrong server]}
+KB-0025:
+  - text: confidential data may have been exposed
+    when: {text_any: [exposed, confidential, everyone can see, can see other]}
+  - text: access is needed urgently for a critical process
+    when: {business_critical: true}
+  - text: the requested permission exceeds the user's role
+    when: {text_any: [full control, admin rights, administrator rights, owner rights]}
+KB-0026:
+  - text: a business-critical application is unavailable
+    when: {business_critical: true}
+  - text: the installer requests unexpected privileges or users are asked to bypass controls
+    when: {text_any: [bypass, disable antivirus, disable defender, unexpected privileges, unsigned]}
+KB-0027:
+  - text: the application is business-critical
+    when: {business_critical: true}
+  - text: the proposed fix deletes installer registry keys or product data manually
+    when: {text_any: [delete registry, registry key, regedit]}
+KB-0028:
+  - text: malware or ransomware alert, or a request to disable protection
+    when: {security: true}
+  - text: an unsigned or tampered installer
+    when: {text_any: [unsigned, tampered, unknown publisher]}
+  - text: repeated detections
+    when: {text_any: [repeated detection, keeps detecting, detected again]}
+KB-0029:
+  - text: a core business application remains unusable
+    when: {business_critical: true}
+  - text: multiple users crash after a rollout
+    when: {scope_in: *multi}
+  - text: the faulting module suggests security software or driver involvement
+    when: {text_any: [antivirus, endpoint protection, security software, faulting module name: av]}
+KB-0030:
+  - text: freezes affect multiple users
+    when: {scope_in: *multi}
+  - text: unsaved or business-critical data may be lost
+    when: {text_any: [unsaved, data loss, losing data, lost data, losing work]}
+  - text: CPU saturation persists after a restart
+    when: {text_all: [cpu, "100%"], text_any: [restart, reboot, most of the day, all day]}
+KB-0031:
+  - text: a production application cannot connect
+    when: {environment_in: [production]}
+  - text: multiple users are affected
+    when: {scope_in: *multi}
+  - text: the listener is down
+    when: {text_any: [listener is down, listener down, tns-12541, ora-12541, no listener]}
+  - text: the issue followed a failover or migration
+    when: {text_any: [failover, migration, migrated]}
+KB-0032:
+  - text: production writes are failing or storage is exhausted
+    when: {text_any: [writes fail, cannot write, unable to extend, tablespace full, storage full, ora-01653, ora-01654]}
+  - text: data loss may have occurred
+    when: {text_any: [data loss, lost data, corrupt]}
+KB-0033:
+  - text: production write outage or a full log drive
+    when: {text_any: [log drive is full, log is full, transaction log full, "9002", write outage]}
+  - text: failed log backups put the recovery point at risk
+    when: {text_all: [log backup, fail]}
+KB-0034:
+  - text: deadlocks cause data loss or failed financial transactions
+    when: {text_any: [failed transaction, financial transaction, payment fail, data loss]}
+  - text: many users are affected
+    when: {scope_in: *multi}
+KB-0035:
+  - text: production batch or online services are down
+    when: {environment_in: [production], text_any: [batch, is down, outage]}
+  - text: multiple applications are affected
+    when: {text_any: [multiple applications, several applications, all applications]}
+  - text: the instance fails to start
+    when: {text_any: [fails to start, won't start, will not start, db2start]}
+KB-0036:
+  - text: financial or customer transactions fail
+    when: {text_any: [financial, customer transaction, payment, order fail]}
+  - text: contention affects many users
+    when: {scope_in: *multi}
+KB-0037:
+  - text: production services are down
+    when: {environment_in: [production], text_any: [is down, outage, unavailable]}
+  - text: a privileged role is involved
+    when: {text_any: [superuser, privileged, postgres role, admin role]}
+  - text: unexpected clients are attempting connections
+    when: {security: true}
+KB-0038:
+  - text: a production service is unavailable
+    when: {environment_in: [production], text_any: [is down, outage, unavailable]}
+  - text: the issue returns after one recovery action
+    when: {text_any: [again after, came back, returned after, recurring]}
+KB-0039:
+  - text: orders or payments fail
+    when: {text_any: [order, payment]}
+  - text: many users are affected
+    when: {scope_in: *multi}
+KB-0040:
+  - text: replication has stopped for production reporting
+    when: {text_all: [replication], environment_in: [production]}
+  - text: data inconsistency is suspected
+    when: {text_any: [inconsistent, inconsistency, mismatch]}
+KB-0041:
+  - text: a whole floor, VLAN or site is affected
+    when: {scope_in: *wide}
+  - text: the DHCP server is down
+    when: {text_any: [dhcp server is down, dhcp server down, no dhcp]}
+KB-0042:
+  - text: the proxy is down for many users
+    when: {scope_in: *multi}
+  - text: the site is flagged as malicious
+    when: {security: true}
+  - text: a business-critical site is blocked
+    when: {business_critical: true}
+KB-0043:
+  - text: burning smell, battery swelling or repeated thermal shutdowns
+    when: {text_any: [burning, swollen, swelling, thermal shutdown, shuts down when hot]}
+KB-0044:
+  - text: memory diagnostics report errors
+    when: {text_all: [memory, error], text_any: [diagnostic, memtest]}
+  - text: many users on the same model are affected
+    when: {scope_in: *multi}
+KB-0045:
+  - text: a drive failure is predicted or data may be lost
+    when: {text_any: [smart, drive failure, disk failure, failing disk, data loss, clicking]}
+KB-0046:
+  - text: the built-in keyboard or touchpad has failed
+    when: {text_any: [built-in keyboard, touchpad, trackpad]}
+  - text: a fleet-wide driver issue appears
+    when: {scope_in: *wide}
+KB-0047:
+  - text: a shared or executive mailbox is full
+    when: {text_any: [shared mailbox, executive, ceo, cfo]}
+  - text: mail flow is blocked for many users
+    when: {scope_in: *multi}
+KB-0048:
+  - text: many users are disconnected
+    when: {scope_in: *multi}
+  - text: a shared mailbox is affected
+    when: {text_any: [shared mailbox]}
+KB-0049:
+  - text: the device cannot boot after an update
+    when: {text_any: [cannot boot, can't boot, won't boot, does not boot, boot loop]}
+  - text: a security update is overdue on many devices
+    when: {scope_in: *wide}
+KB-0050:
+  - text: data may be lost or disk errors are found
+    when: {text_any: [data loss, lost data, disk error, bad sector]}
+  - text: many users are affected
+    when: {scope_in: *multi}
+KB-0051:
+  - text: many users are affected after a client update
+    when: {scope_in: *multi}
+  - text: the built-in camera or audio device has failed
+    when: {text_any: [camera not detected, no camera, built-in camera, microphone not detected]}
+KB-0052:
+  - text: sync failures affect a team site for many users
+    when: {scope_in: *multi}
+  - text: data appears to be missing
+    when: {text_any: [missing files, files are missing, data missing, files disappeared]}
+KB-0053:
+  - text: identity cannot be verified or there are signs of compromise
+    when: {security: true}
+  - text: the account is privileged
+    when: {text_any: [privileged, admin account, domain admin]}
+KB-0054:
+  - text: lockouts come from unknown sources
+    when: {security: true}
+  - text: many accounts are affected
+    when: {scope_in: *multi}
+  - text: the account is privileged
+    when: {text_any: [privileged, admin account, domain admin, service account]}
+KB-0055:
+  - text: unexpected or fraudulent MFA prompts
+    when: {security: true}
+  - text: an unexpected prompt or sign-in from an unknown location
+    when: {text_any: [unexpected prompt, did not request, didn't request, unknown location]}
+KB-0056:
+  - text: access is needed urgently for a critical process
+    when: {business_critical: true}
+  - text: the request exceeds the user's role
+    when: {text_any: [admin rights, administrator rights, full access, full control, domain admin]}
+KB-0057:
+  - text: credentials were entered, an attachment was opened or a prompt approved
+    when: {security: true}
+  - text: many users received the message
+    when: {scope_in: *multi}
+KB-0058:
+  - text: ransomware signs, repeated detections or disabled protection
+    when: {security: true}
+  - text: spread to shares or other devices
+    when: {scope_in: *multi}
+KB-0059:
+  - text: many devices fail to update
+    when: {scope_in: *multi}
+  - text: protection has been disabled
+    when: {text_any: [protection disabled, protection is off, antivirus disabled, defender is off]}
+KB-0060:
+  - text: the application is down for many users
+    when: {scope_in: *multi}
+  - text: data was lost on submit
+    when: {text_any: [lost on submit, data was lost, data lost, lost my data]}
+  - text: the error affects a business-critical deadline
+    when: {business_critical: true}

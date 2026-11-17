@@ -1,0 +1,37 @@
+# P3 · Decision gate and escalation rules (architecture §8.2, §8.3). Owner: P3.
+
+thresholds:
+  tau_kb: 0.50            # kedb_match.found / E1
+  tau_show: 0.35          # KB articles considered for E6 clauses
+  verified_min_cos: 0.75  # E1: a verified incident at least this similar avoids escalation
+  sparse_words: 12        # clarify: fewer words and no product/error code
+  low_gap: 0.10           # clarify: band low and top-2 subcategory gap below this
+  max_clarify_rounds: 1   # the clarify loop runs at most once, then soft rules escalate
+  e6_top_articles: 2      # E6 checks the clauses of the top-N KB articles
+
+# Only these resolution origins count as a verified incident for E1.
+verified_origins: [curated_verified, analyst_verified]
+
+routing:
+  by_category:
+    Network: NET-OPS
+    Database: DBA
+    Hardware: EUC-HW
+    Software: EUC-SW
+    Inquiry/Help: SERVICE-DESK
+  default_group: SERVICE-DESK
+  security_group: SEC-OPS          # E5
+  network_major_group: NET-OPS-MAJOR  # Network + E4
+  database_admin_group: DBA        # Database + requires_admin
+
+tiers:
+  hard: L3      # E4 or E5 fired
+  default: L2
+
+rule_text:
+  E1: "no KEDB article above τ_kb and no verified incident with cosine ≥ {verified_min_cos}"
+  E2: "classification confidence band {band}{conflict}"
+  E3: "insufficient grounded evidence after validation"
+  E4: "ticket priority {code} ({level}){major}"
+  E5: "security signal: {flags}"
+  E7: "only L2/admin steps remain and every L1 step was already attempted"

@@ -1,0 +1,35 @@
+# P3 · Deterministic clarifying questions (architecture §8.3). Owner: P3.
+# At most `max_questions` are asked, in this order: ambiguity pair, error message, scope, onset.
+
+max_questions: 3
+
+# Keyed by the subcategories of the top-2 KB articles (order does not matter).
+ambiguous_pairs:
+  - pair: [DB performance, DB access]
+    question: "Is the problem slowness/timeouts, or an access/login error?"
+  - pair: [DB performance, Oracle]
+    question: "Do queries run slowly, or does the application fail to connect to Oracle at all?"
+  - pair: [VPN, WiFi]
+    question: "Does it fail on the office Wi-Fi, or when connecting remotely over VPN?"
+  - pair: [VPN, Firewall]
+    question: "Does the VPN fail to connect, or does it connect but a specific site/service is blocked?"
+  - pair: [DNS, Network drive]
+    question: "Does the server name fail to resolve, or does the share resolve but deny access?"
+  - pair: [Laptop, CPU]
+    question: "Is the laptop overheating/slow, or does it fail to boot or power on?"
+  - pair: [Installation issue, Application error]
+    question: "Does the problem happen while installing the application, or when using it after install?"
+  - pair: [Email, Application error]
+    question: "Does Outlook crash or freeze, or does it open but fail to send/receive mail?"
+  - pair: [Printer, Network drive]
+    question: "Is the problem printing, or reaching a shared folder?"
+  - pair: [Password Reset, Account Lockout]
+    question: "Did you forget your password, or is the account locked after failed sign-ins?"
+
+# Used when the pair has no template.
+generic_pair: "Which describes the problem better: {a} or {b}?"
+
+questions:
+  no_error_code: "What is the exact error message?"
+  unknown_scope: "How many users are affected?"
+  no_onset: "When did it start, and did anything change?"
